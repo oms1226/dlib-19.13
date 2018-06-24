@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+build_64/
+
+build/
+
+dats/
+
+dlib.egg-info/
+
+dist/

@@ -1,5 +1,5 @@
 # oms1226
-dlib-19.13 build 확인 및 test
+dlib-19.13 build 확인 및 test 용으로 2018.06.23에 http://dlib.net에서 소스 최초 받아옴!
 
 # dlib C++ library [![Travis Status](https://travis-ci.org/davisking/dlib.svg?branch=master)](https://travis-ci.org/davisking/dlib)
 

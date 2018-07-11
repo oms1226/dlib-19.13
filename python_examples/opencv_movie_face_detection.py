@@ -46,12 +46,37 @@ import numpy as np
 
 print(cv2.__version__)  # my version is 3.1.0
 
+# Now let's do the training.  The train_simple_object_detector() function has a
+# bunch of options, all of which come with reasonable default values.  The next
+# few lines goes over some of these options.
+options = dlib.simple_object_detector_training_options()
+# Since faces are left/right symmetric we can tell the trainer to train a
+# symmetric detector.  This helps it get the most value out of the training
+# data.
+options.add_left_right_image_flips = True
+# The trainer is a kind of support vector machine and therefore has the usual
+# SVM C parameter.  In general, a bigger C encourages it to fit the training
+# data better but might lead to overfitting.  You must find the best C value
+# empirically by checking how well the trained detector works on a test set of
+# images you haven't trained on.  Don't just leave the value set at 5.  Try a
+# few different C values and see what works best for your data.
+options.C = 5
+# Tell the code how many CPU cores your computer has for the fastest training.
+options.num_threads = 4
+options.be_verbose = True
+
+# detector = dlib.simple_object_detector("C:\\_workspace\\dlib\\resource\\traningOutput\\current\\object_detector_20180418_0_15_front.svm")
+#detector = dlib.simple_object_detector("C:\\_workspace\\dlib\\resource\\testbed\\newface\\new_face_keun2.svm")
+detector = dlib.fhog_object_detector("C:\\_workspace\\dlib\\resource\\testbed\\newface\\new_face_keun2.svm")
+
+# dlib.train_simple_object_detector("C:\\_workspace\\dlib\\resource\\testbed\\newface\\fd1_keun.xml", "detector.svm", options)
+#detector = dlib.simple_object_detector("detector.svm")
 
 def extract_image(video_source_path):
     count = 0
     color_green = (0, 255, 0)
     line_width = 3
-    detector = dlib.get_frontal_face_detector()
+    # detector = dlib.get_frontal_face_detector()
 
     folder = 'C:\\_workspace\dlib-19.13\\trainingDatas\\test'
     try:

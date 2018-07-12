@@ -26,8 +26,8 @@
       <file leaf-file-name="opencv_movie_face_detection.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/opencv_movie_face_detection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2907">
-              <caret line="164" column="29" lean-forward="true" selection-start-line="164" selection-start-column="29" selection-end-line="164" selection-end-column="29" />
+            <state relative-caret-position="316">
+              <caret line="97" column="54" lean-forward="false" selection-start-line="97" selection-start-column="54" selection-end-line="97" selection-end-column="54" />
               <folding>
                 <element signature="e#1564#1574#0" expanded="true" />
               </folding>
@@ -86,6 +86,7 @@
       <find>SVM_HIT_COUNT</find>
       <find>stop - start</find>
       <find>VideoRotationInfos</find>
+      <find>rotate_bound</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -333,8 +334,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/opencv_movie_face_detection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2907">
-          <caret line="164" column="29" lean-forward="true" selection-start-line="164" selection-start-column="29" selection-end-line="164" selection-end-column="29" />
+        <state relative-caret-position="316">
+          <caret line="97" column="54" lean-forward="false" selection-start-line="97" selection-start-column="54" selection-end-line="97" selection-end-column="54" />
           <folding>
             <element signature="e#1564#1574#0" expanded="true" />
           </folding>

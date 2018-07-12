@@ -46,7 +46,20 @@ import collections
 import numpy as np
 
 NUMOFFACEDETECTORS = 9
-SVM_HIT_COUNT={}
+
+RESULT_TOTAL_FRAMES=0
+
+RESULT_SVM_HITCOUNT=0
+RESULT_SVM_EACH_HITCOUNT={}
+
+RESULT_SVM_TRYCOUNT=0
+RESULT_SVM_EACH_TRYCOUNT={}
+
+RESULT_SVM_DURATION=0
+RESULT_SVM_EACH_DURATION={}
+
+
+
 
 class setting:
     DEBUG = True
@@ -65,7 +78,9 @@ def printEx (*strs):
         print tot
 
 def load_detectors(dirname):
-    global SVM_HIT_COUNT
+    global RESULT_SVM_EACH_HITCOUNT
+    global RESULT_SVM_EACH_TRYCOUNT
+    global RESULT_SVM_EACH_DURATION
     reVal = []
     filenames = os.listdir(dirname)
     order = 1
@@ -75,11 +90,13 @@ def load_detectors(dirname):
             detector = dlib.fhog_object_detector(full_filename)
             reVal.append(detector)
             printEx (full_filename)
-            SVM_HIT_COUNT[filename] = 0
+            RESULT_SVM_EACH_HITCOUNT[filename] = 0
+            RESULT_SVM_EACH_TRYCOUNT[filename] = 0
+            RESULT_SVM_EACH_DURATION[filename] = 0.0
             order += 1
         else:
             break
-    SVM_HIT_COUNT = collections.OrderedDict(sorted(SVM_HIT_COUNT.items()))
+    RESULT_SVM_EACH_HITCOUNT = collections.OrderedDict(sorted(RESULT_SVM_EACH_HITCOUNT.items()))
 
     return reVal
 
@@ -98,11 +115,19 @@ def load_targetVideos(dirname):
 
 
 def detection_eachprocess(detectors, targetVideo):
-    global SVM_HIT_COUNT
+    global RESULT_TOTAL_FRAMES
+    global RESULT_SVM_HITCOUNT
+    global RESULT_SVM_EACH_HITCOUNT
+    global RESULT_SVM_TRYCOUNT
+    global RESULT_SVM_EACH_TRYCOUNT
+    global RESULT_SVM_DURATION
+    global RESULT_SVM_EACH_DURATION
+
     count = 0
     color_green = (0, 255, 0)
     line_width = 3
 
+    angle0 = 0
     angle90 = 90
     angle180 = 180
     angle270 = 270
@@ -111,16 +136,27 @@ def detection_eachprocess(detectors, targetVideo):
 
     while (cap.isOpened()):
         ret, frame = cap.read()
-        # get image height, width
-        rows, cols = frame.shape[:2]
+
+        if frame == None:
+            break
+        #shrink
+        frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+    # get image height, width
+        height, width = frame.shape[:2]
+        printEx("%s:%s" % ("height", height))
+        printEx("%s:%s" % ("width", width))
         # calculate the center of the image
-        # center = (h / 2, w / 2)
-        # center = (w / 4, h / 4)
-        M = cv2.getRotationMatrix2D((cols/2, rows/2), angle90, 0.5)
-        frame = cv2.warpAffine(frame, M, (cols, rows))
+        center = (width / 2, height / 2)
+        # center = (width / 4, height / 4)
+        # rotation
+        M = cv2.getRotationMatrix2D(center, angle0, 0.5)
+        frame = cv2.warpAffine(frame, M, (width, height))
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         #rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        RESULT_TOTAL_FRAMES += 1
+
         flag_detect = False
         duration = 0.0
         index = 0
@@ -128,18 +164,23 @@ def detection_eachprocess(detectors, targetVideo):
             start = timeit.default_timer()
             detectResult = detector(gray)
             stop = timeit.default_timer()
+            duration += stop - start
+            RESULT_SVM_DURATION += stop - start
+            RESULT_SVM_EACH_DURATION[RESULT_SVM_EACH_DURATION.keys()[index]] = RESULT_SVM_EACH_DURATION[RESULT_SVM_EACH_DURATION.keys()[index]] + stop - start
+            RESULT_SVM_TRYCOUNT += 1
+            RESULT_SVM_EACH_TRYCOUNT[RESULT_SVM_EACH_TRYCOUNT.keys()[index]] = RESULT_SVM_EACH_TRYCOUNT[RESULT_SVM_EACH_TRYCOUNT.keys()[index]] + 1
             printEx(detectResult)
             for rect in detectResult:
                 cv2.rectangle(frame, (rect.left(), rect.top()), (rect.right(), rect.bottom()), color_green, line_width)
-                cv2.putText(frame, str(stop - start), (rect.right(), rect.bottom()), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2)
-                cv2.putText(frame, SVM_HIT_COUNT.keys()[index], (rect.left(), rect.top()), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2)
-                SVM_HIT_COUNT[SVM_HIT_COUNT.keys()[index]] = SVM_HIT_COUNT[SVM_HIT_COUNT.keys()[index]]+1
+                cv2.putText(frame, str(duration), (rect.right(), rect.bottom()), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2)
+                cv2.putText(frame, RESULT_SVM_EACH_HITCOUNT.keys()[index], (rect.left(), rect.top()), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+                RESULT_SVM_EACH_HITCOUNT[RESULT_SVM_EACH_HITCOUNT.keys()[index]] = RESULT_SVM_EACH_HITCOUNT[RESULT_SVM_EACH_HITCOUNT.keys()[index]] + 1
 
                 flag_detect = True
                 #frame = cv2.resize(frame, (720, 1280))
 
                 # cv2.imwrite(os.path.join(folder, "frame{:d}.jpg".format(count)), frame)  # save frame as JPEG file
-                count += 1
+                RESULT_SVM_HITCOUNT += 1
 
             cv2.imshow('target video', frame)
 
@@ -151,7 +192,7 @@ def detection_eachprocess(detectors, targetVideo):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-        print(SVM_HIT_COUNT)
+        print(RESULT_SVM_EACH_HITCOUNT)
 
     cap.release()
     cv2.destroyAllWindows()

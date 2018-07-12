@@ -35,8 +35,11 @@
 #   Also note that this example requires Numpy which can be installed
 #   via the command:
 #       pip install numpy
-
+import json
+import socket
 import sys
+
+import datetime
 import dlib
 import cv2
 import os
@@ -67,7 +70,7 @@ def printEx (*strs):
                 tot += str(string)
         print tot
 class evaluate_face_detection4SVM ():
-    selfVersion = 1.0
+    version = 1.0
     resultS = dict()
 
     NUMOFFACEDETECTORS = 9
@@ -82,20 +85,20 @@ class evaluate_face_detection4SVM ():
     RESULT_SVM_TRYCOUNT = 0
     RESULT_SVM_EACH_TRYCOUNT = {}
 
-    RESULT_SVM_DURATION = 0
+    RESULT_SVM_DURATION = float(0)
     RESULT_SVM_EACH_DURATION = {}
 
-    """
-    면적
-    version
-    뮤비파일리스트
-    OS
-    SVM Target Folder
-    train_object_detector_modify.exe -t fd1_keun.xml --u 3 --l 1 --eps 0.05 --p 0 --target-size 6400 --c 700 --n 9 --cell-size 8 --threshold 0.15 --threads 8
-    """
+    RESULT_SVM_RECTSIZE = float(0)
+    RESULT_SVM_EACH_RECTSIZE = {}
 
-    def __init__(self):
-        self.resultS['selfVersion'] = self.selfVersion
+    def __init__(self, videos_dirname, detector_dirname, traing_options):
+        self.resultS['start_time'] = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime("%Y%m%d%H%M")
+        self.resultS['version'] = self.version
+        self.resultS['hostname'] = _platform + "_" + socket.gethostname()
+        self.resultS['videos_dirname'] = self.videos_dirname = videos_dirname
+        self.resultS['detector_dirname'] = self.detector_dirname = detector_dirname
+        self.resultS['traing_options'] = json.dumps(traing_options, ensure_ascii=False)
+        self.resultS['targetresolution'] = str(self.DEFAULT_RESOLUTION_WIDTH) + "X" + str(self.DEFAULT_RESOLUTION_HEIGHT)
         pass
 
     def load_detectors(self, dirname):
@@ -110,12 +113,17 @@ class evaluate_face_detection4SVM ():
                 printEx (full_filename)
                 self.RESULT_SVM_EACH_HITCOUNT[filename] = 0
                 self.RESULT_SVM_EACH_TRYCOUNT[filename] = 0
-                self.RESULT_SVM_EACH_DURATION[filename] = 0.0
+                self.RESULT_SVM_EACH_DURATION[filename] = float(0)
+                self.RESULT_SVM_EACH_RECTSIZE[filename] = float(0)
                 order += 1
             else:
                 break
-        RESULT_SVM_EACH_HITCOUNT = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_HITCOUNT.items()))
 
+        self.RESULT_SVM_EACH_HITCOUNT = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_HITCOUNT.items()))
+        self.RESULT_SVM_EACH_TRYCOUNT = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_TRYCOUNT.items()))
+        self.RESULT_SVM_EACH_DURATION = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_DURATION.items()))
+        self.RESULT_SVM_EACH_RECTSIZE = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_RECTSIZE.items()))
+        self.resultS['numofdetectors'] = len(reVal)
         return reVal
 
     def load_targetVideos(self, dirname):
@@ -127,7 +135,8 @@ class evaluate_face_detection4SVM ():
                 reVal.append(full_filename)
                 printEx (full_filename)
 
-
+        self.resultS['videolists'] = ",".join(filenames)
+        self.resultS['numofvideoss'] = len(reVal)
         return reVal
 
 
@@ -208,7 +217,7 @@ class evaluate_face_detection4SVM ():
             self.RESULT_TOTAL_FRAMES += 1
 
             flag_detect = False
-            duration = 0.0
+            duration = float(0)
             index = 0
             for detector in detectors:
                 start = timeit.default_timer()
@@ -225,12 +234,16 @@ class evaluate_face_detection4SVM ():
                     cv2.putText(frame, str(duration), (rect.right(), rect.bottom()), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2)
                     cv2.putText(frame, self.RESULT_SVM_EACH_HITCOUNT.keys()[index], (rect.left(), rect.top()), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
                     self.RESULT_SVM_EACH_HITCOUNT[self.RESULT_SVM_EACH_HITCOUNT.keys()[index]] = self.RESULT_SVM_EACH_HITCOUNT[self.RESULT_SVM_EACH_HITCOUNT.keys()[index]] + 1
+                    self.RESULT_SVM_HITCOUNT += 1
+                    area = abs(rect.left() - rect.right()) * abs(rect.top() - rect.bottom())
+                    self.RESULT_SVM_EACH_RECTSIZE  [self.RESULT_SVM_EACH_RECTSIZE  .keys()[index]] = self.RESULT_SVM_EACH_RECTSIZE  [self.RESULT_SVM_EACH_RECTSIZE  .keys()[index]] + area
+                    self.RESULT_SVM_RECTSIZE  += area
 
                     flag_detect = True
                     #frame = cv2.resize(frame, (720, 1280))
 
                     # cv2.imwrite(os.path.join(folder, "frame{:d}.jpg".format(count)), frame)  # save frame as JPEG file
-                    self.RESULT_SVM_HITCOUNT += 1
+
 
                 cv2.imshow('target video', frame)
 
@@ -242,8 +255,6 @@ class evaluate_face_detection4SVM ():
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
-            print(self.RESULT_SVM_EACH_HITCOUNT)
-
         cap.release()
         cv2.destroyAllWindows()
 
@@ -253,31 +264,60 @@ class evaluate_face_detection4SVM ():
 
     def process(self):
         printEx(cv2.__version__)  # my version is 3.1.0
-        detectors = []
-        targetVideos = []
-        if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
-            detectors = self.load_detectors("../traningOutput/20180423")
-            targetVideos = self.load_targetVideos("../testDatas/videos")
-        elif _platform == "win32" or _platform == "win64":
-            detectors = self.load_detectors("..\\traningOutput\\20180423")
-            targetVideos = self.load_targetVideos("..\\testDatas\\videos")
-            pass
+        detectors = self.load_detectors(self.detector_dirname)
+        targetVideos = self.load_targetVideos(self.videos_dirname)
 
         if len(detectors) == self.NUMOFFACEDETECTORS:
             printEx(detectors)
             printEx(targetVideos)
-
         else:
             ArithmeticError("The number of detectors is " + self.NUMOFFACEDETECTORS + ", but " + len(detectors))
 
         self.detection_fullprocess(detectors, targetVideos)
+        self.resultS['end_time'] = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime("%Y%m%d%H%M")
 
+        self.resultS['RESULT_TOTAL_FRAMES'] = self.RESULT_TOTAL_FRAMES
 
+        self.resultS['RESULT_SVM_HITCOUNT'] = self.RESULT_SVM_HITCOUNT
+        self.resultS['RESULT_SVM_EACH_HITCOUNT'] = json.dumps(self.RESULT_SVM_EACH_HITCOUNT, ensure_ascii=False)
 
+        self.resultS['RESULT_SVM_TRYCOUNT'] = self.RESULT_SVM_TRYCOUNT
+        self.resultS['RESULT_SVM_EACH_TRYCOUNT'] = json.dumps(self.RESULT_SVM_EACH_TRYCOUNT, ensure_ascii=False)
 
+        self.resultS['RESULT_SVM_DURATION'] = self.RESULT_SVM_DURATION
+        self.resultS['RESULT_SVM_EACH_DURATION'] = json.dumps(self.RESULT_SVM_EACH_DURATION, ensure_ascii=False)
+
+        self.resultS['RESULT_SVM_RECTSIZE'] = self.RESULT_SVM_RECTSIZE
+        self.resultS['RESULT_SVM_EACH_RECTSIZE'] = json.dumps(self.RESULT_SVM_EACH_RECTSIZE, ensure_ascii=False)
+
+def mkdirs(fullpathName):
+    dir = os.path.dirname(fullpathName)
+    # create directory if it does not exist
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+
+RESULT_FILENAME = "result.log"
 if __name__ == "__main__":
-    EFD = evaluate_face_detection4SVM()
+    videos_dirname = None
+    detector_dirname = None
+
+    if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
+        videos_dirname = "../testDatas/videos"
+        detector_dirname = "../traningOutput/20180423"
+
+    elif _platform == "win32" or _platform == "win64":
+        videos_dirname = "..\\testDatas\\videos"
+        detector_dirname = "..\\traningOutput\\20180423"
+
+    # train_object_detector_modify.exe -t fd1_keun.xml --u 3 --l 1 --eps 0.05 --p 0 --target-size 6400 --c 700 --n 9 --cell-size 8 --threshold 0.15 --threads 8
+    traing_options = {'-t': "fd1_keun.xml", '--u': 3, '--l': 1, '--eps': 0.05, '--p': 0, '--target-size': 6400, '--c': 700, '--n': 9, '--cell-size': 8, '--threshold': 0.15, '--threads': 8}
+    EFD = evaluate_face_detection4SVM(videos_dirname, detector_dirname, None)
     EFD.process()
+
+    mkdirs(RESULT_FILENAME)
+    with open(RESULT_FILENAME, 'a') as f:
+        f.write(json.dumps(EFD.resultS) + "\n")
+        f.close()
 
 exit(0)
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/python
 # The contents of this file are in the public domain. See LICENSE_FOR_EXAMPLE_PROGRAMS.txt
 #
@@ -46,6 +47,8 @@ import collections
 import numpy as np
 
 NUMOFFACEDETECTORS = 9
+DEFAULT_RESOLUTION_WIDTH = float(1280)
+DEFAULT_RESOLUTION_HEIGHT = float(720)
 
 RESULT_TOTAL_FRAMES=0
 
@@ -58,8 +61,18 @@ RESULT_SVM_EACH_TRYCOUNT={}
 RESULT_SVM_DURATION=0
 RESULT_SVM_EACH_DURATION={}
 
+"""
+면적
+version
+뮤비파일리스트
+OS
+SVM Target Folder
+train_object_detector_modify.exe -t fd1_keun.xml --u 3 --l 1 --eps 0.05 --p 0 --target-size 6400 --c 700 --n 9 --cell-size 8 --threshold 0.15 --threads 8
+"""
 
-
+VideoRotationInfos = {
+"mix.avi": 0,
+}
 
 class setting:
     DEBUG = True
@@ -113,6 +126,29 @@ def load_targetVideos(dirname):
     return reVal
 
 
+def rotate_bound(image, angle):
+    # grab the dimensions of the image and then determine the
+    # center
+    (h, w) = image.shape[:2]
+    (cX, cY) = (w // 2, h // 2)
+
+    # grab the rotation matrix (applying the negative of the
+    # angle to rotate clockwise), then grab the sine and cosine
+    # (i.e., the rotation components of the matrix)
+    M = cv2.getRotationMatrix2D((cX, cY), angle, 1.0)
+    cos = np.abs(M[0, 0])
+    sin = np.abs(M[0, 1])
+
+    # compute the new bounding dimensions of the image
+    nW = int((h * sin) + (w * cos))
+    nH = int((h * cos) + (w * sin))
+
+    # adjust the rotation matrix to take into account translation
+    M[0, 2] += (nW / 2) - cX
+    M[1, 2] += (nH / 2) - cY
+
+    # perform the actual rotation and return the image
+    return cv2.warpAffine(image, M, (nW, nH))
 
 def detection_eachprocess(detectors, targetVideo):
     global RESULT_TOTAL_FRAMES
@@ -122,16 +158,20 @@ def detection_eachprocess(detectors, targetVideo):
     global RESULT_SVM_EACH_TRYCOUNT
     global RESULT_SVM_DURATION
     global RESULT_SVM_EACH_DURATION
+    global DEFAULT_RESOLUTION_WIDTH
+    global DEFAULT_RESOLUTION_HEIGHT
 
     count = 0
     color_green = (0, 255, 0)
     line_width = 3
 
-    angle0 = 0
-    angle90 = 90
-    angle180 = 180
-    angle270 = 270
-    scale = 1.0
+    angle = -1
+    scale = 1
+
+    for key in VideoRotationInfos.keys():
+        if key in targetVideo:
+            angle = VideoRotationInfos[key]
+
     cap = cv2.VideoCapture(targetVideo)
 
     while (cap.isOpened()):
@@ -139,18 +179,33 @@ def detection_eachprocess(detectors, targetVideo):
 
         if frame == None:
             break
+
+        # get image height, width
+        height, width = frame.shape[:2]
+
+        if angle == -1 and width > height:
+            frame = rotate_bound(frame, 90)
+        else:
+            frame = rotate_bound(frame, angle)
+
+        height, width = frame.shape[:2]
+        x_ratio = float(0)
+        y_ratio = float(0)
+        if height > width:
+            x_ratio = DEFAULT_RESOLUTION_WIDTH / height
+            y_ratio = DEFAULT_RESOLUTION_HEIGHT / width
+        else:
+            x_ratio = DEFAULT_RESOLUTION_HEIGHT / height
+            y_ratio = DEFAULT_RESOLUTION_WIDTH / width
+
         #shrink
-        frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
-    # get image height, width
+        frame = cv2.resize(frame, None, fx=x_ratio, fy=y_ratio, interpolation=cv2.INTER_AREA)
+
+        # get image height, width
         height, width = frame.shape[:2]
         printEx("%s:%s" % ("height", height))
         printEx("%s:%s" % ("width", width))
-        # calculate the center of the image
-        center = (width / 2, height / 2)
-        # center = (width / 4, height / 4)
-        # rotation
-        M = cv2.getRotationMatrix2D(center, angle0, 0.5)
-        frame = cv2.warpAffine(frame, M, (width, height))
+
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         #rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)

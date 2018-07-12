@@ -186,7 +186,7 @@ class evaluate_face_detection4SVM ():
         while (cap.isOpened()):
             ret, frame = cap.read()
 
-            if frame == None:
+            if not ret:
                 break
 
             # get image height, width

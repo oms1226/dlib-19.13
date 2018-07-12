@@ -92,8 +92,10 @@ class evaluate_face_detection4SVM ():
     RESULT_SVM_EACH_RECTSIZE = {}
 
     def __init__(self, videos_dirname, detector_dirname, traing_options):
-        self.resultS['start_time'] = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime("%Y%m%d%H%M")
+        printEx(cv2.__version__)  # my version is 3.1.0
+        self.resultS['cv2.__version__'] = cv2.__version__
         self.resultS['version'] = self.version
+        self.resultS['start_time'] = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime("%Y%m%d%H%M")
         self.resultS['hostname'] = _platform + "_" + socket.gethostname()
         self.resultS['videos_dirname'] = self.videos_dirname = videos_dirname
         self.resultS['detector_dirname'] = self.detector_dirname = detector_dirname
@@ -263,7 +265,6 @@ class evaluate_face_detection4SVM ():
             self.detection_eachprocess(detectors, targetVideo)
 
     def process(self):
-        printEx(cv2.__version__)  # my version is 3.1.0
         detectors = self.load_detectors(self.detector_dirname)
         targetVideos = self.load_targetVideos(self.videos_dirname)
 
@@ -290,6 +291,8 @@ class evaluate_face_detection4SVM ():
         self.resultS['RESULT_SVM_RECTSIZE'] = self.RESULT_SVM_RECTSIZE
         self.resultS['RESULT_SVM_EACH_RECTSIZE'] = json.dumps(self.RESULT_SVM_EACH_RECTSIZE, ensure_ascii=False)
 
+        self.resultS = collections.OrderedDict(sorted(self.resultS.items()))
+
 def mkdirs(fullpathName):
     dir = os.path.dirname(fullpathName)
     # create directory if it does not exist
@@ -311,10 +314,10 @@ if __name__ == "__main__":
 
     # train_object_detector_modify.exe -t fd1_keun.xml --u 3 --l 1 --eps 0.05 --p 0 --target-size 6400 --c 700 --n 9 --cell-size 8 --threshold 0.15 --threads 8
     traing_options = {'-t': "fd1_keun.xml", '--u': 3, '--l': 1, '--eps': 0.05, '--p': 0, '--target-size': 6400, '--c': 700, '--n': 9, '--cell-size': 8, '--threshold': 0.15, '--threads': 8}
-    EFD = evaluate_face_detection4SVM(videos_dirname, detector_dirname, None)
+    EFD = evaluate_face_detection4SVM(videos_dirname, detector_dirname, traing_options)
     EFD.process()
 
-    mkdirs(RESULT_FILENAME)
+    # mkdirs(RESULT_FILENAME)
     with open(RESULT_FILENAME, 'a') as f:
         f.write(json.dumps(EFD.resultS) + "\n")
         f.close()

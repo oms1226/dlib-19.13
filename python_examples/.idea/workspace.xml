@@ -26,10 +26,10 @@
       <file leaf-file-name="opencv_movie_face_detection.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/opencv_movie_face_detection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="322" column="17" lean-forward="true" selection-start-line="322" selection-start-column="17" selection-end-line="322" selection-end-column="17" />
+            <state relative-caret-position="232">
+              <caret line="292" column="0" lean-forward="true" selection-start-line="292" selection-start-column="0" selection-end-line="292" selection-end-column="0" />
               <folding>
-                <element signature="e#1563#1574#0" expanded="true" />
+                <element signature="e#1563#1573#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -106,13 +106,16 @@
       <find>SVM_HIT_COUNT</find>
       <find>stop - start</find>
       <find>VideoRotationInfos</find>
-      <find>rotate_bound</find>
       <find>os.get</find>
       <find>RESULT_TOTAL_FRAMES</find>
       <find>RESULT_SVM_EACH_HITCOUNT</find>
       <find>json.dump</find>
       <find>rectangle</find>
       <find>printEX</find>
+      <find>RESULT_SVM_DURATION</find>
+      <find>RESULT_SVM_TRYCOUNT</find>
+      <find>RESULT_SVM_AVG_EACH_DURATION</find>
+      <find>rotate_bound</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -295,7 +298,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/opencv_movie_face_detection.py</url>
-          <line>99</line>
+          <line>100</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
@@ -383,10 +386,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/opencv_movie_face_detection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="322" column="17" lean-forward="true" selection-start-line="322" selection-start-column="17" selection-end-line="322" selection-end-column="17" />
+        <state relative-caret-position="232">
+          <caret line="292" column="0" lean-forward="true" selection-start-line="292" selection-start-column="0" selection-end-line="292" selection-end-column="0" />
           <folding>
-            <element signature="e#1563#1574#0" expanded="true" />
+            <element signature="e#1563#1573#0" expanded="true" />
           </folding>
         </state>
       </provider>

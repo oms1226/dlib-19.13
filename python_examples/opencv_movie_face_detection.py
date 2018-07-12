@@ -35,6 +35,7 @@
 #   Also note that this example requires Numpy which can be installed
 #   via the command:
 #       pip install numpy
+import csv
 import json
 import socket
 import sys
@@ -171,11 +172,13 @@ class evaluate_face_detection4SVM ():
         color_green = (0, 255, 0)
         line_width = 3
 
-        angle = -1
+        angle = 0
         scale = 1
+        forceAngle = False
 
         for key in VideoRotationInfos.keys():
             if key in targetVideo:
+                forceAngle = True
                 angle = VideoRotationInfos[key]
 
         cap = cv2.VideoCapture(targetVideo)
@@ -189,7 +192,7 @@ class evaluate_face_detection4SVM ():
             # get image height, width
             height, width = frame.shape[:2]
 
-            if angle == -1 and width > height:
+            if forceAngle == False and width > height:
                 frame = self.rotate_bound(frame, 90)
             else:
                 frame = self.rotate_bound(frame, angle)
@@ -279,17 +282,31 @@ class evaluate_face_detection4SVM ():
 
         self.resultS['RESULT_TOTAL_FRAMES'] = self.RESULT_TOTAL_FRAMES
 
-        self.resultS['RESULT_SVM_HITCOUNT'] = self.RESULT_SVM_HITCOUNT
-        self.resultS['RESULT_SVM_EACH_HITCOUNT'] = json.dumps(self.RESULT_SVM_EACH_HITCOUNT, ensure_ascii=False)
-
         self.resultS['RESULT_SVM_TRYCOUNT'] = self.RESULT_SVM_TRYCOUNT
         self.resultS['RESULT_SVM_EACH_TRYCOUNT'] = json.dumps(self.RESULT_SVM_EACH_TRYCOUNT, ensure_ascii=False)
+
+        self.resultS['RESULT_SVM_HITCOUNT'] = self.RESULT_SVM_HITCOUNT
+        self.resultS['RESULT_SVM_EACH_HITCOUNT'] = json.dumps(self.RESULT_SVM_EACH_HITCOUNT, ensure_ascii=False)
 
         self.resultS['RESULT_SVM_DURATION'] = self.RESULT_SVM_DURATION
         self.resultS['RESULT_SVM_EACH_DURATION'] = json.dumps(self.RESULT_SVM_EACH_DURATION, ensure_ascii=False)
 
         self.resultS['RESULT_SVM_RECTSIZE'] = self.RESULT_SVM_RECTSIZE
         self.resultS['RESULT_SVM_EACH_RECTSIZE'] = json.dumps(self.RESULT_SVM_EACH_RECTSIZE, ensure_ascii=False)
+
+        self.resultS['RESULT_SVM_AVG_DURATION'] = self.RESULT_SVM_DURATION / self.RESULT_SVM_TRYCOUNT
+        RESULT_SVM_AVG_EACH_DURATION = dict()
+        for key in self.RESULT_SVM_EACH_DURATION.keys():
+            RESULT_SVM_AVG_EACH_DURATION[key] = self.RESULT_SVM_EACH_DURATION[key] / self.RESULT_SVM_EACH_TRYCOUNT[key]
+        RESULT_SVM_AVG_EACH_DURATION = collections.OrderedDict(sorted(RESULT_SVM_AVG_EACH_DURATION.items()))
+        self.resultS['RESULT_SVM_AVG_EACH_DURATION'] = json.dumps(self.RESULT_SVM_AVG_EACH_DURATION, ensure_ascii=False)
+
+        self.resultS['RESULT_SVM_AVG_RECTSIZE'] = self.RESULT_SVM_RECTSIZE / self.RESULT_SVM_HITCOUNT
+        RESULT_SVM_AVG_EACH_RECTSIZE = dict()
+        for key in self.RESULT_SVM_EACH_HITCOUNT.keys():
+            RESULT_SVM_AVG_EACH_RECTSIZE[key] = self.RESULT_SVM_EACH_RECTSIZE[key] / self.RESULT_SVM_EACH_HITCOUNT[key]
+        RESULT_SVM_AVG_EACH_RECTSIZE = collections.OrderedDict(sorted(RESULT_SVM_AVG_EACH_RECTSIZE.items()))
+        self.resultS['RESULT_SVM_AVG_EACH_RECTSIZE'] = json.dumps(self.RESULT_SVM_AVG_EACH_RECTSIZE, ensure_ascii=False)
 
         self.resultS = collections.OrderedDict(sorted(self.resultS.items()))
 
@@ -303,83 +320,37 @@ RESULT_FILENAME = "result.log"
 if __name__ == "__main__":
     videos_dirname = None
     detector_dirname = None
+    testresult_fullname = None
 
     if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
         videos_dirname = "../testDatas/videos"
         detector_dirname = "../traningOutput/20180423"
+        testresult_fullname = "../testResults/" + RESULT_FILENAME
 
     elif _platform == "win32" or _platform == "win64":
         videos_dirname = "..\\testDatas\\videos"
         detector_dirname = "..\\traningOutput\\20180423"
+        testresult_fullname = "..\\testResults\\" + RESULT_FILENAME
 
     # train_object_detector_modify.exe -t fd1_keun.xml --u 3 --l 1 --eps 0.05 --p 0 --target-size 6400 --c 700 --n 9 --cell-size 8 --threshold 0.15 --threads 8
     traing_options = {'-t': "fd1_keun.xml", '--u': 3, '--l': 1, '--eps': 0.05, '--p': 0, '--target-size': 6400, '--c': 700, '--n': 9, '--cell-size': 8, '--threshold': 0.15, '--threads': 8}
     EFD = evaluate_face_detection4SVM(videos_dirname, detector_dirname, traing_options)
     EFD.process()
 
-    # mkdirs(RESULT_FILENAME)
-    with open(RESULT_FILENAME, 'a') as f:
+    mkdirs(testresult_fullname)
+    with open(testresult_fullname + ".json", 'a') as f:
         f.write(json.dumps(EFD.resultS) + "\n")
         f.close()
 
-exit(0)
+    fWriteKeys = False
+    if not os.path.isfile(testresult_fullname + ".csv"):
+        fWriteKeys = True
 
-# detector = dlib.simple_object_detector("C:\\_workspace\\dlib\\resource\\traningOutput\\current\\object_detector_20180418_0_15_front.svm")
-#detector = dlib.simple_object_detector("C:\\_workspace\\dlib\\resource\\testbed\\newface\\new_face_keun2.svm")
-detector = dlib.fhog_object_detector("C:\\_workspace\\dlib\\resource\\testbed\\newface\\new_face_keun2.svm")
-
-# dlib.train_simple_object_detector("C:\\_workspace\\dlib\\resource\\testbed\\newface\\fd1_keun.xml", "detector.svm", options)
-#detector = dlib.simple_object_detector("detector.svm")
-
-
-def extract_image(video_source_path):
-    count = 0
-    color_green = (0, 255, 0)
-    line_width = 3
-    # detector = dlib.get_frontal_face_detector()
-
-    folder = 'C:\\_workspace\dlib-19.13\\trainingDatas\\test'
-    try:
-        os.mkdir(folder)
-    except OSError:
-        pass
-
-
-    angle90 = 90
-    angle180 = 180
-    angle270 = 270
-    scale = 1.0
-    cap = cv2.VideoCapture(video_source_path)
-
-    while (cap.isOpened()):
-        ret, frame = cap.read()
-        # get image height, width
-        rows, cols = frame.shape[:2]
-        # calculate the center of the image
-        # center = (h / 2, w / 2)
-        # center = (w / 4, h / 4)
-        M = cv2.getRotationMatrix2D((cols/2, rows/2), angle90, 0.5)
-        frame = cv2.warpAffine(frame, M, (cols, rows))
-
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        #rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        if True:
-            dets = detector(gray)
-            printEx(dets)
-            for det in dets:
-                cv2.rectangle(frame, (det.left(), det.top()), (det.right(), det.bottom()), color_green, line_width)
-            # frame = cv2.resize(frame, (720, 1280))
-        cv2.imshow('my movie', frame)
-
-        # cv2.imwrite(os.path.join(folder, "frame{:d}.jpg".format(count)), frame)  # save frame as JPEG file
-        count += 1
-
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
-    cap.release()
-    cv2.destroyAllWindows()
-
-extract_image('C:\\_workspace\\dlib-19.13\\trainingDatas\\26.mp4')
+    with open(testresult_fullname + ".csv",'a') as f:
+        w = csv.writer(f)
+        if fWriteKeys:
+            w.writerow(EFD.resultS.keys())
+        w.writerow(EFD.resultS.values())
+        f.close()
 
 exit(0)

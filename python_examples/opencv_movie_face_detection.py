@@ -299,14 +299,14 @@ class evaluate_face_detection4SVM ():
         for key in self.RESULT_SVM_EACH_DURATION.keys():
             RESULT_SVM_AVG_EACH_DURATION[key] = self.RESULT_SVM_EACH_DURATION[key] / self.RESULT_SVM_EACH_TRYCOUNT[key]
         RESULT_SVM_AVG_EACH_DURATION = collections.OrderedDict(sorted(RESULT_SVM_AVG_EACH_DURATION.items()))
-        self.resultS['RESULT_SVM_AVG_EACH_DURATION'] = json.dumps(self.RESULT_SVM_AVG_EACH_DURATION, ensure_ascii=False)
+        self.resultS['RESULT_SVM_AVG_EACH_DURATION'] = json.dumps(RESULT_SVM_AVG_EACH_DURATION, ensure_ascii=False)
 
         self.resultS['RESULT_SVM_AVG_RECTSIZE'] = self.RESULT_SVM_RECTSIZE / self.RESULT_SVM_HITCOUNT
         RESULT_SVM_AVG_EACH_RECTSIZE = dict()
         for key in self.RESULT_SVM_EACH_HITCOUNT.keys():
             RESULT_SVM_AVG_EACH_RECTSIZE[key] = self.RESULT_SVM_EACH_RECTSIZE[key] / self.RESULT_SVM_EACH_HITCOUNT[key]
         RESULT_SVM_AVG_EACH_RECTSIZE = collections.OrderedDict(sorted(RESULT_SVM_AVG_EACH_RECTSIZE.items()))
-        self.resultS['RESULT_SVM_AVG_EACH_RECTSIZE'] = json.dumps(self.RESULT_SVM_AVG_EACH_RECTSIZE, ensure_ascii=False)
+        self.resultS['RESULT_SVM_AVG_EACH_RECTSIZE'] = json.dumps(RESULT_SVM_AVG_EACH_RECTSIZE, ensure_ascii=False)
 
         self.resultS = collections.OrderedDict(sorted(self.resultS.items()))
 

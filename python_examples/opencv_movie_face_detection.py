@@ -95,12 +95,12 @@ class evaluate_face_detection4SVM ():
     def __init__(self, videos_dirname, detector_dirname, traing_options):
         printEx(cv2.__version__)  # my version is 3.1.0
         self.resultS['cv2.__version__'] = cv2.__version__
-        self.resultS['version'] = self.version
+        self.resultS['_version'] = self.version
         self.resultS['start_time'] = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime("%Y%m%d%H%M")
-        self.resultS['hostname'] = _platform + "_" + socket.gethostname()
+        self.resultS['_hostname'] = _platform + "_" + socket.gethostname()
         self.resultS['videos_dirname'] = self.videos_dirname = videos_dirname
-        self.resultS['detector_dirname'] = self.detector_dirname = detector_dirname
-        self.resultS['traing_options'] = json.dumps(traing_options, ensure_ascii=False)
+        self.resultS['_detector_dirname'] = self.detector_dirname = detector_dirname
+        self.resultS['_traing_options'] = json.dumps(traing_options, ensure_ascii=False)
         self.resultS['targetresolution'] = str(self.DEFAULT_RESOLUTION_WIDTH) + "X" + str(self.DEFAULT_RESOLUTION_HEIGHT)
         pass
 

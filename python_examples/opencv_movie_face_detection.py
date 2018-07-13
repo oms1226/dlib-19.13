@@ -131,6 +131,9 @@ class evaluate_face_detection4SVM ():
 
     def load_targetVideos(self, dirname):
         reVal = []
+        self.resultS['videolists'] = ""
+        self.resultS['numofvideoss'] = 0
+        
         for (path, dir, files) in os.walk(dirname):
             for filename in files:
                 ext = os.path.splitext(filename)[-1]

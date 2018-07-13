@@ -133,7 +133,7 @@ class evaluate_face_detection4SVM ():
         reVal = []
         self.resultS['videolists'] = ""
         self.resultS['numofvideoss'] = 0
-        
+
         for (path, dir, files) in os.walk(dirname):
             for filename in files:
                 ext = os.path.splitext(filename)[-1]
@@ -230,8 +230,8 @@ class evaluate_face_detection4SVM ():
 
             # get image height, width
             height, width = frame.shape[:2]
-            printEx("%s:%s" % ("height", height))
-            printEx("%s:%s" % ("width", width))
+            printEx("%s:%s" % ("height", height)),
+            printEx("%s:%s" % ("width", width)),
 
 
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -251,7 +251,7 @@ class evaluate_face_detection4SVM ():
                 self.RESULT_SVM_EACH_DURATION[self.RESULT_SVM_EACH_DURATION.keys()[index]] = self.RESULT_SVM_EACH_DURATION[self.RESULT_SVM_EACH_DURATION.keys()[index]] + stop - start
                 self.RESULT_SVM_TRYCOUNT += 1
                 self.RESULT_SVM_EACH_TRYCOUNT[self.RESULT_SVM_EACH_TRYCOUNT.keys()[index]] = self.RESULT_SVM_EACH_TRYCOUNT[self.RESULT_SVM_EACH_TRYCOUNT.keys()[index]] + 1
-                printEx(detectResult)
+                printEx(detectResult),
                 for rect in detectResult:
                     cv2.rectangle(frame, (rect.left(), rect.top()), (rect.right(), rect.bottom()), color_green, line_width)
                     cv2.putText(frame, str(duration), (rect.right(), rect.bottom()), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2)

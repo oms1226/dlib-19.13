@@ -131,6 +131,21 @@ class evaluate_face_detection4SVM ():
 
     def load_targetVideos(self, dirname):
         reVal = []
+        for (path, dir, files) in os.walk(dirname):
+            for filename in files:
+                ext = os.path.splitext(filename)[-1]
+                if True:#ext == 'mp4' or ext == 'avi':
+                    #print("%s/%s" % (path, filename))
+                    full_filename = os.path.join(path, filename)
+                    reVal.append(full_filename)
+                    printEx(full_filename)
+            self.resultS['videolists'] = self.resultS['videolists'] + "," + ",".join(files)
+            self.resultS['numofvideoss'] = self.resultS['numofvideoss'] + len(reVal)
+
+        return reVal
+
+    def load_targetVideos_by20180713(self, dirname):
+        reVal = []
         filenames = os.listdir(dirname)
         for filename in filenames:
             if filename.endswith("mp4") or filename.endswith("avi"):

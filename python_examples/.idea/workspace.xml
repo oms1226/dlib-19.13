@@ -26,11 +26,21 @@
       <file leaf-file-name="opencv_movie_face_detection.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/opencv_movie_face_detection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="102" column="47" lean-forward="false" selection-start-line="102" selection-start-column="47" selection-end-line="102" selection-end-column="47" />
+            <state relative-caret-position="266">
+              <caret line="133" column="48" lean-forward="false" selection-start-line="133" selection-start-column="48" selection-end-line="133" selection-end-column="48" />
               <folding>
                 <element signature="e#1563#1573#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ntpath.py" pinned="false" current-in-tab="false">
+        <entry file="file://C:/Python27/Lib/ntpath.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="202">
+              <caret line="62" column="4" lean-forward="false" selection-start-line="62" selection-start-column="4" selection-end-line="62" selection-end-column="4" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -127,6 +137,8 @@
       <find>rotate_bound</find>
       <find>RESULT_SVM_AVG_EACH_DURATION</find>
       <find>traing_option</find>
+      <find>load_targetVideos</find>
+      <find>numofvideoss</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -411,10 +423,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://C:/Python27/Lib/ntpath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="62" column="4" lean-forward="false" selection-start-line="62" selection-start-column="4" selection-end-line="62" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/opencv_movie_face_detection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="102" column="47" lean-forward="false" selection-start-line="102" selection-start-column="47" selection-end-line="102" selection-end-column="47" />
+        <state relative-caret-position="266">
+          <caret line="133" column="48" lean-forward="false" selection-start-line="133" selection-start-column="48" selection-end-line="133" selection-end-column="48" />
           <folding>
             <element signature="e#1563#1573#0" expanded="true" />
           </folding>

@@ -236,7 +236,6 @@ class evaluate_face_detection4SVM ():
         args.append(file_path_with_file_name)
         fd_popen = subprocess.Popen(args, stdout=subprocess.PIPE).stdout
         #data = fd_popen.read().strip()
-        reVal = None
         while 1:
             line = fd_popen.readline()
             if not line:

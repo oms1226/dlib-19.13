@@ -170,7 +170,8 @@ class evaluate_face_detection4SVM ():
         self.RESULT_SVM_EACH_TRYCOUNT = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_TRYCOUNT.items()))
         self.RESULT_SVM_EACH_DURATION = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_DURATION.items()))
         self.RESULT_SVM_EACH_RECTSIZE = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_RECTSIZE.items()))
-        self.resultS['numofdetectors'] = len(reVal)
+        self.resultS['_numofdetectors'] = len(reVal)
+        self.resultS['_listofdetectors'] = reVal
         return reVal
 
     def load_targetVideos(self, dirname):
@@ -229,7 +230,7 @@ class evaluate_face_detection4SVM ():
         return (rotation)
 
     def get_rotation(self, file_path_with_file_name):
-        reVal = -1
+        reVal = float(-1)
         cmd = "ffprobe -loglevel error -select_streams v:0 -show_entries stream_tags=rotate -of default=nw=1:nk=1"
         args = shlex.split(cmd)
         args.append(file_path_with_file_name)
@@ -241,11 +242,11 @@ class evaluate_face_detection4SVM ():
             if not line:
                 break
             elif "0" in str(line) or "90" in str(line) or "180" in str(line) or "270" in str(line):
-                reVal = int(str(line).strip("\r").strip("\n").strip())
+                reVal = float(str(line).strip("\r").strip("\n").strip())
                 if reVal == 90:
-                    reVal = 270
+                    reVal = float(270)
                 elif reVal == 270:
-                    reVal = 90
+                    reVal = float(90)
                 break
         fd_popen.close()
 

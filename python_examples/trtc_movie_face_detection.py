@@ -98,8 +98,8 @@ def getExceptionString(info):
 
 class evaluate_face_detection4SVM ():
     version = 1.1
-    resultS = dict()
 
+    resultS = dict()
     NUMOFFACEDETECTORS = 9
     DEFAULT_RESOLUTION_WIDTH = float(1280)
     DEFAULT_RESOLUTION_HEIGHT = float(720)
@@ -205,7 +205,7 @@ class evaluate_face_detection4SVM ():
         return reVal
 
     #https://stackoverflow.com/questions/41200027/how-can-i-find-video-rotation-and-rotate-the-clip-accordingly-using-moviepy
-    def get_rotation(self, file_path_with_file_name):
+    def get_rotation_old(self, file_path_with_file_name):
         """
         Function to get the rotation of the input video file.
         Adapted from gist.github.com/oldo/dc7ee7f28851922cca09/revisions using the ffprobe comamand by Lord Neckbeard from
@@ -217,25 +217,35 @@ class evaluate_face_detection4SVM ():
         cmd = "ffprobe -loglevel error -select_streams v:0 -show_entries stream_tags=rotate -of default=nw=1:nk=1"
         args = shlex.split(cmd)
         args.append(file_path_with_file_name)
-        ffprobe_output = None
-        try:
-            # run the ffprobe process, decode stdout into utf-8 & convert to JSON
-            if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
-                ffprobe_output = subprocess.check_output(args, shell=True).decode('utf-8')
-            elif _platform == "win32" or _platform == "win64":
-                ffprobe_output = subprocess.check_output(args).decode('utf-8')
+        ffprobe_output = subprocess.check_output(args).decode('utf-8')
 
-            if len(ffprobe_output) > 0:  # Output of cmdis None if it should be 0
-                ffprobe_output = json.loads(ffprobe_output)
-                rotation = ffprobe_output
+        if len(ffprobe_output) > 0:  # Output of cmdis None if it should be 0
+            ffprobe_output = json.loads(ffprobe_output)
+            rotation = ffprobe_output
 
-            else:
-                rotation = 0
-        except:
-            printError("%s:%s" % ("Unexpected error", getExceptionString(sys.exc_info())))
-
+        else:
+            rotation = 0
 
         return (rotation)
+
+    def get_rotation(self, file_path_with_file_name):
+        reVal = -1
+        cmd = "ffprobe -loglevel error -select_streams v:0 -show_entries stream_tags=rotate -of default=nw=1:nk=1"
+        args = shlex.split(cmd)
+        args.append(file_path_with_file_name)
+        fd_popen = subprocess.Popen(args, stdout=subprocess.PIPE).stdout
+        #data = fd_popen.read().strip()
+        reVal = None
+        while 1:
+            line = fd_popen.readline()
+            if not line:
+                break
+            else:
+                reVal = int(str(line).strip("\r").strip("\n").strip())
+                break
+        fd_popen.close()
+
+        return reVal
 
     def rotate_bound(self, image, angle):
         # grab the dimensions of the image and then determine the

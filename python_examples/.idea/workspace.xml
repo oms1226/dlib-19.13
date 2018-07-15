@@ -14,7 +14,7 @@
       <file leaf-file-name="train_object_detector.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train_object_detector.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="515">
+            <state relative-caret-position="950">
               <caret line="54" selection-start-line="54" selection-end-line="54" />
               <folding>
                 <element signature="e#1052#1061#0" expanded="true" />
@@ -26,8 +26,8 @@
       <file leaf-file-name="trtc_movie_face_detection.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="247" column="49" lean-forward="true" selection-start-line="247" selection-start-column="49" selection-end-line="247" selection-end-column="49" />
+            <state relative-caret-position="218">
+              <caret line="364" column="78" selection-start-line="364" selection-start-column="78" selection-end-line="364" selection-end-column="78" />
               <folding>
                 <element signature="e#1563#1573#0" expanded="true" />
               </folding>
@@ -82,6 +82,8 @@
       <find>evaluate_face_detection4SVM</find>
       <find>flag_detect</find>
       <find>RESULT_SVM_RELATION_1DEPTH_MATRIX</find>
+      <find>rota</find>
+      <find>tmp</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -93,9 +95,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="169" />
+    <option name="y" value="196" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
@@ -139,7 +141,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.opencv_movie_face_detection">
+  <component name="RunManager" selected="Python.trtc_movie_face_detection">
     <configuration name="opencv_movie_face_detection" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="python_examples" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -194,13 +196,33 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="trtc_movie_face_detection" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="python_examples" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\Python27\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/trtc_movie_face_detection.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <list>
       <item itemvalue="Python.train_object_detector" />
       <item itemvalue="Python.train_object_detector_modify" />
       <item itemvalue="Python.opencv_movie_face_detection" />
+      <item itemvalue="Python.trtc_movie_face_detection" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.trtc_movie_face_detection" />
         <item itemvalue="Python.opencv_movie_face_detection" />
         <item itemvalue="Python.train_object_detector_modify" />
         <item itemvalue="Python.train_object_detector" />
@@ -221,18 +243,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1576" extended-state="6" />
+    <frame x="169" y="196" width="1936" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18676123" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24973656" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32946146" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32792208" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39915523" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39889196" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -251,8 +273,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/trtc_movie_face_detection.py</url>
-          <line>100</line>
-          <option name="timeStamp" value="5" />
+          <line>234</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -262,15 +284,60 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="6" />
+      <option name="time" value="13" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="SVM_HIT_COUNT" />
+        <watch expression="height" />
+        <watch expression="width" />
       </configuration>
     </watches-manager>
   </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="setValue">
+      <expression>
+        <expression-string>270</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/train_object_detector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="950">
+          <caret line="54" selection-start-line="54" selection-end-line="54" />
+          <folding>
+            <element signature="e#1052#1061#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opencv_webcam_face_detection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="39" selection-start-line="5" selection-start-column="39" selection-end-line="5" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/face_detector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="703">
+          <caret line="37" column="25" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1349">
+          <caret line="86" column="17" selection-start-line="86" selection-start-column="17" selection-end-line="86" selection-end-column="17" />
+          <folding>
+            <element signature="e#1563#1573#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/train_object_detector.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="950">
@@ -329,7 +396,7 @@
     <entry file="file://C:/Python27/Lib/ntpath.py" />
     <entry file="file://$PROJECT_DIR$/train_object_detector.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
+        <state relative-caret-position="950">
           <caret line="54" selection-start-line="54" selection-end-line="54" />
           <folding>
             <element signature="e#1052#1061#0" expanded="true" />
@@ -339,8 +406,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="247" column="49" lean-forward="true" selection-start-line="247" selection-start-column="49" selection-end-line="247" selection-end-column="49" />
+        <state relative-caret-position="218">
+          <caret line="364" column="78" selection-start-line="364" selection-start-column="78" selection-end-line="364" selection-end-column="78" />
           <folding>
             <element signature="e#1563#1573#0" expanded="true" />
           </folding>

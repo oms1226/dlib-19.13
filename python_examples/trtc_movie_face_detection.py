@@ -39,6 +39,8 @@ import csv
 import json
 import socket
 import sys
+import subprocess
+import shlex
 
 import datetime
 import dlib
@@ -82,7 +84,7 @@ def printExLR (*strs):
         print tot,
 
 class evaluate_face_detection4SVM ():
-    version = 1.0
+    version = 1.1
     resultS = dict()
 
     NUMOFFACEDETECTORS = 9
@@ -173,6 +175,28 @@ class evaluate_face_detection4SVM ():
         self.resultS['numofvideoss'] = len(reVal)
         return reVal
 
+    #https://stackoverflow.com/questions/41200027/how-can-i-find-video-rotation-and-rotate-the-clip-accordingly-using-moviepy
+    def get_rotation(self, file_path_with_file_name):
+        """
+        Function to get the rotation of the input video file.
+        Adapted from gist.github.com/oldo/dc7ee7f28851922cca09/revisions using the ffprobe comamand by Lord Neckbeard from
+        stackoverflow.com/questions/5287603/how-to-extract-orientation-information-from-videos?noredirect=1&lq=1
+
+        Returns a rotation None, 90, 180 or 270
+        """
+        cmd = "ffprobe -loglevel error -select_streams v:0 -show_entries stream_tags=rotate -of default=nw=1:nk=1"
+        args = shlex.split(cmd)
+        args.append(file_path_with_file_name)
+        # run the ffprobe process, decode stdout into utf-8 & convert to JSON
+        ffprobe_output = subprocess.check_output(args).decode('utf-8')
+        if len(ffprobe_output) > 0:  # Output of cmdis None if it should be 0
+            ffprobe_output = json.loads(ffprobe_output)
+            rotation = ffprobe_output
+
+        else:
+            rotation = 0
+
+        return (rotation)
 
     def rotate_bound(self, image, angle):
         # grab the dimensions of the image and then determine the
@@ -204,14 +228,15 @@ class evaluate_face_detection4SVM ():
         color_green = (0, 255, 0)
         line_width = 3
 
-        angle = 0
+        angle = self.get_rotation(targetVideo)
         scale = 1
         forceAngle = False
 
-        for key in VideoRotationInfos.keys():
-            if key in targetVideo:
-                forceAngle = True
-                angle = VideoRotationInfos[key]
+        if angle == 0 :
+            for key in VideoRotationInfos.keys():
+                if key in targetVideo:
+                    forceAngle = True
+                    angle = VideoRotationInfos[key]
 
         cap = cv2.VideoCapture(targetVideo)
 
@@ -224,10 +249,10 @@ class evaluate_face_detection4SVM ():
             # get image height, width
             height, width = frame.shape[:2]
 
-            if forceAngle == False and width > height:
-                frame = self.rotate_bound(frame, 90)
-            else:
-                frame = self.rotate_bound(frame, angle)
+#            if forceAngle == False and width > height:
+#                frame = self.rotate_bound(frame, 90)
+#            else:
+            frame = self.rotate_bound(frame, angle)
 
             height, width = frame.shape[:2]
             x_ratio = float(0)
@@ -334,17 +359,29 @@ class evaluate_face_detection4SVM ():
         self.resultS['RESULT_SVM_RELATION_1DEPTH_MATRIX'] = json.dumps(self.RESULT_SVM_RELATION_1DEPTH_MATRIX, ensure_ascii=False)
 
 ##########################################################################################################################################################################
-        self.resultS['RESULT_SVM_AVG_DURATION'] = self.RESULT_SVM_DURATION / self.RESULT_SVM_TRYCOUNT
+        if self.RESULT_SVM_TRYCOUNT != 0:
+            self.resultS['RESULT_SVM_AVG_DURATION'] = self.RESULT_SVM_DURATION / self.RESULT_SVM_TRYCOUNT
+        else:
+            self.resultS['RESULT_SVM_AVG_DURATION'] = self.RESULT_SVM_DURATION
         RESULT_SVM_AVG_EACH_DURATION = dict()
         for key in self.RESULT_SVM_EACH_DURATION.keys():
-            RESULT_SVM_AVG_EACH_DURATION[key] = self.RESULT_SVM_EACH_DURATION[key] / self.RESULT_SVM_EACH_TRYCOUNT[key]
+            if self.RESULT_SVM_EACH_TRYCOUNT[key] != 0:
+                RESULT_SVM_AVG_EACH_DURATION[key] = self.RESULT_SVM_EACH_DURATION[key] / self.RESULT_SVM_EACH_TRYCOUNT[key]
+            else:
+                RESULT_SVM_AVG_EACH_DURATION[key] = self.RESULT_SVM_EACH_DURATION[key]
         RESULT_SVM_AVG_EACH_DURATION = collections.OrderedDict(sorted(RESULT_SVM_AVG_EACH_DURATION.items()))
         self.resultS['RESULT_SVM_AVG_EACH_DURATION'] = json.dumps(RESULT_SVM_AVG_EACH_DURATION, ensure_ascii=False)
 
-        self.resultS['RESULT_SVM_AVG_RECTSIZE'] = self.RESULT_SVM_RECTSIZE / self.RESULT_SVM_HITCOUNT
+        if self.RESULT_SVM_HITCOUNT != 0:
+            self.resultS['RESULT_SVM_AVG_RECTSIZE'] = self.RESULT_SVM_RECTSIZE / self.RESULT_SVM_HITCOUNT
+        else:
+            self.resultS['RESULT_SVM_AVG_RECTSIZE'] = self.RESULT_SVM_RECTSIZE
         RESULT_SVM_AVG_EACH_RECTSIZE = dict()
         for key in self.RESULT_SVM_EACH_HITCOUNT.keys():
-            RESULT_SVM_AVG_EACH_RECTSIZE[key] = self.RESULT_SVM_EACH_RECTSIZE[key] / self.RESULT_SVM_EACH_HITCOUNT[key]
+            if self.RESULT_SVM_EACH_HITCOUNT[key] != 0:
+                RESULT_SVM_AVG_EACH_RECTSIZE[key] = self.RESULT_SVM_EACH_RECTSIZE[key] / self.RESULT_SVM_EACH_HITCOUNT[key]
+            else:
+                RESULT_SVM_AVG_EACH_RECTSIZE[key] = self.RESULT_SVM_EACH_RECTSIZE[key]
         RESULT_SVM_AVG_EACH_RECTSIZE = collections.OrderedDict(sorted(RESULT_SVM_AVG_EACH_RECTSIZE.items()))
         self.resultS['RESULT_SVM_AVG_EACH_RECTSIZE'] = json.dumps(RESULT_SVM_AVG_EACH_RECTSIZE, ensure_ascii=False)
 

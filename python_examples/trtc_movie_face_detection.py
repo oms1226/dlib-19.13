@@ -41,6 +41,7 @@ import socket
 import sys
 import subprocess
 import shlex
+import traceback
 
 import datetime
 import dlib
@@ -91,6 +92,9 @@ def printError (*strs):
         else:
             tot += str(string)
     print tot
+
+def getExceptionString(info):
+    return ''.join(traceback.format_exception(*info)[-2:]).strip().replace('\n', ': ')
 
 class evaluate_face_detection4SVM ():
     version = 1.1

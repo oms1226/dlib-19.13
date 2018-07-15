@@ -83,6 +83,15 @@ def printExLR (*strs):
                 tot += str(string)
         print tot,
 
+def printError (*strs):
+    tot = ""
+    for string in strs:
+        if type(string) is str:
+            tot += string
+        else:
+            tot += str(string)
+    print tot
+
 class evaluate_face_detection4SVM ():
     version = 1.1
     resultS = dict()
@@ -257,7 +266,7 @@ class evaluate_face_detection4SVM ():
         angle = self.get_rotation(targetVideo)
 
         if angle == -1:
-            return 
+            return
 
         scale = 1
         forceAngle = False

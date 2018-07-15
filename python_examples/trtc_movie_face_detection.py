@@ -200,22 +200,27 @@ class evaluate_face_detection4SVM ():
 
         Returns a rotation None, 90, 180 or 270
         """
+        rotation = -1
         cmd = "ffprobe -loglevel error -select_streams v:0 -show_entries stream_tags=rotate -of default=nw=1:nk=1"
         args = shlex.split(cmd)
         args.append(file_path_with_file_name)
         ffprobe_output = None
-        # run the ffprobe process, decode stdout into utf-8 & convert to JSON
-        if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
-            ffprobe_output = subprocess.check_output(args, shell=True).decode('utf-8')
-        elif _platform == "win32" or _platform == "win64":
-            ffprobe_output = subprocess.check_output(args).decode('utf-8')
+        try:
+            # run the ffprobe process, decode stdout into utf-8 & convert to JSON
+            if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
+                ffprobe_output = subprocess.check_output(args, shell=True).decode('utf-8')
+            elif _platform == "win32" or _platform == "win64":
+                ffprobe_output = subprocess.check_output(args).decode('utf-8')
 
-        if len(ffprobe_output) > 0:  # Output of cmdis None if it should be 0
-            ffprobe_output = json.loads(ffprobe_output)
-            rotation = ffprobe_output
+            if len(ffprobe_output) > 0:  # Output of cmdis None if it should be 0
+                ffprobe_output = json.loads(ffprobe_output)
+                rotation = ffprobe_output
 
-        else:
-            rotation = 0
+            else:
+                rotation = 0
+        except:
+            printError("%s:%s" % ("Unexpected error", getExceptionString(sys.exc_info())))
+
 
         return (rotation)
 
@@ -250,6 +255,10 @@ class evaluate_face_detection4SVM ():
         line_width = 3
 
         angle = self.get_rotation(targetVideo)
+
+        if angle == -1:
+            return 
+
         scale = 1
         forceAngle = False
 

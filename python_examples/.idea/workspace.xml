@@ -26,8 +26,8 @@
       <file leaf-file-name="trtc_movie_face_detection.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="207" selection-start-line="207" selection-end-line="207" />
+            <state relative-caret-position="285">
+              <caret line="259" column="19" selection-start-line="259" selection-start-column="19" selection-end-line="259" selection-end-column="19" />
               <folding>
                 <element signature="e#1563#1573#0" expanded="true" />
               </folding>
@@ -84,6 +84,7 @@
       <find>RESULT_SVM_RELATION_1DEPTH_MATRIX</find>
       <find>rota</find>
       <find>tmp</find>
+      <find>get_rotation</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -273,7 +274,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/trtc_movie_face_detection.py</url>
-          <line>255</line>
+          <line>264</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
@@ -406,8 +407,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="207" selection-start-line="207" selection-end-line="207" />
+        <state relative-caret-position="285">
+          <caret line="259" column="19" selection-start-line="259" selection-start-column="19" selection-end-line="259" selection-end-column="19" />
           <folding>
             <element signature="e#1563#1573#0" expanded="true" />
           </folding>

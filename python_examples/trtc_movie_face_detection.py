@@ -92,6 +92,8 @@ class evaluate_face_detection4SVM ():
     RESULT_SVM_RECTSIZE = float(0)
     RESULT_SVM_EACH_RECTSIZE = {}
 
+    RESULT_SVM_RELATION_1DEPTH_MATRIX = [[0] * (NUMOFFACEDETECTORS+1) for i in range(NUMOFFACEDETECTORS+1)]
+
     def __init__(self, videos_dirname, detector_dirname, traing_options):
         printEx(cv2.__version__)  # my version is 3.1.0
         self.resultS['cv2.__version__'] = cv2.__version__
@@ -187,6 +189,7 @@ class evaluate_face_detection4SVM ():
 
     def detection_eachprocess(self, detectors, targetVideo):
         count = 0
+        previousIndex = -1
         color_green = (0, 255, 0)
         line_width = 3
 
@@ -261,7 +264,7 @@ class evaluate_face_detection4SVM ():
                     area = abs(rect.left() - rect.right()) * abs(rect.top() - rect.bottom())
                     self.RESULT_SVM_EACH_RECTSIZE  [self.RESULT_SVM_EACH_RECTSIZE  .keys()[index]] = self.RESULT_SVM_EACH_RECTSIZE  [self.RESULT_SVM_EACH_RECTSIZE  .keys()[index]] + area
                     self.RESULT_SVM_RECTSIZE  += area
-
+                    self.RESULT_SVM_RELATION_1DEPTH_MATRIX[index+1][previousIndex+1] += 1
                     flag_detect = True
                     #frame = cv2.resize(frame, (720, 1280))
 
@@ -274,6 +277,11 @@ class evaluate_face_detection4SVM ():
                     break
 
                 index += 1
+
+            if flag_detect == False:
+                previousIndex = -1
+            else:
+                previousIndex = index
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
@@ -312,6 +320,9 @@ class evaluate_face_detection4SVM ():
         self.resultS['RESULT_SVM_RECTSIZE'] = self.RESULT_SVM_RECTSIZE
         self.resultS['RESULT_SVM_EACH_RECTSIZE'] = json.dumps(self.RESULT_SVM_EACH_RECTSIZE, ensure_ascii=False)
 
+        self.resultS['RESULT_SVM_RELATION_1DEPTH_MATRIX'] = json.dumps(self.RESULT_SVM_RELATION_1DEPTH_MATRIX, ensure_ascii=False)
+
+##########################################################################################################################################################################
         self.resultS['RESULT_SVM_AVG_DURATION'] = self.RESULT_SVM_DURATION / self.RESULT_SVM_TRYCOUNT
         RESULT_SVM_AVG_EACH_DURATION = dict()
         for key in self.RESULT_SVM_EACH_DURATION.keys():
@@ -326,6 +337,7 @@ class evaluate_face_detection4SVM ():
         RESULT_SVM_AVG_EACH_RECTSIZE = collections.OrderedDict(sorted(RESULT_SVM_AVG_EACH_RECTSIZE.items()))
         self.resultS['RESULT_SVM_AVG_EACH_RECTSIZE'] = json.dumps(RESULT_SVM_AVG_EACH_RECTSIZE, ensure_ascii=False)
 
+##########################################################################################################################################################################
         self.resultS = collections.OrderedDict(sorted(self.resultS.items()))
 
 def mkdirs(fullpathName):
@@ -354,7 +366,7 @@ if __name__ == "__main__":
     traing_options = {'-t': "fd1_keun.xml", '--u': 3, '--l': 1, '--eps': 0.05, '--p': 0, '--target-size': 6400, '--c': 700, '--n': 9, '--cell-size': 8, '--threshold': 0.15, '--threads': 8}
     EFD = evaluate_face_detection4SVM(videos_dirname, detector_dirname, traing_options)
     EFD.process()
-
+    testresult_fullname = testresult_fullname + "_" + str(EFD.version)
     mkdirs(testresult_fullname)
     with open(testresult_fullname + ".json", 'a') as f:
         f.write(json.dumps(EFD.resultS) + "\n")

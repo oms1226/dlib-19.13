@@ -26,8 +26,8 @@
       <file leaf-file-name="trtc_movie_face_detection.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="644">
-              <caret line="333" column="45" lean-forward="true" selection-start-line="333" selection-start-column="45" selection-end-line="333" selection-end-column="45" />
+            <state relative-caret-position="207">
+              <caret line="247" column="49" lean-forward="true" selection-start-line="247" selection-start-column="49" selection-end-line="247" selection-end-column="49" />
               <folding>
                 <element signature="e#1563#1573#0" expanded="true" />
               </folding>
@@ -339,8 +339,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
-          <caret line="333" column="45" lean-forward="true" selection-start-line="333" selection-start-column="45" selection-end-line="333" selection-end-column="45" />
+        <state relative-caret-position="207">
+          <caret line="247" column="49" lean-forward="true" selection-start-line="247" selection-start-column="49" selection-end-line="247" selection-end-column="49" />
           <folding>
             <element signature="e#1563#1573#0" expanded="true" />
           </folding>

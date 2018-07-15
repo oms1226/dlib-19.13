@@ -26,8 +26,8 @@
       <file leaf-file-name="trtc_movie_face_detection.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="524">
-              <caret line="164" column="26" lean-forward="true" selection-start-line="164" selection-start-column="26" selection-end-line="164" selection-end-column="26" />
+            <state relative-caret-position="391">
+              <caret line="294" column="38" lean-forward="true" selection-start-line="294" selection-start-column="38" selection-end-line="294" selection-end-column="38" />
               <folding>
                 <element signature="e#1563#1573#0" expanded="true" />
               </folding>
@@ -71,7 +71,6 @@
       <find>printEX</find>
       <find>RESULT_SVM_DURATION</find>
       <find>RESULT_SVM_TRYCOUNT</find>
-      <find>rotate_bound</find>
       <find>RESULT_SVM_AVG_EACH_DURATION</find>
       <find>traing_option</find>
       <find>load_targetVideos</find>
@@ -87,6 +86,7 @@
       <find>printError</find>
       <find>traceback</find>
       <find>numofdetectors</find>
+      <find>rotate_bound</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -414,8 +414,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="524">
-          <caret line="164" column="26" lean-forward="true" selection-start-line="164" selection-start-column="26" selection-end-line="164" selection-end-column="26" />
+        <state relative-caret-position="391">
+          <caret line="294" column="38" lean-forward="true" selection-start-line="294" selection-start-column="38" selection-end-line="294" selection-end-column="38" />
           <folding>
             <element signature="e#1563#1573#0" expanded="true" />
           </folding>

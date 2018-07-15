@@ -55,7 +55,7 @@ import numpy as np
 
 
 VideoRotationInfos = {
-"mix.avi": 0,
+"mix.avi": float(0),
 }
 
 class setting:

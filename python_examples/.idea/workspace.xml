@@ -11,23 +11,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="train_object_detector.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/train_object_detector.py">
+      <file leaf-file-name="trtc_train_object_detector.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/trtc_train_object_detector.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="950">
-              <caret line="54" selection-start-line="54" selection-end-line="54" />
+            <state relative-caret-position="741">
+              <caret line="39" column="37" lean-forward="true" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
               <folding>
-                <element signature="e#1052#1061#0" expanded="true" />
+                <element signature="e#43#53#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="trtc_movie_face_detection.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="trtc_movie_face_detection.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="467">
-              <caret line="238" selection-start-line="238" selection-end-line="238" />
+            <state relative-caret-position="334">
+              <caret line="458" column="13" selection-start-line="458" selection-start-column="8" selection-end-line="458" selection-end-column="13" />
               <folding>
                 <element signature="e#1563#1573#0" expanded="true" />
               </folding>
@@ -53,12 +53,25 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="face_jitter.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/face_jitter.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="face_landmark_detection.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/face_landmark_detection.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="face_recognition.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/face_recognition.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>detector =</find>
-      <find>fhog</find>
       <find>prin</find>
       <find>SVM_HIT_COUNT</find>
       <find>stop - start</find>
@@ -87,6 +100,8 @@
       <find>traceback</find>
       <find>numofdetectors</find>
       <find>rotate_bound</find>
+      <find>amkdir</find>
+      <find>mkdir</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -95,6 +110,7 @@
         <option value="$PROJECT_DIR$/train_object_detector_modify.py" />
         <option value="$PROJECT_DIR$/opencv_movie_face_detection.py" />
         <option value="$PROJECT_DIR$/trtc_movie_face_detection.py" />
+        <option value="$PROJECT_DIR$/trtc_train_object_detector.py" />
       </list>
     </option>
   </component>
@@ -124,7 +140,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/trtc_train_object_detector.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -249,10 +265,10 @@
     <frame x="-8" y="-8" width="2576" height="1576" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18676123" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18676123" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2098338" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2098338" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -276,12 +292,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/trtc_movie_face_detection.py</url>
-          <line>291</line>
+          <line>292</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/trtc_movie_face_detection.py</url>
-          <line>238</line>
+          <line>239</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
@@ -382,13 +398,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/train_object_detector_modify.py" />
     <entry file="file://C:/Python27/Lib/site-packages/dlib-19.13.0-py2.7-win32.egg/dlib.py" />
-    <entry file="file://$PROJECT_DIR$/face_detector.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="703">
-          <caret line="37" column="25" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2017.3/system/python_stubs/-762174762/cv2/__init__.py" />
+    <entry file="file://$USER_HOME$/.PyCharmCE2017.3/system/python_stubs/-762174762/time.py" />
+    <entry file="file://C:/Python27/Lib/timeit.py" />
+    <entry file="file:////172.23.147.103/oms1226/workspaces/dlib-19.13/python_examples/opencv_movie_face_detection.py" />
+    <entry file="file://C:/Python27/Lib/site-packages/django/test/client.py" />
+    <entry file="file://C:/Python27/Lib/ntpath.py" />
     <entry file="file://$PROJECT_DIR$/opencv_webcam_face_detection.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -396,16 +411,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharmCE2017.3/system/python_stubs/-762174762/cv2/__init__.py" />
-    <entry file="file://$USER_HOME$/.PyCharmCE2017.3/system/python_stubs/-762174762/time.py" />
-    <entry file="file://C:/Python27/Lib/timeit.py" />
-    <entry file="file:////172.23.147.103/oms1226/workspaces/dlib-19.13/python_examples/opencv_movie_face_detection.py" />
-    <entry file="file://C:/Python27/Lib/site-packages/django/test/client.py" />
-    <entry file="file://C:/Python27/Lib/ntpath.py" />
+    <entry file="file://$PROJECT_DIR$/face_detector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="703">
+          <caret line="37" column="25" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/face_jitter.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/face_landmark_detection.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/face_recognition.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/train_object_detector.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="950">
-          <caret line="54" selection-start-line="54" selection-end-line="54" />
+        <state relative-caret-position="-551">
+          <caret line="43" column="10" lean-forward="true" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="10" />
           <folding>
             <element signature="e#1052#1061#0" expanded="true" />
           </folding>
@@ -414,10 +439,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="467">
-          <caret line="238" selection-start-line="238" selection-end-line="238" />
+        <state relative-caret-position="334">
+          <caret line="458" column="13" selection-start-line="458" selection-start-column="8" selection-end-line="458" selection-end-column="13" />
           <folding>
             <element signature="e#1563#1573#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trtc_train_object_detector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="741">
+          <caret line="39" column="37" lean-forward="true" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
+          <folding>
+            <element signature="e#43#53#0" expanded="true" />
           </folding>
         </state>
       </provider>

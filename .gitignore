@@ -54,3 +54,5 @@ python_examples/result\.log
 testDatas/videos/
 
 testResults/
+
+testDatas/dlib_face_detector_training_data/

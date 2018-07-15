@@ -53,6 +53,7 @@ import collections
 
 import numpy as np
 
+from trtc_train_object_detector import mkdirs
 
 VideoRotationInfos = {
 "mix.avi": float(0),
@@ -471,12 +472,6 @@ class evaluate_face_detection4SVM ():
             w.writerow(EFD.resultS.values())
             f.close()
 
-
-def mkdirs(fullpathName):
-    dir = os.path.dirname(fullpathName)
-    # create directory if it does not exist
-    if not os.path.exists(dir):
-        os.makedirs(dir)
 
 if __name__ == "__main__":
     videos_dirname = None

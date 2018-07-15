@@ -240,8 +240,12 @@ class evaluate_face_detection4SVM ():
             line = fd_popen.readline()
             if not line:
                 break
-            else:
+            elif "0" in str(line) or "90" in str(line) or "180" in str(line) or "270" in str(line):
                 reVal = int(str(line).strip("\r").strip("\n").strip())
+                if reVal == 90:
+                    reVal = 270
+                elif reVal == 270:
+                    reVal = 90
                 break
         fd_popen.close()
 

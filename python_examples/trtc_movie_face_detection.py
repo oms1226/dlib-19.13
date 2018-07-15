@@ -107,7 +107,23 @@ class evaluate_face_detection4SVM ():
 
     RESULT_SVM_RELATION_1DEPTH_MATRIX = [[0] * (NUMOFFACEDETECTORS+1) for i in range(NUMOFFACEDETECTORS+1)]
 
-    def __init__(self, videos_dirname, detector_dirname, traing_options):
+    def __init__(self, videos_dirname = None, detector_dirname = None, traing_options = None):
+        if videos_dirname == None:
+            if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
+                videos_dirname = "../testDatas/videos"
+            elif _platform == "win32" or _platform == "win64":
+                videos_dirname = "..\\testDatas\\videos"
+
+        if detector_dirname == None:
+            if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
+                detector_dirname = "../traningOutput/20180423"
+            elif _platform == "win32" or _platform == "win64":
+                detector_dirname = "..\\traningOutput\\20180423"
+
+        if traing_options == None:
+            # train_object_detector_modify.exe -t fd1_keun.xml --u 3 --l 1 --eps 0.05 --p 0 --target-size 6400 --c 700 --n 9 --cell-size 8 --threshold 0.15 --threads 8
+            traing_options = {'-t': "fd1_keun.xml", '--u': 3, '--l': 1, '--eps': 0.05, '--p': 0, '--target-size': 6400, '--c': 700, '--n': 9, '--cell-size': 8, '--threshold': 0.15, '--threads': 8}
+
         printEx(cv2.__version__)  # my version is 3.1.0
         self.resultS['cv2.__version__'] = cv2.__version__
         self.resultS['_version'] = self.version
@@ -387,6 +403,33 @@ class evaluate_face_detection4SVM ():
 
 ##########################################################################################################################################################################
         self.resultS = collections.OrderedDict(sorted(self.resultS.items()))
+    def writeResult(self, testresult_fullname = None):
+        if testresult_fullname == None:
+            RESULT_FILENAME = "result.log"
+            if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
+                testresult_fullname = "../testResults/" + RESULT_FILENAME
+
+            elif _platform == "win32" or _platform == "win64":
+                testresult_fullname = "..\\testResults\\" + RESULT_FILENAME
+
+            testresult_fullname = testresult_fullname + "_" + str(EFD.version)
+
+        mkdirs(testresult_fullname)
+        with open(testresult_fullname + ".json", 'a') as f:
+            f.write(json.dumps(EFD.resultS) + "\n")
+            f.close()
+
+        fWriteKeys = False
+        if not os.path.isfile(testresult_fullname + ".csv"):
+            fWriteKeys = True
+
+        with open(testresult_fullname + ".csv",'a') as f:
+            w = csv.writer(f)
+            if fWriteKeys:
+                w.writerow(EFD.resultS.keys())
+            w.writerow(EFD.resultS.values())
+            f.close()
+
 
 def mkdirs(fullpathName):
     dir = os.path.dirname(fullpathName)
@@ -394,41 +437,22 @@ def mkdirs(fullpathName):
     if not os.path.exists(dir):
         os.makedirs(dir)
 
-RESULT_FILENAME = "result.log"
 if __name__ == "__main__":
     videos_dirname = None
     detector_dirname = None
-    testresult_fullname = None
 
     if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
         videos_dirname = "../testDatas/videos"
         detector_dirname = "../traningOutput/20180423"
-        testresult_fullname = "../testResults/" + RESULT_FILENAME
-
     elif _platform == "win32" or _platform == "win64":
         videos_dirname = "..\\testDatas\\videos"
         detector_dirname = "..\\traningOutput\\20180423"
-        testresult_fullname = "..\\testResults\\" + RESULT_FILENAME
 
     # train_object_detector_modify.exe -t fd1_keun.xml --u 3 --l 1 --eps 0.05 --p 0 --target-size 6400 --c 700 --n 9 --cell-size 8 --threshold 0.15 --threads 8
     traing_options = {'-t': "fd1_keun.xml", '--u': 3, '--l': 1, '--eps': 0.05, '--p': 0, '--target-size': 6400, '--c': 700, '--n': 9, '--cell-size': 8, '--threshold': 0.15, '--threads': 8}
-    EFD = evaluate_face_detection4SVM(videos_dirname, detector_dirname, traing_options)
+    #EFD = evaluate_face_detection4SVM(videos_dirname, detector_dirname, traing_options)
+    EFD = evaluate_face_detection4SVM()
     EFD.process()
-    testresult_fullname = testresult_fullname + "_" + str(EFD.version)
-    mkdirs(testresult_fullname)
-    with open(testresult_fullname + ".json", 'a') as f:
-        f.write(json.dumps(EFD.resultS) + "\n")
-        f.close()
-
-    fWriteKeys = False
-    if not os.path.isfile(testresult_fullname + ".csv"):
-        fWriteKeys = True
-
-    with open(testresult_fullname + ".csv",'a') as f:
-        w = csv.writer(f)
-        if fWriteKeys:
-            w.writerow(EFD.resultS.keys())
-        w.writerow(EFD.resultS.values())
-        f.close()
+    EFD.writeResult()
 
 exit(0)

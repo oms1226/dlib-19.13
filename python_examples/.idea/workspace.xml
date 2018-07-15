@@ -26,8 +26,8 @@
       <file leaf-file-name="trtc_movie_face_detection.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="364" column="78" selection-start-line="364" selection-start-column="78" selection-end-line="364" selection-end-column="78" />
+            <state relative-caret-position="407">
+              <caret line="452" column="5" selection-start-line="452" selection-start-column="5" selection-end-line="452" selection-end-column="5" />
               <folding>
                 <element signature="e#1563#1573#0" expanded="true" />
               </folding>
@@ -273,7 +273,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/trtc_movie_face_detection.py</url>
-          <line>234</line>
+          <line>250</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
@@ -406,8 +406,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/trtc_movie_face_detection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="364" column="78" selection-start-line="364" selection-start-column="78" selection-end-line="364" selection-end-column="78" />
+        <state relative-caret-position="407">
+          <caret line="452" column="5" selection-start-line="452" selection-start-column="5" selection-end-line="452" selection-end-column="5" />
           <folding>
             <element signature="e#1563#1573#0" expanded="true" />
           </folding>

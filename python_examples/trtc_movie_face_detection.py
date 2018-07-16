@@ -172,7 +172,7 @@ class evaluate_face_detection4SVM ():
         self.RESULT_SVM_EACH_DURATION = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_DURATION.items()))
         self.RESULT_SVM_EACH_RECTSIZE = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_RECTSIZE.items()))
         self.resultS['_numofdetectors'] = len(reVal)
-#        self.resultS['_listofdetectors'] = json.dumps(reVal)
+        self.resultS['_listofdetectors'] = ",".join(reVal)
         return reVal
 
     def load_targetVideos(self, dirname):
@@ -183,13 +183,15 @@ class evaluate_face_detection4SVM ():
         for (path, dir, files) in os.walk(dirname):
             for filename in files:
                 ext = os.path.splitext(filename)[-1]
-                if True:#ext == 'mp4' or ext == 'avi':
+                #if True:#ext == 'mp4' or ext == 'avi':
+                if ext != 'DS_Store':
                     #print("%s/%s" % (path, filename))
                     full_filename = os.path.join(path, filename)
                     reVal.append(full_filename)
                     printEx(full_filename)
             self.resultS['videolists'] = self.resultS['videolists'] + "," + ",".join(files)
-            self.resultS['numofvideoss'] = self.resultS['numofvideoss'] + len(reVal)
+
+        self.resultS['numofvideoss'] = len(reVal)
 
         return reVal
 

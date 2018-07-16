@@ -184,7 +184,7 @@ class evaluate_face_detection4SVM ():
             for filename in files:
                 ext = os.path.splitext(filename)[-1]
                 #if True:#ext == 'mp4' or ext == 'avi':
-                if ext != 'DS_Store':
+                if ext != '':
                     #print("%s/%s" % (path, filename))
                     full_filename = os.path.join(path, filename)
                     reVal.append(full_filename)

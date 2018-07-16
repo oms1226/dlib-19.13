@@ -172,7 +172,7 @@ class evaluate_face_detection4SVM ():
         self.RESULT_SVM_EACH_DURATION = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_DURATION.items()))
         self.RESULT_SVM_EACH_RECTSIZE = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_RECTSIZE.items()))
         self.resultS['_numofdetectors'] = len(reVal)
-        self.resultS['_listofdetectors'] = ",".join(reVal)
+        self.resultS['_listofdetectors'] = ",".join(filenames)
         return reVal
 
     def load_targetVideos(self, dirname):
@@ -189,7 +189,7 @@ class evaluate_face_detection4SVM ():
                     full_filename = os.path.join(path, filename)
                     reVal.append(full_filename)
                     printEx(full_filename)
-            self.resultS['videolists'] = self.resultS['videolists'] + "," + ",".join(files)
+                    self.resultS['videolists'] = self.resultS['videolists'] + "," + filename
 
         self.resultS['numofvideoss'] = len(reVal)
 

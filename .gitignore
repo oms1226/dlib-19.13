@@ -58,3 +58,5 @@ testResults/
 testDatas/dlib_face_detector_training_data/
 
 python_examples/\.idea/
+
+*.pyc

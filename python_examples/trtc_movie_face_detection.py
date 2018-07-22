@@ -151,12 +151,22 @@ class evaluate_face_detection4SVM ():
 
     def load_detectors(self, dirname):
         reVal = []
-        filenames = os.listdir(dirname)
+
+        if dirname != None:
+            filenames = os.listdir(dirname)
+        else:
+            filenames = ['1_default']
+
         order = 1
         for filename in filenames:
             if filename.startswith(str(order)):
-                full_filename = os.path.join(dirname, filename)
-                detector = dlib.fhog_object_detector(full_filename)
+                full_filename = None
+                if 'default' in filename:
+                    full_filename = 'default' + '_' + 'dlib.get_frontal_face_detector'
+                    detector = dlib.get_frontal_face_detector()
+                else:
+                    full_filename = os.path.join(dirname, filename)
+                    detector = dlib.fhog_object_detector(full_filename)
                 reVal.append(detector)
                 printEx (full_filename)
                 self.RESULT_SVM_EACH_HITCOUNT[filename] = 0

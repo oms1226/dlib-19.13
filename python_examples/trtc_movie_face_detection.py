@@ -98,9 +98,10 @@ def getExceptionString(info):
     return ''.join(traceback.format_exception(*info)[-2:]).strip().replace('\n', ': ')
 
 class evaluate_face_detection4SVM ():
-    version = 1.1
+    version = 1.2
 
     resultS = dict()
+    IS_DEFAULT = False
     NUMOFFACEDETECTORS = 9
     DEFAULT_RESOLUTION_WIDTH = float(1280)
     DEFAULT_RESOLUTION_HEIGHT = float(720)
@@ -121,7 +122,8 @@ class evaluate_face_detection4SVM ():
 
     RESULT_SVM_RELATION_1DEPTH_MATRIX = [[0] * (NUMOFFACEDETECTORS+1) for i in range(NUMOFFACEDETECTORS+1)]
 
-    def __init__(self, videos_dirname = None, detector_dirname = None, traing_options = None):
+    def __init__(self, videos_dirname = None, detector_dirname = None, traing_options = None, isDefault = False):
+        self.IS_DEFAULT = isDefault
         if videos_dirname == None:
             if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
                 videos_dirname = "../testDatas/videos"
@@ -133,6 +135,9 @@ class evaluate_face_detection4SVM ():
                 detector_dirname = "../traningOutput/20180423"
             elif _platform == "win32" or _platform == "win64":
                 detector_dirname = "..\\traningOutput\\20180423"
+
+        if self.IS_DEFAULT:
+            detector_dirname = None
 
         if traing_options == None:
             # train_object_detector_modify.exe -t fd1_keun.xml --u 3 --l 1 --eps 0.05 --p 0 --target-size 6400 --c 700 --n 9 --cell-size 8 --threshold 0.15 --threads 8
@@ -406,7 +411,7 @@ class evaluate_face_detection4SVM ():
         if len(detectors) == self.NUMOFFACEDETECTORS:
             printEx(detectors)
             printEx(targetVideos)
-        else:
+        elif self.IS_DEFAULT == False:
             ArithmeticError("The number of detectors is " + self.NUMOFFACEDETECTORS + ", but " + len(detectors))
 
         self.detection_fullprocess(detectors, targetVideos)
@@ -486,6 +491,13 @@ class evaluate_face_detection4SVM ():
 
 
 if __name__ == "__main__":
+    IS_DEFAULT = False
+    while len(sys.argv) > 1:
+        if len(sys.argv) > 1 and '--default' in sys.argv[1]:
+            IS_DEFAULT = True
+            sys.argv.pop(1)
+
+    printEx("%s:%s" % ("IS_DEFAULT", IS_DEFAULT))
     videos_dirname = None
     detector_dirname = None
 
@@ -499,7 +511,7 @@ if __name__ == "__main__":
     # train_object_detector_modify.exe -t fd1_keun.xml --u 3 --l 1 --eps 0.05 --p 0 --target-size 6400 --c 700 --n 9 --cell-size 8 --threshold 0.15 --threads 8
     traing_options = {'-t': "fd1_keun.xml", '--u': 3, '--l': 1, '--eps': 0.05, '--p': 0, '--target-size': 6400, '--c': 700, '--n': 9, '--cell-size': 8, '--threshold': 0.15, '--threads': 8}
     #EFD = evaluate_face_detection4SVM(videos_dirname, detector_dirname, traing_options)
-    EFD = evaluate_face_detection4SVM()
+    EFD = evaluate_face_detection4SVM(isDefault = IS_DEFAULT)
     EFD.process()
     EFD.writeResult()
 

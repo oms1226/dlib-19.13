@@ -9,6 +9,19 @@
 #include "box_overlap_testing.h"
 #include "full_object_detection.h"
 
+#if DLIB_USE_PROFILING
+#include <chrono>
+
+#if defined(__APPLE__)
+#define USE_STDOUT
+#endif
+
+using namespace std::chrono;
+#ifdef USE_STDOUT
+using namespace std;
+#endif
+#endif
+
 namespace dlib
 {
 
@@ -127,6 +140,21 @@ namespace dlib
             double adjust_threshold = 0
         );
 
+#if DLIB_ENABLE_EARLY_TERMINATION_FOR_FD
+        template <
+            typename image_type
+            >
+        std::vector<rectangle> operator() (
+            const image_type& img,
+            const int max_dets,
+            const int prefer_detector,
+            const int prefer_level,
+            int *det_detector,
+            int *det_level,
+            double adjust_threshold = 0
+        );
+#endif
+
         template <
             typename image_type
             >
@@ -167,6 +195,22 @@ namespace dlib
             std::vector<rect_detection>& final_dets,
             double adjust_threshold = 0
         );
+
+#if DLIB_ENABLE_EARLY_TERMINATION_FOR_FD
+        template <
+            typename image_type
+            >
+        void operator() (
+            const image_type& img,
+            const int max_dets,
+            const int prefer_detector,
+            const int prefer_level,
+            int *det_detector,
+            int *det_level,
+            std::vector<rect_detection>& final_dets,
+            double adjust_threshold = 0
+        );
+#endif
 
         template <
             typename image_type
@@ -430,7 +474,22 @@ namespace dlib
         double adjust_threshold
     ) 
     {
+#if DLIB_USE_PROFILING
+        system_clock::time_point tp;
+        tp = system_clock::now();
+#endif
+        
         scanner.load(img);
+        
+#if DLIB_USE_PROFILING
+#ifdef USE_STDOUT
+        cout << "load: " << duration_cast<milliseconds>(system_clock::now() - tp).count() << endl;
+#else
+        LOG(INFO) << "load: " << duration_cast<milliseconds>(system_clock::now() - tp).count();
+#endif
+        tp = system_clock::now();
+#endif
+        
         std::vector<std::pair<double, rectangle> > dets;
         std::vector<rect_detection> dets_accum;
         for (unsigned long i = 0; i < w.size(); ++i)
@@ -446,6 +505,14 @@ namespace dlib
                 dets_accum.push_back(temp);
             }
         }
+        
+#if DLIB_USE_PROFILING
+#ifdef USE_STDOUT
+        cout << "detect(w.size=" << w.size() << "): " << duration_cast<milliseconds>(system_clock::now() - tp).count() << endl;
+#else
+        LOG(INFO) << "detect(w.size=" << w.size() << "): " << duration_cast<milliseconds>(system_clock::now() - tp).count();
+#endif
+#endif
 
         // Do non-max suppression
         final_dets.clear();
@@ -459,6 +526,94 @@ namespace dlib
             final_dets.push_back(dets_accum[i]);
         }
     }
+
+#if DLIB_ENABLE_EARLY_TERMINATION_FOR_FD
+// ----------------------------------------------------------------------------------------
+
+    template <
+        typename image_scanner_type
+        >
+    template <
+        typename image_type
+        >
+    void object_detector<image_scanner_type>::
+    operator() (
+        const image_type& img,
+        const int max_dets,
+        const int prefer_detector,
+        const int prefer_level,
+        int *det_detector,
+        int *det_level,
+        std::vector<rect_detection>& final_dets,
+        double adjust_threshold
+    ) 
+    {
+#if DLIB_USE_PROFILING
+        system_clock::time_point tp;
+        tp = system_clock::now();
+#endif
+        
+        scanner.load(img);
+        
+#if DLIB_USE_PROFILING
+#ifdef USE_STDOUT
+        cout << "load: " << duration_cast<milliseconds>(system_clock::now() - tp).count() << endl;
+#else
+        LOG(INFO) << "load: " << duration_cast<milliseconds>(system_clock::now() - tp).count();
+#endif
+        tp = system_clock::now();
+#endif
+
+        // reordering detectors by using prefer_detector
+        std::vector<int> detectors;
+        detectors.push_back(prefer_detector);
+        const int detector_size = w.size();
+        int delta = 1;
+        for (int i = 1, j = 0; i < detector_size; j++) {
+            int detector;
+            if (j % 2 == 0) {
+                detector = prefer_detector - delta;
+            } else {
+                detector = prefer_detector + delta;
+                delta++;
+            }
+            if (detector >= 0 && detector < detector_size) {
+                detectors.push_back(detector);
+                i++;
+            }
+        }
+#if 0
+        std::stringstream tmp;
+        for (auto &d : detectors) { tmp << d << " "; }
+        LOG(INFO) << "++ detectors(" << detectors.size() << "): " << tmp.str();
+#endif
+
+        final_dets.clear();
+
+        int cur_max_dets = max_dets;
+
+        for (auto &d : detectors) {
+            const double thresh = w[d].w(scanner.get_num_dimensions());
+            scanner.detect(w[d].get_detect_argument(),
+                           cur_max_dets, prefer_level, det_level,
+                           final_dets, boxes_overlap,
+                           d, thresh, adjust_threshold);
+            if (final_dets.size() >= max_dets) {
+                *det_detector = d;
+                break;
+            }
+            cur_max_dets = max_dets - final_dets.size();
+        }
+
+#if DLIB_USE_PROFILING
+#ifdef USE_STDOUT
+        cout << "detect(w.size=" << w.size() << "): " << duration_cast<milliseconds>(system_clock::now() - tp).count() << endl;
+#else
+        LOG(INFO) << "detect(w.size=" << w.size() << "): " << duration_cast<milliseconds>(system_clock::now() - tp).count();
+#endif
+#endif
+    }
+#endif
 
 // ----------------------------------------------------------------------------------------
 
@@ -513,6 +668,37 @@ namespace dlib
         return final_dets;
     }
 
+#if DLIB_ENABLE_EARLY_TERMINATION_FOR_FD
+// ----------------------------------------------------------------------------------------
+
+    template <
+        typename image_scanner_type
+        >
+    template <
+        typename image_type
+        >
+    std::vector<rectangle> object_detector<image_scanner_type>::
+    operator() (
+        const image_type& img,
+        const int max_dets,
+        const int prefer_detector,
+        const int prefer_level,
+        int *det_detector,
+        int *det_level,
+        double adjust_threshold
+    ) 
+    {
+        std::vector<rect_detection> dets;
+        (*this)(img,max_dets,prefer_detector,prefer_level,det_detector,det_level,dets,adjust_threshold);
+
+        std::vector<rectangle> final_dets(dets.size());
+        for (unsigned long i = 0; i < dets.size(); ++i)
+            final_dets[i] = dets[i].rect;
+
+        return final_dets;
+    }
+#endif
+    
 // ----------------------------------------------------------------------------------------
 
     template <

@@ -225,6 +225,21 @@ namespace dlib
             std::vector<rect_detection>& dets,
             double adjust_threshold = 0
         );
+#if DLIB_ENABLE_EARLY_TERMINATION_FOR_FD
+        template <
+            typename image_type
+            >
+        void operator() (
+            const image_type& img,
+            const int max_dets,
+            const int prefer_detector,
+            const int prefer_level,
+            int *det_detector,
+            int *det_level,
+            std::vector<rect_detection>& dets,
+            double adjust_threshold = 0
+        );
+#endif
         /*!
             requires
                 - img == an object which can be accepted by image_scanner_type::load()

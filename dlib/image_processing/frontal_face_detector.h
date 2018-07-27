@@ -12,7 +12,7 @@
 
 namespace dlib
 {
-    typedef object_detector<scan_fhog_pyramid<pyramid_down<6> > > frontal_face_detector;
+    typedef object_detector<scan_fhog_pyramid<pyramid_down<DLIB_FD_PYRAMID_DOWN_SCALE_FACTOR> > > frontal_face_detector; // modified by jhhur
     inline const std::string get_serialized_frontal_faces();
 
     inline frontal_face_detector get_frontal_face_detector()

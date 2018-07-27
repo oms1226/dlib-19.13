@@ -54,7 +54,26 @@ add_executable(assignment_learning_ex assignment_learning_ex.cpp)
 # depends on dlib.  You do that with this statement: 
 target_link_libraries(assignment_learning_ex dlib::dlib)
 
+#added by oms1226  2018.07.27 - start
+add_definitions(-DDLIB_JPEG_SUPPORT=on)
+add_definitions(-DDLIB_JPEG_STATIC=on)
+#add_definitions(-DDLIB_HAVE_NEON=on)
+#add_definitions(-DDLIB_USE_TBB=on)
 
+add_definitions(-DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR=6)
+add_definitions(-DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR_FOR_FAST_MODE=4)
+
+add_definitions(-DDLIB_USE_RESIZE_IMAGE_WITH_INTERP_NN=1)
+add_definitions(-DDLIB_ENABLE_RGBA_FOR_FD=1)
+add_definitions(-DDLIB_ENABLE_EARLY_TERMINATION_FOR_FD=1)
+add_definitions(-DDLIB_USE_PROFILING=0)
+add_definitions(-Ofast)
+#add_definitions(-mfpu=neon)
+add_definitions(-fpic -fstack-protector)
+add_definitions(-ffunction-sections)
+add_definitions(-funwind-tables)
+add_definitions(-fno-short-enums)
+#added by oms1226  2018.07.27 - end
 
 # To compile this program all you need to do is ask cmake.  You would type
 # these commands from within the directory containing this CMakeLists.txt

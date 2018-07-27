@@ -21,7 +21,11 @@ namespace dlib
     namespace impl_fhog
     {
         template <typename image_type, typename T>
+#if DLIB_ENABLE_RGBA_FOR_FD
+        inline typename dlib::enable_if_c<pixel_traits<typename image_type::pixel_type>::rgb || pixel_traits<typename image_type::pixel_type>::rgb_alpha>::type get_gradient(
+#else
         inline typename dlib::enable_if_c<pixel_traits<typename image_type::pixel_type>::rgb>::type get_gradient (
+#endif
             const int r,
             const int c,
             const image_type& img,
@@ -59,7 +63,11 @@ namespace dlib
         }
 
         template <typename image_type>
+#if DLIB_ENABLE_RGBA_FOR_FD
+        inline typename dlib::enable_if_c<pixel_traits<typename image_type::pixel_type>::rgb || pixel_traits<typename image_type::pixel_type>::rgb_alpha>::type get_gradient(
+#else
         inline typename dlib::enable_if_c<pixel_traits<typename image_type::pixel_type>::rgb>::type get_gradient (
+#endif
             const int r,
             const int c,
             const image_type& img,
@@ -144,7 +152,11 @@ namespace dlib
         // ------------------------------------------------------------------------------------
 
         template <typename image_type>
+#if DLIB_ENABLE_RGBA_FOR_FD
+        inline typename dlib::enable_if_c<pixel_traits<typename image_type::pixel_type>::rgb || pixel_traits<typename image_type::pixel_type>::rgb_alpha>::type get_gradient(
+#else
         inline typename dlib::enable_if_c<pixel_traits<typename image_type::pixel_type>::rgb>::type get_gradient(
+#endif
             const int r,
             const int c,
             const image_type& img,
@@ -277,7 +289,11 @@ namespace dlib
         // ------------------------------------------------------------------------------------
 
         template <typename image_type, typename T>
+#if DLIB_ENABLE_RGBA_FOR_FD
+        inline typename dlib::enable_if_c<pixel_traits<typename image_type::pixel_type>::grayscale>::type get_gradient (
+#else
         inline typename dlib::disable_if_c<pixel_traits<typename image_type::pixel_type>::rgb>::type get_gradient (
+#endif
             const int r,
             const int c,
             const image_type& img,
@@ -291,7 +307,11 @@ namespace dlib
         }
 
         template <typename image_type>
+#if DLIB_ENABLE_RGBA_FOR_FD
+        inline typename dlib::enable_if_c<pixel_traits<typename image_type::pixel_type>::grayscale>::type get_gradient (
+#else
         inline typename dlib::disable_if_c<pixel_traits<typename image_type::pixel_type>::rgb>::type get_gradient (
+#endif
             int r,
             int c,
             const image_type& img,
@@ -327,7 +347,11 @@ namespace dlib
         // ------------------------------------------------------------------------------------
 
         template <typename image_type>
+#if DLIB_ENABLE_RGBA_FOR_FD
+        inline typename dlib::enable_if_c<pixel_traits<typename image_type::pixel_type>::grayscale>::type get_gradient (
+#else
         inline typename dlib::disable_if_c<pixel_traits<typename image_type::pixel_type>::rgb>::type get_gradient(
+#endif
             int r,
             int c,
             const image_type& img,

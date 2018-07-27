@@ -598,8 +598,10 @@ namespace dlib
 
                 typedef typename image_traits<in_image_type>::pixel_type in_pixel_type;
                 typedef typename image_traits<out_image_type>::pixel_type out_pixel_type;
+#if !DLIB_ENABLE_RGBA_FOR_FD // removed by jhhur for rgba input of frontal face detection
                 COMPILE_TIME_ASSERT( pixel_traits<in_pixel_type>::has_alpha == false );
                 COMPILE_TIME_ASSERT( pixel_traits<out_pixel_type>::has_alpha == false );
+#endif
 
                 const_image_view<in_image_type> original(original_);
                 image_view<out_image_type> down(down_);
@@ -937,12 +939,17 @@ namespace dlib
 
             typedef typename image_traits<in_image_type>::pixel_type in_pixel_type;
             typedef typename image_traits<out_image_type>::pixel_type out_pixel_type;
+#if !DLIB_ENABLE_RGBA_FOR_FD // removed by jhhur for rgba input of frontal face detection
             COMPILE_TIME_ASSERT( pixel_traits<in_pixel_type>::has_alpha == false );
             COMPILE_TIME_ASSERT( pixel_traits<out_pixel_type>::has_alpha == false );
-
+#endif
 
             set_image_size(down, ((N-1)*num_rows(original))/N+0.5, ((N-1)*num_columns(original))/N+0.5);
+#if DLIB_USE_RESIZE_IMAGE_WITH_INTERP_NN // added by jhhur
+            resize_image_nn(original, down);
+#else
             resize_image(original, down);
+#endif
         }
 
         template <
@@ -961,11 +968,13 @@ namespace dlib
     template <>
     class pyramid_down<1> : public pyramid_disable {};
 
+#if !DLIB_USE_RESIZE_IMAGE_WITH_INTERP_NN // added by jhhur
     template <>
     class pyramid_down<2> : public dlib::impl::pyramid_down_2_1 {};
 
     template <>
     class pyramid_down<3> : public dlib::impl::pyramid_down_3_2 {};
+#endif
 
 // ----------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------

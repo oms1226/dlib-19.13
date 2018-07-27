@@ -69,7 +69,7 @@
                 #define DLIB_HAVE_POWER_VEC
             #endif
         #endif
-        #ifdef __ARM_NEON
+		#ifdef __ARM_NEON__
             #ifndef DLIB_HAVE_NEON
                 #define DLIB_HAVE_NEON
             #endif

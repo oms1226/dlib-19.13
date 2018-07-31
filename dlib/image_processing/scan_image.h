@@ -300,7 +300,15 @@ namespace dlib
             matrix<unsigned char> hit(img.nr(), img.nc());
             // initially nothing has been hit.
             hit = 0;
+#if defined(__ANDROID__)
+#if defined(__aarch64__)
             const unsigned long win_size = std::round(2*non_max_suppression_radius);
+#else
+            const unsigned long win_size = ::round(2*non_max_suppression_radius);
+#endif
+#else
+            const unsigned long win_size = std::round(2*non_max_suppression_radius);
+#endif
             const rectangle area = get_rect(img);
             for (auto& pp : peaks)
             {

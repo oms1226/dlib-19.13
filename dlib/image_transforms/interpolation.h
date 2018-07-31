@@ -1068,7 +1068,15 @@ namespace dlib
             );
 
         image_type temp;
+#if defined(__ANDROID__)
+#if defined(__aarch64__)
         set_image_size(temp, std::round(size_scale*num_rows(img)), std::round(size_scale*num_columns(img)));
+#else
+        set_image_size(temp, ::round(size_scale*num_rows(img)), ::round(size_scale*num_columns(img)));
+#endif
+#else
+        set_image_size(temp, std::round(size_scale*num_rows(img)), std::round(size_scale*num_columns(img)));
+#endif
         resize_image(img, temp);
         swap(img, temp);
     }

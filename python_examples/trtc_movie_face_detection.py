@@ -146,7 +146,7 @@ class evaluate_face_detection4SVM ():
         printEx(cv2.__version__)  # my version is 3.1.0
         self.resultS['cv2.__version__'] = cv2.__version__
         self.resultS['_version'] = self.version
-        #self.resultS['dlib.__version__'] = self.dlib_version
+        self.resultS['dlib.__version__'] = dlib.__version__
         self.resultS['start_time'] = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime("%Y%m%d%H%M")
         self.resultS['_hostname'] = _platform + "_" + socket.gethostname()
         self.resultS['videos_dirname'] = self.videos_dirname = videos_dirname

@@ -98,7 +98,7 @@ def getExceptionString(info):
     return ''.join(traceback.format_exception(*info)[-2:]).strip().replace('\n', ': ')
 
 class evaluate_face_detection4SVM ():
-    version = 1.2
+    version = 1.3
     dlib_version = 19.13
     resultS = dict()
     IS_DEFAULT = False

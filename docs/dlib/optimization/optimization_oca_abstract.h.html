@@ -4,6 +4,8 @@
 </font><font color='#0000FF'>#undef</font> DLIB_OPTIMIZATION_OCA_ABsTRACT_Hh_
 <font color='#0000FF'>#ifdef</font> DLIB_OPTIMIZATION_OCA_ABsTRACT_Hh_
 
+<font color='#0000FF'>#include</font> <font color='#5555FF'>&lt;</font>chrono<font color='#5555FF'>&gt;</font>
+
 <font color='#009900'>// ----------------------------------------------------------------------------------------
 </font>
 <font color='#0000FF'>namespace</font> dlib
@@ -132,6 +134,8 @@
                 - get_subproblem_epsilon() == 1e-2
                 - get_subproblem_max_iterations() == 50000
                 - get_inactive_plane_threshold() == 20
+                - get_max_runtime() == std::chrono::hours(24*356*290)
+                  (i.e. 290 years, so basically forever)
 
             WHAT THIS OBJECT REPRESENTS
                 This object is a tool for solving the optimization problem defined above
@@ -323,6 +327,22 @@
                   cutting planes become inactive after a certain point and can then
                   be removed.  This function returns the number of iterations of
                   inactivity required before a cutting plane is removed.
+        !*/</font>
+
+        <font color='#0000FF'><u>void</u></font> <b><a name='set_max_runtime'></a>set_max_runtime</b> <font face='Lucida Console'>(</font>
+            <font color='#0000FF'>const</font> std::chrono::nanoseconds<font color='#5555FF'>&amp;</font> max_runtime
+        <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>;
+        <font color='#009900'>/*!
+            ensures
+                - #get_max_runtime() == max_runtime
+        !*/</font>
+
+        std::chrono::nanoseconds <b><a name='get_max_runtime'></a>get_max_runtime</b> <font face='Lucida Console'>(</font>
+        <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>;
+        <font color='#009900'>/*!
+            ensures
+                - returns the maximum amount of time we will let the solver run before 
+                  making it terminate.
         !*/</font>
 
     <b>}</b>;

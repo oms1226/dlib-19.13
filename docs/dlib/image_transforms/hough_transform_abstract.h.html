@@ -66,8 +66,8 @@
                 - returns size()
         !*/</font>
 
-        std::pair<font color='#5555FF'>&lt;</font>point, point<font color='#5555FF'>&gt;</font> <b><a name='get_line'></a>get_line</b> <font face='Lucida Console'>(</font>
-            <font color='#0000FF'>const</font> point<font color='#5555FF'>&amp;</font> p
+        std::pair<font color='#5555FF'>&lt;</font>dpoint, dpoint<font color='#5555FF'>&gt;</font> <b><a name='get_line'></a>get_line</b> <font face='Lucida Console'>(</font>
+            <font color='#0000FF'>const</font> dpoint<font color='#5555FF'>&amp;</font> p
         <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>;
         <font color='#009900'>/*!
             requires
@@ -80,7 +80,7 @@
         !*/</font>
 
         <font color='#0000FF'><u>double</u></font> <b><a name='get_line_angle_in_degrees'></a>get_line_angle_in_degrees</b> <font face='Lucida Console'>(</font>
-            <font color='#0000FF'>const</font> point<font color='#5555FF'>&amp;</font> p 
+            <font color='#0000FF'>const</font> dpoint<font color='#5555FF'>&amp;</font> p 
         <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>;
         <font color='#009900'>/*!
             requires
@@ -92,7 +92,7 @@
         !*/</font>
 
         <font color='#0000FF'><u>void</u></font> <b><a name='get_line_properties'></a>get_line_properties</b> <font face='Lucida Console'>(</font>
-            <font color='#0000FF'>const</font> point<font color='#5555FF'>&amp;</font> p,
+            <font color='#0000FF'>const</font> dpoint<font color='#5555FF'>&amp;</font> p,
             <font color='#0000FF'><u>double</u></font><font color='#5555FF'>&amp;</font> angle_in_degrees,
             <font color='#0000FF'><u>double</u></font><font color='#5555FF'>&amp;</font> radius
         <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>;
@@ -108,6 +108,10 @@
                 - #radius == the distance from the center of the input image, measured in
                   pixels, and the line corresponding to the Hough transform point p.
                   Moreover: -sqrt(size()*size()/2) &lt;= #radius &lt;= sqrt(size()*size()/2)
+                - Note that the line properties are calculated to sub-pixel accuracy.  That
+                  is, p doesn't have to contain integer values, it can reference locations
+                  between pixels and the appropriate calculation will be done to find the
+                  corresponding line.
         !*/</font>
 
         <font color='#0000FF'>template</font> <font color='#5555FF'>&lt;</font>
@@ -240,10 +244,10 @@
                           voted for any of the lines HP[i] in Hough space.  Note, however,
                           that if angle_window_size or radius_window_size are made so large
                           that HP[i] overlaps HP[j] for i!=j then the overlapping regions
-                          of Hough space are assign to HP[i] or HP[j] arbitrarily.
-                          Therefore, all points in CONSTITUENT_POINTS are unique, that is,
-                          there is no overlap in points between any two elements of
-                          CONSTITUENT_POINTS.
+                          of Hough space are assigned to HP[i] or HP[j] arbitrarily.
+                          That is, we treat HP[i] and HP[j] as disjoint even if their boxes
+                          overlap.  In this case, the overlapping region is assigned to
+                          either HP[i] or HP[j] in an arbitrary manner.
         !*/</font>
 
         <font color='#0000FF'>template</font> <font color='#5555FF'>&lt;</font>
@@ -301,6 +305,8 @@
                   radius_nms_thresh distance (in terms of radius as defined by
                   get_line_properties()) to a stronger Hough point.
                 - The identified lines are returned as a list of coordinates in himg.
+                - The returned points are sorted so that points with larger Hough transform
+                  values come first.
         !*/</font>
 
         <font color='#0000FF'>template</font> <font color='#5555FF'>&lt;</font>

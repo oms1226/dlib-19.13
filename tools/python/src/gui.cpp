@@ -67,7 +67,18 @@ void add_overlay_parts (
     const rgb_pixel& color
 )
 {
-    win.add_overlay(render_face_detections(detection, color));
+    if (detection.num_parts() == 5 || detection.num_parts() == 68)
+    {
+        win.add_overlay(render_face_detections(detection, color));
+    }
+    else
+    {
+        std::vector<image_display::overlay_circle> tmp;
+        for (unsigned long i = 0; i < detection.num_parts(); ++i)
+            tmp.emplace_back(detection.part(i), 0.5, color, std::to_string(i));
+        win.add_overlay(tmp);
+        win.add_overlay(detection.get_rect());
+    }
 }
 
 void add_overlay_line (
@@ -79,6 +90,23 @@ void add_overlay_line (
     win.add_overlay(l,color);
 }
 
+void add_overlay_pylist (
+    image_window& win,
+    const py::list& objs,
+    const rgb_pixel& color
+)
+{
+    std::vector<rectangle> rects;
+    for (auto& obj : objs)
+    {
+        try { rects.push_back(obj.cast<rectangle>()); continue; } catch(py::cast_error&) { }
+        try { rects.push_back(obj.cast<drectangle>()); continue; } catch(py::cast_error&) { }
+        try { win.add_overlay(obj.cast<line>(), color); continue; } catch(py::cast_error&) { }
+        add_overlay_parts(win, obj.cast<full_object_detection>(), color); 
+    }
+    win.add_overlay(rects, color);
+}
+
 template <typename point_type>
 void add_overlay_circle (
     image_window& win,
@@ -87,7 +115,7 @@ void add_overlay_circle (
     const rgb_pixel& color
 )
 {
-    win.add_overlay(image_window::overlay_circle(c,std::round(radius),color));
+    win.add_overlay(image_window::overlay_circle(c,radius,color));
 }
 
 template <typename T>
@@ -107,6 +135,36 @@ std::shared_ptr<image_window> make_image_window_from_image_and_title(const numpy
     return win;
 }
 
+std::shared_ptr<image_window> make_image_window_from_detector(const simple_object_detector& detector)
+{
+    auto win = std::make_shared<image_window>();
+    win->set_image(draw_fhog(detector));
+    return win;
+}
+
+std::shared_ptr<image_window> make_image_window_from_detector_py(const simple_object_detector_py& detector)
+{
+    auto win = std::make_shared<image_window>();
+    win->set_image(draw_fhog(detector.detector));
+    return win;
+}
+
+std::shared_ptr<image_window> make_image_window_from_detector_and_title(const simple_object_detector& detector, const string& title)
+{
+    auto win = std::make_shared<image_window>();
+    win->set_image(draw_fhog(detector));
+    win->set_title(title);
+    return win;
+}
+
+std::shared_ptr<image_window> make_image_window_from_detector_py_and_title(const simple_object_detector_py& detector, const string& title)
+{
+    auto win = std::make_shared<image_window>();
+    win->set_image(draw_fhog(detector.detector));
+    win->set_title(title);
+    return win;
+}
+
 // ----------------------------------------------------------------------------------------
 
 void bind_gui(py::module& m)
@@ -122,6 +180,10 @@ void bind_gui(py::module& m)
     py::class_<type, std::shared_ptr<type>>(m, "image_window",
         "This is a GUI window capable of showing images on the screen.")
         .def(py::init())
+        .def(py::init(&make_image_window_from_detector))
+        .def(py::init(&make_image_window_from_detector_py))
+        .def(py::init(&make_image_window_from_detector_and_title))
+        .def(py::init(&make_image_window_from_detector_py_and_title))
         .def(py::init(&make_image_window_from_image<uint8_t>))
         .def(py::init(&make_image_window_from_image<uint16_t>))
         .def(py::init(&make_image_window_from_image<uint32_t>))
@@ -176,6 +238,8 @@ void bind_gui(py::module& m)
             "Add circle to the image window.")
         .def("add_overlay_circle", add_overlay_circle<dpoint>, py::arg("center"), py::arg("radius"), py::arg("color")=rgb_pixel(255, 0, 0),
             "Add circle to the image window.")
+        .def("add_overlay", add_overlay_pylist, py::arg("objects"), py::arg("color")=rgb_pixel(255,0,0),
+            "Adds all the overlayable objects, uses the given color.")
         .def("wait_until_closed", &type::wait_until_closed,
             "This function blocks until the window is closed.");
     }

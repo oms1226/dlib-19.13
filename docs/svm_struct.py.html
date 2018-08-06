@@ -34,8 +34,10 @@ body .kt { color: #2b91af } /* Keyword.Type */
 body .s { color: #a31515 } /* Literal.String */
 body .nc { color: #2b91af } /* Name.Class */
 body .ow { color: #0000ff } /* Operator.Word */
+body .sa { color: #a31515 } /* Literal.String.Affix */
 body .sb { color: #a31515 } /* Literal.String.Backtick */
 body .sc { color: #a31515 } /* Literal.String.Char */
+body .dl { color: #a31515 } /* Literal.String.Delimiter */
 body .sd { color: #a31515 } /* Literal.String.Doc */
 body .s2 { color: #a31515 } /* Literal.String.Double */
 body .se { color: #a31515 } /* Literal.String.Escape */
@@ -51,7 +53,7 @@ body .ss { color: #a31515 } /* Literal.String.Symbol */
 <body>
 <h2></h2>
 
-<div class="highlight"><pre><span class="ch">#!/usr/bin/python</span>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python</span>
 <span class="c1"># The contents of this file are in the public domain. See LICENSE_FOR_EXAMPLE_PROGRAMS.txt</span>
 <span class="c1">#</span>
 <span class="c1"># This is an example illustrating the use of the structural SVM solver from</span>
@@ -254,7 +256,7 @@ body .ss { color: #a31515 } /* Literal.String.Symbol */
     <span class="c1"># function it defaults to a value of 5.</span>
     <span class="c1"># max_cache_size = 20</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
         <span class="c1"># dlib.solve_structural_svm_problem() expects the class to have</span>
         <span class="c1"># num_samples and num_dimensions fields.  These fields should contain</span>
         <span class="c1"># the number of training samples and the dimensionality of the PSI</span>
@@ -388,7 +390,7 @@ body .ss { color: #a31515 } /* Literal.String.Symbol */
         <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">psi</span>
 
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </body>

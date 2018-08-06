@@ -13,6 +13,7 @@
 #include <pybind11/pybind11.h>
 #include <dlib/image_transforms/assign_image.h>
 #include <stdint.h>
+#include <type_traits>
 
 namespace py = pybind11;
 
@@ -147,27 +148,26 @@ namespace dlib
         }
 
         numpy_image (
-            const py::object& img
-        ) 
+            long rows,
+            long cols
+        )
         {
-            py::array_t<typename pixel_traits<pixel_type>::basic_pixel_type, py::array::c_style> arr = img.cast<py::array>();
-            assert_is_image<pixel_type>(arr);
-            py::array_t<typename pixel_traits<pixel_type>::basic_pixel_type, py::array::c_style>::operator=(arr);
+            set_size(rows,cols);
         }
+
+        numpy_image (
+            const py::object& img
+        ) : numpy_image(img.cast<py::array>()) {}
 
         numpy_image(
             const numpy_image& img
-        ) : py::array_t<typename pixel_traits<pixel_type>::basic_pixel_type, py::array::c_style>(img)
-        {
-        }
+        ) = default;
 
         numpy_image& operator= (
             const py::object& rhs
         )
         {
-            py::array arr = rhs.cast<py::array>();
-            assert_is_image<pixel_type>(arr);
-            py::array_t<typename pixel_traits<pixel_type>::basic_pixel_type, py::array::c_style>::operator=(arr);
+            *this = numpy_image(rhs);
             return *this;
         }
 
@@ -175,31 +175,25 @@ namespace dlib
             const py::array_t<typename pixel_traits<pixel_type>::basic_pixel_type, py::array::c_style>& rhs
         )
         {
-            assert_is_image<pixel_type>(rhs);
-            py::array_t<typename pixel_traits<pixel_type>::basic_pixel_type, py::array::c_style>::operator=(rhs);
+            *this = numpy_image(rhs);
             return *this;
         }
 
         numpy_image& operator= (
             const numpy_image& rhs
-        )
-        {
-            py::array_t<typename pixel_traits<pixel_type>::basic_pixel_type, py::array::c_style>::operator=(rhs);
-            return *this;
-        }
+        ) = default;
 
+        template <long NR, long NC>
         numpy_image (
-            matrix<pixel_type>&& rhs
-        )
-        {
-            *this = convert_to_numpy(std::move(rhs));
-        }
+            matrix<pixel_type,NR,NC>&& rhs
+        ) : numpy_image(convert_to_numpy(std::move(rhs))) {}
 
+        template <long NR, long NC>
         numpy_image& operator= (
-            matrix<pixel_type>&& rhs
+            matrix<pixel_type,NR,NC>&& rhs
         )
         {
-            *this = convert_to_numpy(std::move(rhs));
+            *this = numpy_image(rhs);
             return *this;
         }
 
@@ -363,18 +357,28 @@ namespace pybind11
         {
             using basic_pixel_type = typename dlib::pixel_traits<pixel_type>::basic_pixel_type;
 
-            static PYBIND11_DESCR name() {
-                constexpr size_t channels = dlib::pixel_traits<pixel_type>::num;
-                if (channels == 1)
-                    return _("numpy.ndarray[(rows,cols),") + npy_format_descriptor<basic_pixel_type>::name() + _("]");
-                else if (channels == 2)
+            template <size_t channels> 
+            static PYBIND11_DESCR getname(typename std::enable_if<channels==1,int>::type) {
+                return _("numpy.ndarray[(rows,cols),") + npy_format_descriptor<basic_pixel_type>::name() + _("]");
+            }
+            template <size_t channels> 
+            static PYBIND11_DESCR getname(typename std::enable_if<channels!=1,int>::type) {
+                if (channels == 2)
                     return _("numpy.ndarray[(rows,cols,2),") + npy_format_descriptor<basic_pixel_type>::name() + _("]");
                 else if (channels == 3)
                     return _("numpy.ndarray[(rows,cols,3),") + npy_format_descriptor<basic_pixel_type>::name() + _("]");
                 else if (channels == 4)
                     return _("numpy.ndarray[(rows,cols,4),") + npy_format_descriptor<basic_pixel_type>::name() + _("]");
-                else
-                    DLIB_CASSERT(false,"unsupported pixel type");
+            }
+
+            static PYBIND11_DESCR name() {
+                constexpr size_t channels = dlib::pixel_traits<pixel_type>::num;
+                // The reason we have to call getname() in this wonky way is because
+                // pybind11 uses a type that records the length of the returned string in
+                // the type.  So we have to do this overloading to make the return type
+                // from name() consistent.  In C++17 this would be a lot cleaner with
+                // constexpr if, but can't use C++17 yet because of lack of wide support  :(
+                return getname<channels>(0);
             }
         };
 

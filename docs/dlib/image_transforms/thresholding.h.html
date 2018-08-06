@@ -8,6 +8,7 @@
 <font color='#0000FF'>#include</font> "<a style='text-decoration:none' href='thresholding_abstract.h.html'>thresholding_abstract.h</a>"
 <font color='#0000FF'>#include</font> "<a style='text-decoration:none' href='equalize_histogram.h.html'>equalize_histogram.h</a>"
 <font color='#0000FF'>#include</font> "<a style='text-decoration:none' href='../enable_if.h.html'>../enable_if.h</a>"
+<font color='#0000FF'>#include</font> <font color='#5555FF'>&lt;</font>vector<font color='#5555FF'>&gt;</font>
 
 <font color='#0000FF'>namespace</font> dlib
 <b>{</b>
@@ -595,9 +596,8 @@
         out_img.<font color='#BB00BB'>set_size</font><font face='Lucida Console'>(</font>in_img.<font color='#BB00BB'>nr</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>,in_img.<font color='#BB00BB'>nc</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
         <font color='#BB00BB'>assign_all_pixels</font><font face='Lucida Console'>(</font>out_img, off_pixel<font face='Lucida Console'>)</font>;
 
-        <font color='#0000FF'>const</font> <font color='#0000FF'><u>long</u></font> size <font color='#5555FF'>=</font> <font color='#979000'>1000</font>;
-        <font color='#0000FF'><u>long</u></font> rstack[size];
-        <font color='#0000FF'><u>long</u></font> cstack[size];
+        std::vector<font color='#5555FF'>&lt;</font>std::pair<font color='#5555FF'>&lt;</font><font color='#0000FF'><u>long</u></font>,<font color='#0000FF'><u>long</u></font><font color='#5555FF'>&gt;</font><font color='#5555FF'>&gt;</font> stack;
+        <font color='#0000FF'>using</font> std::make_pair;
 
         <font color='#009900'>// now do the thresholding
 </font>        <font color='#0000FF'>for</font> <font face='Lucida Console'>(</font><font color='#0000FF'><u>long</u></font> r <font color='#5555FF'>=</font> <font color='#979000'>0</font>; r <font color='#5555FF'>&lt;</font> in_img.<font color='#BB00BB'>nr</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>; <font color='#5555FF'>+</font><font color='#5555FF'>+</font>r<font face='Lucida Console'>)</font>
@@ -610,15 +610,13 @@
                 <b>{</b>
                     <font color='#009900'>// now do line following for pixels &gt;= lower_thresh.
 </font>                    <font color='#009900'>// set the stack position to 0.
-</font>                    <font color='#0000FF'><u>long</u></font> pos <font color='#5555FF'>=</font> <font color='#979000'>1</font>;
-                    rstack[<font color='#979000'>0</font>] <font color='#5555FF'>=</font> r;
-                    cstack[<font color='#979000'>0</font>] <font color='#5555FF'>=</font> c;
+</font>                    stack.<font color='#BB00BB'>push_back</font><font face='Lucida Console'>(</font><font color='#BB00BB'>make_pair</font><font face='Lucida Console'>(</font>r,c<font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
 
-                    <font color='#0000FF'>while</font> <font face='Lucida Console'>(</font>pos <font color='#5555FF'>&gt;</font> <font color='#979000'>0</font><font face='Lucida Console'>)</font>
+                    <font color='#0000FF'>while</font> <font face='Lucida Console'>(</font>stack.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font> <font color='#979000'>0</font><font face='Lucida Console'>)</font>
                     <b>{</b>
-                        <font color='#5555FF'>-</font><font color='#5555FF'>-</font>pos;
-                        <font color='#0000FF'>const</font> <font color='#0000FF'><u>long</u></font> r <font color='#5555FF'>=</font> rstack[pos];
-                        <font color='#0000FF'>const</font> <font color='#0000FF'><u>long</u></font> c <font color='#5555FF'>=</font> cstack[pos];
+                        <font color='#0000FF'>const</font> <font color='#0000FF'><u>long</u></font> r <font color='#5555FF'>=</font> stack.<font color='#BB00BB'>back</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>.first;
+                        <font color='#0000FF'>const</font> <font color='#0000FF'><u>long</u></font> c <font color='#5555FF'>=</font> stack.<font color='#BB00BB'>back</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>.second;
+                        stack.<font color='#BB00BB'>pop_back</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
 
                         <font color='#009900'>// This is the base case of our recursion.  We want to stop if we hit a
 </font>                        <font color='#009900'>// pixel we have already visited.
@@ -630,64 +628,31 @@
                         <font color='#009900'>// put the neighbors of this pixel on the stack if they are bright enough
 </font>                        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>r<font color='#5555FF'>-</font><font color='#979000'>1</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> <font color='#979000'>0</font><font face='Lucida Console'>)</font>
                         <b>{</b>
-                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>pos <font color='#5555FF'>&lt;</font> size <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>-</font><font color='#979000'>1</font>][c]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
-                            <b>{</b>
-                                rstack[pos] <font color='#5555FF'>=</font> r<font color='#5555FF'>-</font><font color='#979000'>1</font>;
-                                cstack[pos] <font color='#5555FF'>=</font> c;
-                                <font color='#5555FF'>+</font><font color='#5555FF'>+</font>pos;
-                            <b>}</b>
-                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>pos <font color='#5555FF'>&lt;</font> size <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> c<font color='#5555FF'>-</font><font color='#979000'>1</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> <font color='#979000'>0</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>-</font><font color='#979000'>1</font>][c<font color='#5555FF'>-</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
-                            <b>{</b>
-                                rstack[pos] <font color='#5555FF'>=</font> r<font color='#5555FF'>-</font><font color='#979000'>1</font>;
-                                cstack[pos] <font color='#5555FF'>=</font> c<font color='#5555FF'>-</font><font color='#979000'>1</font>;
-                                <font color='#5555FF'>+</font><font color='#5555FF'>+</font>pos;
-                            <b>}</b>
-                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>pos <font color='#5555FF'>&lt;</font> size <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> c<font color='#5555FF'>+</font><font color='#979000'>1</font> <font color='#5555FF'>&lt;</font> in_img.<font color='#BB00BB'>nc</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>-</font><font color='#979000'>1</font>][c<font color='#5555FF'>+</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
-                            <b>{</b>
-                                rstack[pos] <font color='#5555FF'>=</font> r<font color='#5555FF'>-</font><font color='#979000'>1</font>;
-                                cstack[pos] <font color='#5555FF'>=</font> c<font color='#5555FF'>+</font><font color='#979000'>1</font>;
-                                <font color='#5555FF'>+</font><font color='#5555FF'>+</font>pos;
-                            <b>}</b>
+                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>-</font><font color='#979000'>1</font>][c]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
+                                stack.<font color='#BB00BB'>push_back</font><font face='Lucida Console'>(</font><font color='#BB00BB'>make_pair</font><font face='Lucida Console'>(</font>r<font color='#5555FF'>-</font><font color='#979000'>1</font>, c<font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>c<font color='#5555FF'>-</font><font color='#979000'>1</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> <font color='#979000'>0</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>-</font><font color='#979000'>1</font>][c<font color='#5555FF'>-</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
+                                stack.<font color='#BB00BB'>push_back</font><font face='Lucida Console'>(</font><font color='#BB00BB'>make_pair</font><font face='Lucida Console'>(</font>r<font color='#5555FF'>-</font><font color='#979000'>1</font>, c<font color='#5555FF'>-</font><font color='#979000'>1</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>c<font color='#5555FF'>+</font><font color='#979000'>1</font> <font color='#5555FF'>&lt;</font> in_img.<font color='#BB00BB'>nc</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>-</font><font color='#979000'>1</font>][c<font color='#5555FF'>+</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
+                                stack.<font color='#BB00BB'>push_back</font><font face='Lucida Console'>(</font><font color='#BB00BB'>make_pair</font><font face='Lucida Console'>(</font>r<font color='#5555FF'>-</font><font color='#979000'>1</font>, c<font color='#5555FF'>+</font><font color='#979000'>1</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
                         <b>}</b>
 
-                        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>pos <font color='#5555FF'>&lt;</font> size <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> c<font color='#5555FF'>-</font><font color='#979000'>1</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> <font color='#979000'>0</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r][c<font color='#5555FF'>-</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
-                        <b>{</b>
-                            rstack[pos] <font color='#5555FF'>=</font> r;
-                            cstack[pos] <font color='#5555FF'>=</font> c<font color='#5555FF'>-</font><font color='#979000'>1</font>;
-                            <font color='#5555FF'>+</font><font color='#5555FF'>+</font>pos;
-                        <b>}</b>
-                        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>pos <font color='#5555FF'>&lt;</font> size <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> c<font color='#5555FF'>+</font><font color='#979000'>1</font> <font color='#5555FF'>&lt;</font> in_img.<font color='#BB00BB'>nc</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r][c<font color='#5555FF'>+</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
-                        <b>{</b>
-                            rstack[pos] <font color='#5555FF'>=</font> r;
-                            cstack[pos] <font color='#5555FF'>=</font> c<font color='#5555FF'>+</font><font color='#979000'>1</font>;
-                            <font color='#5555FF'>+</font><font color='#5555FF'>+</font>pos;
-                        <b>}</b>
+                        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>c<font color='#5555FF'>-</font><font color='#979000'>1</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> <font color='#979000'>0</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r][c<font color='#5555FF'>-</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
+                            stack.<font color='#BB00BB'>push_back</font><font face='Lucida Console'>(</font><font color='#BB00BB'>make_pair</font><font face='Lucida Console'>(</font>r,c<font color='#5555FF'>-</font><font color='#979000'>1</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+                        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>c<font color='#5555FF'>+</font><font color='#979000'>1</font> <font color='#5555FF'>&lt;</font> in_img.<font color='#BB00BB'>nc</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r][c<font color='#5555FF'>+</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
+                            stack.<font color='#BB00BB'>push_back</font><font face='Lucida Console'>(</font><font color='#BB00BB'>make_pair</font><font face='Lucida Console'>(</font>r,c<font color='#5555FF'>+</font><font color='#979000'>1</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
 
                         <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>r<font color='#5555FF'>+</font><font color='#979000'>1</font> <font color='#5555FF'>&lt;</font> in_img.<font color='#BB00BB'>nr</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
                         <b>{</b>
-                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>pos <font color='#5555FF'>&lt;</font> size <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>+</font><font color='#979000'>1</font>][c]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
-                            <b>{</b>
-                                rstack[pos] <font color='#5555FF'>=</font> r<font color='#5555FF'>+</font><font color='#979000'>1</font>;
-                                cstack[pos] <font color='#5555FF'>=</font> c;
-                                <font color='#5555FF'>+</font><font color='#5555FF'>+</font>pos;
-                            <b>}</b>
-                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>pos <font color='#5555FF'>&lt;</font> size <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> c<font color='#5555FF'>-</font><font color='#979000'>1</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> <font color='#979000'>0</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>+</font><font color='#979000'>1</font>][c<font color='#5555FF'>-</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
-                            <b>{</b>
-                                rstack[pos] <font color='#5555FF'>=</font> r<font color='#5555FF'>+</font><font color='#979000'>1</font>;
-                                cstack[pos] <font color='#5555FF'>=</font> c<font color='#5555FF'>-</font><font color='#979000'>1</font>;
-                                <font color='#5555FF'>+</font><font color='#5555FF'>+</font>pos;
-                            <b>}</b>
-                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>pos <font color='#5555FF'>&lt;</font> size <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> c<font color='#5555FF'>+</font><font color='#979000'>1</font> <font color='#5555FF'>&lt;</font> in_img.<font color='#BB00BB'>nc</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>+</font><font color='#979000'>1</font>][c<font color='#5555FF'>+</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
-                            <b>{</b>
-                                rstack[pos] <font color='#5555FF'>=</font> r<font color='#5555FF'>+</font><font color='#979000'>1</font>;
-                                cstack[pos] <font color='#5555FF'>=</font> c<font color='#5555FF'>+</font><font color='#979000'>1</font>;
-                                <font color='#5555FF'>+</font><font color='#5555FF'>+</font>pos;
-                            <b>}</b>
+                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>+</font><font color='#979000'>1</font>][c]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
+                                stack.<font color='#BB00BB'>push_back</font><font face='Lucida Console'>(</font><font color='#BB00BB'>make_pair</font><font face='Lucida Console'>(</font>r<font color='#5555FF'>+</font><font color='#979000'>1</font>,c<font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>c<font color='#5555FF'>-</font><font color='#979000'>1</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> <font color='#979000'>0</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>+</font><font color='#979000'>1</font>][c<font color='#5555FF'>-</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
+                                stack.<font color='#BB00BB'>push_back</font><font face='Lucida Console'>(</font><font color='#BB00BB'>make_pair</font><font face='Lucida Console'>(</font>r<font color='#5555FF'>+</font><font color='#979000'>1</font>,c<font color='#5555FF'>-</font><font color='#979000'>1</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+                            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>c<font color='#5555FF'>+</font><font color='#979000'>1</font> <font color='#5555FF'>&lt;</font> in_img.<font color='#BB00BB'>nc</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> <font color='#BB00BB'>get_pixel_intensity</font><font face='Lucida Console'>(</font>in_img[r<font color='#5555FF'>+</font><font color='#979000'>1</font>][c<font color='#5555FF'>+</font><font color='#979000'>1</font>]<font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> lower_thresh<font face='Lucida Console'>)</font>
+                                stack.<font color='#BB00BB'>push_back</font><font face='Lucida Console'>(</font><font color='#BB00BB'>make_pair</font><font face='Lucida Console'>(</font>r<font color='#5555FF'>+</font><font color='#979000'>1</font>,c<font color='#5555FF'>+</font><font color='#979000'>1</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
                         <b>}</b>
 
-                    <b>}</b> <font color='#009900'>// end while (pos &gt;= 0)
-</font>
-                <b>}</b>
+                    <b>}</b> <font color='#009900'>// end while (stack.size() &gt; 0)
+</font>                <b>}</b>
             <b>}</b>
         <b>}</b>
     <b>}</b>

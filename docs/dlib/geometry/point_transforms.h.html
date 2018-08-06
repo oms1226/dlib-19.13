@@ -13,6 +13,7 @@
 <font color='#0000FF'>#include</font> "<a style='text-decoration:none' href='rectangle.h.html'>rectangle.h</a>"
 <font color='#0000FF'>#include</font> "<a style='text-decoration:none' href='drectangle.h.html'>drectangle.h</a>"
 <font color='#0000FF'>#include</font> <font color='#5555FF'>&lt;</font>vector<font color='#5555FF'>&gt;</font>
+<font color='#0000FF'>#include</font> <font color='#5555FF'>&lt;</font>cmath<font color='#5555FF'>&gt;</font>
 
 <font color='#0000FF'>namespace</font> dlib
 <b>{</b>
@@ -218,11 +219,12 @@
             dpoint tr <font color='#5555FF'>=</font> r.<font color='#BB00BB'>tr_corner</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
             dpoint bl <font color='#5555FF'>=</font> r.<font color='#BB00BB'>bl_corner</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
             dpoint br <font color='#5555FF'>=</font> r.<font color='#BB00BB'>br_corner</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
-            <font color='#009900'>// The new rectangle wouold ideally have this area if we could actually rotrate
-</font>            <font color='#009900'>// the box.
-</font>            <font color='#0000FF'><u>double</u></font> new_area <font color='#5555FF'>=</font> <font color='#BB00BB'>length</font><font face='Lucida Console'>(</font><font color='#BB00BB'>tform</font><font face='Lucida Console'>(</font>tl<font face='Lucida Console'>)</font><font color='#5555FF'>-</font><font color='#BB00BB'>tform</font><font face='Lucida Console'>(</font>tr<font face='Lucida Console'>)</font><font face='Lucida Console'>)</font><font color='#5555FF'>*</font><font color='#BB00BB'>length</font><font face='Lucida Console'>(</font><font color='#BB00BB'>tform</font><font face='Lucida Console'>(</font>tl<font face='Lucida Console'>)</font><font color='#5555FF'>-</font><font color='#BB00BB'>tform</font><font face='Lucida Console'>(</font>bl<font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+            <font color='#009900'>// The new rectangle would ideally have this area if we could actually rotate
+</font>            <font color='#009900'>// the box.  Note the 1+ is because that's how the rectangles calculate their
+</font>            <font color='#009900'>// width and height.
+</font>            <font color='#0000FF'><u>double</u></font> new_area <font color='#5555FF'>=</font> <font face='Lucida Console'>(</font><font color='#979000'>1</font><font color='#5555FF'>+</font><font color='#BB00BB'>length</font><font face='Lucida Console'>(</font><font color='#BB00BB'>tform</font><font face='Lucida Console'>(</font>tl<font face='Lucida Console'>)</font><font color='#5555FF'>-</font><font color='#BB00BB'>tform</font><font face='Lucida Console'>(</font>tr<font face='Lucida Console'>)</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font><font color='#5555FF'>*</font><font face='Lucida Console'>(</font><font color='#979000'>1</font><font color='#5555FF'>+</font><font color='#BB00BB'>length</font><font face='Lucida Console'>(</font><font color='#BB00BB'>tform</font><font face='Lucida Console'>(</font>tl<font face='Lucida Console'>)</font><font color='#5555FF'>-</font><font color='#BB00BB'>tform</font><font face='Lucida Console'>(</font>bl<font face='Lucida Console'>)</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
 
-            <font color='#009900'>// But if we rotate the coners of the rectangle and then find the rectangle
+            <font color='#009900'>// But if we rotate the corners of the rectangle and then find the rectangle
 </font>            <font color='#009900'>// that contains them we get this, which might have a much larger area than we
 </font>            <font color='#009900'>// want.
 </font>            drectangle temp;
@@ -234,7 +236,7 @@
 </font>            <font color='#009900'>// the above box.
 </font>            <font color='#0000FF'><u>double</u></font> scale <font color='#5555FF'>=</font> std::<font color='#BB00BB'>sqrt</font><font face='Lucida Console'>(</font>new_area<font color='#5555FF'>/</font>temp.<font color='#BB00BB'>area</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
 
-            <font color='#0000FF'>return</font> <font color='#BB00BB'>centered_rect</font><font face='Lucida Console'>(</font><font color='#BB00BB'>center</font><font face='Lucida Console'>(</font>temp<font face='Lucida Console'>)</font>, <font color='#0000FF'>static_cast</font><font color='#5555FF'>&lt;</font><font color='#0000FF'><u>long</u></font><font color='#5555FF'>&gt;</font><font face='Lucida Console'>(</font>temp.<font color='#BB00BB'>width</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font color='#5555FF'>*</font>scale<font color='#5555FF'>+</font><font color='#979000'>0.5</font><font face='Lucida Console'>)</font>, <font color='#0000FF'>static_cast</font><font color='#5555FF'>&lt;</font><font color='#0000FF'><u>long</u></font><font color='#5555FF'>&gt;</font><font face='Lucida Console'>(</font>temp.<font color='#BB00BB'>height</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font color='#5555FF'>*</font>scale<font color='#5555FF'>+</font><font color='#979000'>0.5</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+            <font color='#0000FF'>return</font> <font color='#BB00BB'>centered_rect</font><font face='Lucida Console'>(</font><font color='#BB00BB'>center</font><font face='Lucida Console'>(</font>temp<font face='Lucida Console'>)</font>, std::<font color='#BB00BB'>round</font><font face='Lucida Console'>(</font>temp.<font color='#BB00BB'>width</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font color='#5555FF'>*</font>scale<font face='Lucida Console'>)</font>, std::<font color='#BB00BB'>round</font><font face='Lucida Console'>(</font>temp.<font color='#BB00BB'>height</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font color='#5555FF'>*</font>scale<font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
         <b>}</b>
 
         rectangle <b><a name='operator'></a>operator</b><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font face='Lucida Console'>(</font>

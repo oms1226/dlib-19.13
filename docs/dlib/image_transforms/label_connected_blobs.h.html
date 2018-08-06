@@ -218,20 +218,22 @@
             <font color='#5555FF'>&lt;</font><font color='#5555FF'>&lt;</font> "<font color='#CC0000'>\n\t The input images can't be the same object.</font>"
             <font face='Lucida Console'>)</font>;
 
+        <font color='#0000FF'>using</font> label_pixel_type <font color='#5555FF'>=</font> <font color='#0000FF'>typename</font> image_traits<font color='#5555FF'>&lt;</font>out_image_type<font color='#5555FF'>&gt;</font>::pixel_type;
+
         <font color='#BB00BB'>DLIB_ASSERT</font><font face='Lucida Console'>(</font>smoothing <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> <font color='#979000'>0</font><font face='Lucida Console'>)</font>;
-        <font color='#BB00BB'>COMPILE_TIME_ASSERT</font><font face='Lucida Console'>(</font>is_unsigned_type<font color='#5555FF'>&lt;</font><font color='#0000FF'>typename</font> image_traits<font color='#5555FF'>&lt;</font>out_image_type<font color='#5555FF'>&gt;</font>::pixel_type<font color='#5555FF'>&gt;</font>::value<font face='Lucida Console'>)</font>;
+        <font color='#BB00BB'>COMPILE_TIME_ASSERT</font><font face='Lucida Console'>(</font>is_unsigned_type<font color='#5555FF'>&lt;</font>label_pixel_type<font color='#5555FF'>&gt;</font>::value<font face='Lucida Console'>)</font>;
 
 
         <font color='#0000FF'>struct</font> <b><a name='watershed_points'></a>watershed_points</b>
         <b>{</b>
             <b><a name='watershed_points'></a>watershed_points</b><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>=</font> <font color='#0000FF'>default</font>;
-            <b><a name='watershed_points'></a>watershed_points</b><font face='Lucida Console'>(</font><font color='#0000FF'>const</font> point<font color='#5555FF'>&amp;</font> p_, <font color='#0000FF'><u>float</u></font> score_, <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>int</u></font> label_<font face='Lucida Console'>)</font>: p<font face='Lucida Console'>(</font>p_<font face='Lucida Console'>)</font>, score<font face='Lucida Console'>(</font>score_<font face='Lucida Console'>)</font>, label<font face='Lucida Console'>(</font>label_<font face='Lucida Console'>)</font> <b>{</b><b>}</b>
+            <b><a name='watershed_points'></a>watershed_points</b><font face='Lucida Console'>(</font><font color='#0000FF'>const</font> point<font color='#5555FF'>&amp;</font> p_, <font color='#0000FF'><u>float</u></font> score_, label_pixel_type label_<font face='Lucida Console'>)</font>: p<font face='Lucida Console'>(</font>p_<font face='Lucida Console'>)</font>, score<font face='Lucida Console'>(</font>score_<font face='Lucida Console'>)</font>, label<font face='Lucida Console'>(</font>label_<font face='Lucida Console'>)</font> <b>{</b><b>}</b>
 
             point p;
             <font color='#0000FF'><u>float</u></font> score <font color='#5555FF'>=</font> <font color='#979000'>0</font>;
-            <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>int</u></font> label <font color='#5555FF'>=</font> std::numeric_limits<font color='#5555FF'>&lt;</font><font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>int</u></font><font color='#5555FF'>&gt;</font>::<b><a name='max'></a>max</b><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
+            label_pixel_type label <font color='#5555FF'>=</font> std::numeric_limits<font color='#5555FF'>&lt;</font>label_pixel_type<font color='#5555FF'>&gt;</font>::<b><a name='max'></a>max</b><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
 
-            <font color='#0000FF'><u>bool</u></font> <b><a name='is_seed'></a>is_seed</b><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#0000FF'>const</font> <b>{</b> <font color='#0000FF'>return</font> label <font color='#5555FF'>=</font><font color='#5555FF'>=</font> std::numeric_limits<font color='#5555FF'>&lt;</font><font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>int</u></font><font color='#5555FF'>&gt;</font>::<font color='#BB00BB'>max</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>; <b>}</b>
+            <font color='#0000FF'><u>bool</u></font> <b><a name='is_seed'></a>is_seed</b><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#0000FF'>const</font> <b>{</b> <font color='#0000FF'>return</font> label <font color='#5555FF'>=</font><font color='#5555FF'>=</font> std::numeric_limits<font color='#5555FF'>&lt;</font>label_pixel_type<font color='#5555FF'>&gt;</font>::<font color='#BB00BB'>max</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>; <b>}</b>
 
             <font color='#0000FF'><u>bool</u></font> <b><a name='operator'></a>operator</b><font color='#5555FF'>&lt;</font> <font face='Lucida Console'>(</font><font color='#0000FF'>const</font> watershed_points<font color='#5555FF'>&amp;</font> rhs<font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>
             <b>{</b>
@@ -290,7 +292,7 @@
                     <font color='#0000FF'>continue</font>;
                 <b>}</b>
 
-                next.<font color='#BB00BB'>push</font><font face='Lucida Console'>(</font><font color='#BB00BB'>watershed_points</font><font face='Lucida Console'>(</font><font color='#BB00BB'>point</font><font face='Lucida Console'>(</font>c,r<font face='Lucida Console'>)</font>, val, std::numeric_limits<font color='#5555FF'>&lt;</font><font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>int</u></font><font color='#5555FF'>&gt;</font>::<font color='#BB00BB'>max</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+                next.<font color='#BB00BB'>push</font><font face='Lucida Console'>(</font><font color='#BB00BB'>watershed_points</font><font face='Lucida Console'>(</font><font color='#BB00BB'>point</font><font face='Lucida Console'>(</font>c,r<font face='Lucida Console'>)</font>, val, std::numeric_limits<font color='#5555FF'>&lt;</font>label_pixel_type<font color='#5555FF'>&gt;</font>::<font color='#BB00BB'>max</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
             <b>}</b>
         <b>}</b>
 
@@ -298,7 +300,7 @@
         <font color='#0000FF'>const</font> rectangle area <font color='#5555FF'>=</font> <font color='#BB00BB'>get_rect</font><font face='Lucida Console'>(</font>img<font face='Lucida Console'>)</font>;
 
 
-        <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>int</u></font> next_label <font color='#5555FF'>=</font> <font color='#979000'>1</font>;
+        label_pixel_type next_label <font color='#5555FF'>=</font> <font color='#979000'>1</font>;
 
 
         std::vector<font color='#5555FF'>&lt;</font>point<font color='#5555FF'>&gt;</font> neighbors;
@@ -308,14 +310,19 @@
             <font color='#0000FF'>auto</font> p <font color='#5555FF'>=</font> next.<font color='#BB00BB'>top</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
             next.<font color='#BB00BB'>pop</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
 
-            <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>int</u></font> label;
+            label_pixel_type label;
             <font color='#009900'>// If the next pixel is a seed of a new blob and is still labeled as a
 </font>            <font color='#009900'>// background pixel (i.e. it hasn't been flooded over by a neighboring blob and
 </font>            <font color='#009900'>// consumed by it) then we create a new label for this new blob.
 </font>            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>p.<font color='#BB00BB'>is_seed</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> labels[p.p.<font color='#BB00BB'>y</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>][p.p.<font color='#BB00BB'>x</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>] <font color='#5555FF'>=</font><font color='#5555FF'>=</font> <font color='#979000'>0</font><font face='Lucida Console'>)</font>
+            <b>{</b>
                 label <font color='#5555FF'>=</font> next_label<font color='#5555FF'>+</font><font color='#5555FF'>+</font>;
+                labels[p.p.<font color='#BB00BB'>y</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>][p.p.<font color='#BB00BB'>x</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>] <font color='#5555FF'>=</font> label;
+            <b>}</b>
             <font color='#0000FF'>else</font>
+            <b>{</b>
                 label <font color='#5555FF'>=</font> p.label;
+            <b>}</b>
 
 
             neighbors.<font color='#BB00BB'>clear</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;

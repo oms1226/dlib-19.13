@@ -6376,16 +6376,16 @@
 </font>        <font color='#0000FF'>for</font> <font face='Lucida Console'>(</font><font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> i <font color='#5555FF'>=</font> <font color='#979000'>0</font>; i <font color='#5555FF'>&lt;</font> overlay_lines.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>; <font color='#5555FF'>+</font><font color='#5555FF'>+</font>i<font face='Lucida Console'>)</font>
         <b>{</b>
             <font color='#BB00BB'>draw_line</font><font face='Lucida Console'>(</font>c, 
-                      zoom_in_scale<font color='#5555FF'>*</font>overlay_lines[i].p1<font color='#5555FF'>/</font>zoom_out_scale <font color='#5555FF'>+</font> origin, 
-                      zoom_in_scale<font color='#5555FF'>*</font>overlay_lines[i].p2<font color='#5555FF'>/</font>zoom_out_scale <font color='#5555FF'>+</font> origin, 
+                      zoom_in_scale<font color='#5555FF'>*</font><font face='Lucida Console'>(</font>overlay_lines[i].p1<font color='#5555FF'>+</font><font color='#BB00BB'>dpoint</font><font face='Lucida Console'>(</font><font color='#979000'>0.5</font>,<font color='#979000'>0.5</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font><font color='#5555FF'>/</font>zoom_out_scale <font color='#5555FF'>+</font> origin, 
+                      zoom_in_scale<font color='#5555FF'>*</font><font face='Lucida Console'>(</font>overlay_lines[i].p2<font color='#5555FF'>+</font><font color='#BB00BB'>dpoint</font><font face='Lucida Console'>(</font><font color='#979000'>0.5</font>,<font color='#979000'>0.5</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font><font color='#5555FF'>/</font>zoom_out_scale <font color='#5555FF'>+</font> origin, 
                       overlay_lines[i].color, area<font face='Lucida Console'>)</font>;
         <b>}</b>
 
         <font color='#009900'>// now draw all the overlay circles 
 </font>        <font color='#0000FF'>for</font> <font face='Lucida Console'>(</font><font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> i <font color='#5555FF'>=</font> <font color='#979000'>0</font>; i <font color='#5555FF'>&lt;</font> overlay_circles.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>; <font color='#5555FF'>+</font><font color='#5555FF'>+</font>i<font face='Lucida Console'>)</font>
         <b>{</b>
-            <font color='#0000FF'>const</font> point center <font color='#5555FF'>=</font> zoom_in_scale<font color='#5555FF'>*</font>overlay_circles[i].center<font color='#5555FF'>/</font>zoom_out_scale <font color='#5555FF'>+</font> origin;
-            <font color='#0000FF'>const</font> <font color='#0000FF'><u>int</u></font> radius <font color='#5555FF'>=</font> zoom_in_scale<font color='#5555FF'>*</font>overlay_circles[i].radius<font color='#5555FF'>/</font>zoom_out_scale;
+            <font color='#0000FF'>const</font> dpoint center <font color='#5555FF'>=</font> <font face='Lucida Console'>(</font><font color='#0000FF'><u>double</u></font><font face='Lucida Console'>)</font>zoom_in_scale<font color='#5555FF'>*</font><font face='Lucida Console'>(</font>overlay_circles[i].center<font color='#5555FF'>+</font><font color='#BB00BB'>dpoint</font><font face='Lucida Console'>(</font><font color='#979000'>0.5</font>,<font color='#979000'>0.5</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font><font color='#5555FF'>/</font>zoom_out_scale <font color='#5555FF'>+</font> origin;
+            <font color='#0000FF'>const</font> <font color='#0000FF'><u>double</u></font> radius <font color='#5555FF'>=</font> zoom_in_scale<font color='#5555FF'>*</font>overlay_circles[i].radius<font color='#5555FF'>/</font>zoom_out_scale;
             <font color='#BB00BB'>draw_circle</font><font face='Lucida Console'>(</font>c, 
                       center, 
                       radius, 
@@ -6393,7 +6393,7 @@
 
             <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>overlay_circles[i].label.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>!</font><font color='#5555FF'>=</font> <font color='#979000'>0</font><font face='Lucida Console'>)</font>
             <b>{</b>
-                <font color='#0000FF'>const</font> point temp <font color='#5555FF'>=</font> center <font color='#5555FF'>+</font> <font color='#BB00BB'>point</font><font face='Lucida Console'>(</font><font color='#979000'>0</font>,radius<font face='Lucida Console'>)</font>;
+                <font color='#0000FF'>const</font> point temp <font color='#5555FF'>=</font> center <font color='#5555FF'>+</font> <font color='#BB00BB'>dpoint</font><font face='Lucida Console'>(</font><font color='#979000'>0</font>,radius<font face='Lucida Console'>)</font>;
 
                 <font color='#009900'>// make a rectangle that is at the spot we want to draw our string
 </font>                rectangle <font color='#BB00BB'>r</font><font face='Lucida Console'>(</font>temp,  c.<font color='#BB00BB'>br_corner</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;

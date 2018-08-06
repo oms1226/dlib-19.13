@@ -1,10 +1,11 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.12)
 
-# Set this to disable link time optimization. The only reason for
-# doing this to make the compile faster which is nice when developing
-# new modules.
-# set(PYBIND11_LTO_CXX_FLAGS "")
+# Pybind11's cmake scripts enable link time optimization by default.  However,
+# it makes linking take a really long time and doesn't seem to substantively
+# improve runtime performance.  So we disable LTO here to make building dlib
+# faster.
+set(PYBIND11_LTO_CXX_FLAGS "")
 
 
 # Avoid cmake warnings about changes in behavior of some Mac OS X path 
@@ -16,7 +17,7 @@ endif()
 
 # To avoid dll hell, always link everything statically when compiling in
 # visual studio.  This way, the resulting library won't depend on a bunch
-# of other dll files and can be safely copied to someone elese's computer
+# of other dll files and can be safely copied to someone else's computer
 # and expected to run.
 if (MSVC)
     include(${CMAKE_CURRENT_LIST_DIR}/../../dlib/cmake_utils/tell_visual_studio_to_use_static_runtime.cmake)
@@ -47,6 +48,8 @@ set(python_srcs
    src/svm_struct.cpp
    src/image.cpp
    src/image2.cpp
+   src/image3.cpp
+   src/image4.cpp
    src/rectangles.cpp
    src/object_detection.cpp
    src/shape_predictor.cpp

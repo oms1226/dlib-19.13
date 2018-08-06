@@ -179,15 +179,31 @@
             <b>}</b>
 
             <font color='#0000FF'>friend</font> <font color='#0000FF'><u>void</u></font> <b><a name='memcpy'></a>memcpy</b><font face='Lucida Console'>(</font>
-                cuda_data_ptr<font color='#5555FF'>&amp;</font> src,
-                <font color='#0000FF'>const</font> std::vector<font color='#5555FF'>&lt;</font>T<font color='#5555FF'>&gt;</font><font color='#5555FF'>&amp;</font> dest
+                cuda_data_ptr<font color='#5555FF'>&amp;</font> dest,
+                <font color='#0000FF'>const</font> std::vector<font color='#5555FF'>&lt;</font>T<font color='#5555FF'>&gt;</font><font color='#5555FF'>&amp;</font> src
             <font face='Lucida Console'>)</font>
             <b>{</b>
-                <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>dest.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>!</font><font color='#5555FF'>=</font> src.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
-                    dest <font color='#5555FF'>=</font> cuda_data_ptr<font color='#5555FF'>&lt;</font>T<font color='#5555FF'>&gt;</font><font face='Lucida Console'>(</font>src.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+                <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>src.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>!</font><font color='#5555FF'>=</font> dest.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
+                    src <font color='#5555FF'>=</font> cuda_data_ptr<font color='#5555FF'>&lt;</font>T<font color='#5555FF'>&gt;</font><font face='Lucida Console'>(</font>dest.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
 
-                <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>src.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>!</font><font color='#5555FF'>=</font> <font color='#979000'>0</font><font face='Lucida Console'>)</font>
-                    <font color='#BB00BB'>memcpy</font><font face='Lucida Console'>(</font>src.pdata, dest.<font color='#BB00BB'>data</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+                <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>dest.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>!</font><font color='#5555FF'>=</font> <font color='#979000'>0</font><font face='Lucida Console'>)</font>
+                    <font color='#BB00BB'>memcpy</font><font face='Lucida Console'>(</font>dest.pdata, src.<font color='#BB00BB'>data</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+            <b>}</b>
+
+            <font color='#0000FF'>friend</font> <font color='#0000FF'><u>void</u></font> <b><a name='memcpy'></a>memcpy</b><font face='Lucida Console'>(</font>
+                cuda_data_ptr<font color='#5555FF'>&amp;</font> dest,
+                <font color='#0000FF'>const</font> <font color='#0000FF'><u>float</u></font><font color='#5555FF'>*</font> src
+            <font face='Lucida Console'>)</font>
+            <b>{</b>
+                <font color='#BB00BB'>memcpy</font><font face='Lucida Console'>(</font>dest.pdata, src<font face='Lucida Console'>)</font>;
+            <b>}</b>
+
+            <font color='#0000FF'>friend</font> <font color='#0000FF'><u>void</u></font> <b><a name='memcpy'></a>memcpy</b><font face='Lucida Console'>(</font>
+                <font color='#0000FF'><u>float</u></font><font color='#5555FF'>*</font> dest, 
+                <font color='#0000FF'>const</font> cuda_data_ptr<font color='#5555FF'>&amp;</font> src
+            <font face='Lucida Console'>)</font>
+            <b>{</b>
+                <font color='#BB00BB'>memcpy</font><font face='Lucida Console'>(</font>dest, src.pdata<font face='Lucida Console'>)</font>;
             <b>}</b>
 
         <font color='#0000FF'>private</font>:

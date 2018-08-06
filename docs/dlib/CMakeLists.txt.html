@@ -10,6 +10,17 @@ dlib/CMakeLists.txt
 <font color='blue'>cmake_minimum_required</font>(VERSION 2.8.12)
 <font color='blue'>project</font>(dlib)
 
+<font color='blue'>set</font>(CPACK_PACKAGE_NAME "<font color='#CC0000'>dlib</font>")
+<font color='blue'>set</font>(CPACK_PACKAGE_VERSION_MAJOR "<font color='#CC0000'>19</font>")
+<font color='blue'>set</font>(CPACK_PACKAGE_VERSION_MINOR "<font color='#CC0000'>15</font>")
+<font color='blue'>set</font>(CPACK_PACKAGE_VERSION_PATCH "<font color='#CC0000'>0</font>")
+<font color='blue'>set</font>(VERSION ${<font color='#BB00BB'>CPACK_PACKAGE_VERSION_MAJOR</font>}.${<font color='#BB00BB'>CPACK_PACKAGE_VERSION_MINOR</font>}.${<font color='#BB00BB'>CPACK_PACKAGE_VERSION_PATCH</font>})
+<font color='#009900'># Only print these messages once, even if dlib is added multiple times via add_subdirectory()</font><a href=')</font>/CMakeLists.txt.html'></a>
+<font color='blue'>if </font>(NOT TARGET dlib)
+<font color='blue'>   message</font>(STATUS "<font color='#CC0000'>Using CMake version: ${<font color='#BB00BB'>CMAKE_VERSION</font>}</font>")
+<font color='blue'>   message</font>(STATUS "<font color='#CC0000'>Compiling dlib version: ${<font color='#BB00BB'>VERSION</font>}</font>")
+<font color='blue'>endif</font>()
+
 
 <font color='blue'>include</font>(cmake_utils/set_compiler_specific_options.cmake)
 
@@ -27,12 +38,6 @@ dlib/CMakeLists.txt
 <font color='blue'>include</font>(cmake_utils/release_build_by_default)
 <font color='blue'>include</font>(cmake_utils/use_cpp_11.cmake)
 
-<font color='blue'>set</font>(CPACK_PACKAGE_NAME "<font color='#CC0000'>dlib</font>")
-
-<font color='blue'>set</font>(CPACK_PACKAGE_VERSION_MAJOR "<font color='#CC0000'>19</font>")
-<font color='blue'>set</font>(CPACK_PACKAGE_VERSION_MINOR "<font color='#CC0000'>13</font>")
-<font color='blue'>set</font>(CPACK_PACKAGE_VERSION_PATCH "<font color='#CC0000'>0</font>")
-<font color='blue'>set</font>(VERSION ${<font color='#BB00BB'>CPACK_PACKAGE_VERSION_MAJOR</font>}.${<font color='#BB00BB'>CPACK_PACKAGE_VERSION_MINOR</font>}.${<font color='#BB00BB'>CPACK_PACKAGE_VERSION_PATCH</font>})
 <font color='#009900'># Set DLIB_VERSION in the including CMake file so they can use it to do whatever they want. </font>
 <font color='blue'>get_directory_property</font>(has_parent PARENT_DIRECTORY)
 <font color='blue'>if</font>(has_parent)
@@ -125,8 +130,6 @@ dlib/CMakeLists.txt
 <font color='#009900'># once.  This most often happens when the top level of a project depends on two</font>
 <font color='#009900'># or more other things which both depend on dlib. </font>
 <font color='blue'>if </font>(NOT TARGET dlib)
-<font color='blue'>   message</font>(STATUS "<font color='#CC0000'>Using CMake version: ${<font color='#BB00BB'>CMAKE_VERSION</font>}</font>")
-<font color='blue'>   message</font>(STATUS "<font color='#CC0000'>Compiling dlib version: ${<font color='#BB00BB'>VERSION</font>}</font>")
 
 <font color='blue'>   set </font>(DLIB_ISO_CPP_ONLY_STR 
       "<font color='#CC0000'>Enable this if you don't want to compile any non-ISO C++ code (i.e. you don't use any of the API Wrappers)</font>" )
@@ -140,6 +143,8 @@ dlib/CMakeLists.txt
       "<font color='#CC0000'>Disable this if you don't want to use a LAPACK library</font>" )
 <font color='blue'>   set </font>(DLIB_USE_CUDA_STR
       "<font color='#CC0000'>Disable this if you don't want to use NVIDIA CUDA</font>" )
+<font color='blue'>   set </font>(DLIB_USE_MKL_SEQUENTIAL_STR
+      "<font color='#CC0000'>Enable this if you have MKL installed and want to use the sequential version instead of the multi-core version.</font>" )
 <font color='blue'>   set </font>(DLIB_PNG_SUPPORT_STR
       "<font color='#CC0000'>Disable this if you don't want to link against libpng</font>" )
 <font color='blue'>   set </font>(DLIB_GIF_SUPPORT_STR
@@ -162,6 +167,7 @@ dlib/CMakeLists.txt
 <font color='blue'>   toggle_preprocessor_switch</font>(DLIB_NO_GUI_SUPPORT)
 <font color='blue'>   option</font>(DLIB_ENABLE_STACK_TRACE ${<font color='#BB00BB'>DLIB_ENABLE_STACK_TRACE_STR</font>} OFF)
 <font color='blue'>   toggle_preprocessor_switch</font>(DLIB_ENABLE_STACK_TRACE)
+<font color='blue'>   option</font>(DLIB_USE_MKL_SEQUENTIAL ${<font color='#BB00BB'>DLIB_USE_MKL_SEQUENTIAL_STR</font>} OFF)
 
 <font color='blue'>   if</font>(DLIB_ENABLE_ASSERTS)
 <font color='#009900'>      # Set these variables so they are set in the config.h.in file when dlib</font>
@@ -240,6 +246,7 @@ dlib/CMakeLists.txt
       global_optimization/global_function_search.cpp
       filtering/kalman_filter.cpp
       test_for_odr_violations.cpp
+      svm/auto.cpp
       )
 
 
@@ -401,8 +408,9 @@ dlib/CMakeLists.txt
 <font color='#009900'>         # try to find libpng </font>
 <font color='blue'>         find_package</font>(PNG QUIET)
 <font color='#009900'>         # Make sure there isn't something wrong with the version of LIBPNG</font>
-<font color='#009900'>         # installed on this system.  </font>
-<font color='blue'>         if </font>(PNG_FOUND)
+<font color='#009900'>         # installed on this system.  Also never link to anything from anaconda</font>
+<font color='#009900'>         # since it's probably broken.</font>
+<font color='blue'>         if </font>(PNG_FOUND AND NOT ("<font color='#CC0000'>${<font color='#BB00BB'>PNG_INCLUDE_DIR</font>}</font>" MATCHES "<font color='#CC0000'>(.*)(Ana|ana|mini)conda(.*)</font>"))
 <font color='blue'>            set</font>(CMAKE_REQUIRED_LIBRARIES ${<font color='#BB00BB'>PNG_LIBRARIES</font>})
 <font color='blue'>            CHECK_FUNCTION_EXISTS</font>(png_create_read_struct LIBPNG_IS_GOOD)
 <font color='blue'>         endif</font>()
@@ -595,6 +603,12 @@ dlib/CMakeLists.txt
 <font color='#009900'>               # Grab all the -D flags from CMAKE_CXX_FLAGS so we can pass them</font>
 <font color='#009900'>               # to nvcc.</font>
 <font color='blue'>               string</font>(REGEX MATCHALL "<font color='#CC0000'>-D[^ ]*</font>" FLAGS_FOR_NVCC "<font color='#CC0000'>${<font color='#BB00BB'>CMAKE_CXX_FLAGS</font>}</font>")
+
+<font color='#009900'>               # Check if we are being built as part of a pybind11 module. </font>
+<font color='blue'>               if </font>(COMMAND pybind11_add_module)
+<font color='#009900'>                  # Don't export unnecessary symbols.</font>
+<font color='blue'>                  list</font>(APPEND FLAGS_FOR_NVCC "<font color='#CC0000'>-Xcompiler=-fvisibility=hidden</font>")
+<font color='blue'>               endif</font>()
 <font color='blue'>            endif</font>()
 
 
@@ -671,7 +685,7 @@ dlib/CMakeLists.txt
 <font color='#009900'>            # Intel MKL, hasn't already decided what to use.  This is because</font>
 <font color='#009900'>            # it makes the MKL bug out if you link to another openmp lib other</font>
 <font color='#009900'>            # than Intel's when you use the MKL.</font>
-<font color='blue'>            if </font>(NOT openmp_libraries AND NOT MSVC AND NOT XCODE)
+<font color='blue'>            if </font>(NOT openmp_libraries AND NOT MSVC AND NOT XCODE AND NOT APPLE)
 <font color='blue'>               find_package</font>(OpenMP)
 <font color='blue'>               if </font>(OPENMP_FOUND)
 <font color='blue'>                  set</font>(openmp_libraries ${<font color='#BB00BB'>OpenMP_CXX_FLAGS</font>}) 
@@ -814,8 +828,21 @@ dlib/CMakeLists.txt
          ARCHIVE DESTINATION ${<font color='#BB00BB'>CMAKE_INSTALL_LIBDIR</font>})
 
 <font color='blue'>      install</font>(DIRECTORY ${<font color='#BB00BB'>CMAKE_CURRENT_SOURCE_DIR</font>}/ DESTINATION ${<font color='#BB00BB'>CMAKE_INSTALL_INCLUDEDIR</font>}/dlib
-         FILES_MATCHING PATTERN "<font color='#CC0000'>*.h</font>" PATTERN "<font color='#CC0000'>*.cmake</font>"
-         REGEX "<font color='#CC0000'>${<font color='#BB00BB'>CMAKE_CURRENT_BINARY_DIR</font>}</font>" EXCLUDE)
+         FILES_MATCHING 
+            PATTERN "<font color='#CC0000'>*.h</font>" 
+            PATTERN "<font color='#CC0000'>*.cmake</font>"
+            PATTERN "<font color='#CC0000'>*_tutorial.txt</font>"
+            PATTERN "<font color='#CC0000'>cassert</font>"
+            PATTERN "<font color='#CC0000'>cstring</font>"
+            PATTERN "<font color='#CC0000'>fstream</font>"
+            PATTERN "<font color='#CC0000'>iomanip</font>"
+            PATTERN "<font color='#CC0000'>iosfwd</font>"
+            PATTERN "<font color='#CC0000'>iostream</font>"
+            PATTERN "<font color='#CC0000'>istream</font>"
+            PATTERN "<font color='#CC0000'>locale</font>"
+            PATTERN "<font color='#CC0000'>ostream</font>"
+            PATTERN "<font color='#CC0000'>sstream</font>"
+            REGEX "<font color='#CC0000'>${<font color='#BB00BB'>CMAKE_CURRENT_BINARY_DIR</font>}</font>" EXCLUDE)
 
 
 <font color='blue'>      configure_file</font>(${<font color='#BB00BB'>PROJECT_SOURCE_DIR</font>}/config.h.in ${<font color='#BB00BB'>CMAKE_CURRENT_BINARY_DIR</font>}/config.h)
@@ -879,6 +906,7 @@ dlib/CMakeLists.txt
 <font color='blue'>if </font>(COMMAND pybind11_add_module)
 <font color='#009900'>   # Don't export unnecessary symbols.</font>
 <font color='blue'>   set_target_properties</font>(dlib PROPERTIES CXX_VISIBILITY_PRESET "<font color='#CC0000'>hidden</font>")
+<font color='blue'>   set_target_properties</font>(dlib PROPERTIES CUDA_VISIBILITY_PRESET "<font color='#CC0000'>hidden</font>")
 <font color='blue'>endif</font>()
 
 <font color='blue'>add_library</font>(dlib::dlib ALIAS dlib)

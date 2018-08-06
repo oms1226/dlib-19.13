@@ -38,6 +38,7 @@
             _num_trees_per_cascade_level <font color='#5555FF'>=</font> <font color='#979000'>500</font>;
             _nu <font color='#5555FF'>=</font> <font color='#979000'>0.1</font>;
             _oversampling_amount <font color='#5555FF'>=</font> <font color='#979000'>20</font>;
+            _oversampling_translation_jitter <font color='#5555FF'>=</font> <font color='#979000'>0</font>;
             _feature_pool_size <font color='#5555FF'>=</font> <font color='#979000'>400</font>;
             _lambda <font color='#5555FF'>=</font> <font color='#979000'>0.1</font>;
             _num_test_splits <font color='#5555FF'>=</font> <font color='#979000'>20</font>;
@@ -117,6 +118,7 @@
 
         <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> <b><a name='get_oversampling_amount'></a>get_oversampling_amount</b> <font face='Lucida Console'>(</font>
         <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font> <b>{</b> <font color='#0000FF'>return</font> _oversampling_amount; <b>}</b>
+
         <font color='#0000FF'><u>void</u></font> <b><a name='set_oversampling_amount'></a>set_oversampling_amount</b> <font face='Lucida Console'>(</font>
             <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> amount
         <font face='Lucida Console'>)</font>
@@ -128,6 +130,22 @@
             <font face='Lucida Console'>)</font>;
 
             _oversampling_amount <font color='#5555FF'>=</font> amount;
+        <b>}</b>
+
+        <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> <b><a name='get_oversampling_translation_jitter'></a>get_oversampling_translation_jitter</b> <font face='Lucida Console'>(</font>
+        <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font> <b>{</b> <font color='#0000FF'>return</font> _oversampling_translation_jitter; <b>}</b>
+
+        <font color='#0000FF'><u>void</u></font> <b><a name='set_oversampling_translation_jitter'></a>set_oversampling_translation_jitter</b> <font face='Lucida Console'>(</font>
+            <font color='#0000FF'><u>double</u></font> amount
+        <font face='Lucida Console'>)</font>
+        <b>{</b>
+            <font color='#BB00BB'>DLIB_CASSERT</font><font face='Lucida Console'>(</font>amount <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> <font color='#979000'>0</font>, 
+                "<font color='#CC0000'>\t void shape_predictor_trainer::set_oversampling_translation_jitter()</font>"
+                <font color='#5555FF'>&lt;</font><font color='#5555FF'>&lt;</font> "<font color='#CC0000'>\n\t Invalid inputs were given to this function. </font>"
+                <font color='#5555FF'>&lt;</font><font color='#5555FF'>&lt;</font> "<font color='#CC0000'>\n\t amount: </font>" <font color='#5555FF'>&lt;</font><font color='#5555FF'>&lt;</font> amount 
+            <font face='Lucida Console'>)</font>;
+
+            _oversampling_translation_jitter <font color='#5555FF'>=</font> amount;
         <b>}</b>
 
         <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> <b><a name='get_feature_pool_size'></a>get_feature_pool_size</b> <font face='Lucida Console'>(</font>
@@ -707,6 +725,18 @@
                         hits <font color='#5555FF'>+</font><font color='#5555FF'>=</font> alpha<font color='#5555FF'>*</font>samples[rand_idx].present;
                     <b>}</b>
                     samples[i].current_shape <font color='#5555FF'>=</font> <font color='#BB00BB'>pointwise_multiply</font><font face='Lucida Console'>(</font>samples[i].current_shape, <font color='#BB00BB'>reciprocal</font><font face='Lucida Console'>(</font>hits<font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
+
+                    <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>_oversampling_translation_jitter <font color='#5555FF'>!</font><font color='#5555FF'>=</font> <font color='#979000'>0</font><font face='Lucida Console'>)</font>
+                    <b>{</b>
+                        dpoint off;
+                        off.<font color='#BB00BB'>x</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>=</font> rnd.<font color='#BB00BB'>get_double_in_range</font><font face='Lucida Console'>(</font><font color='#5555FF'>-</font>_oversampling_translation_jitter,_oversampling_translation_jitter<font face='Lucida Console'>)</font>;
+                        off.<font color='#BB00BB'>y</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>=</font> rnd.<font color='#BB00BB'>get_double_in_range</font><font face='Lucida Console'>(</font><font color='#5555FF'>-</font>_oversampling_translation_jitter,_oversampling_translation_jitter<font face='Lucida Console'>)</font>;
+                        <font color='#0000FF'>for</font> <font face='Lucida Console'>(</font><font color='#0000FF'><u>long</u></font> j <font color='#5555FF'>=</font> <font color='#979000'>0</font>; j <font color='#5555FF'>&lt;</font> samples[i].current_shape.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font color='#5555FF'>/</font><font color='#979000'>2</font>; <font color='#5555FF'>+</font><font color='#5555FF'>+</font>j<font face='Lucida Console'>)</font>
+                        <b>{</b>
+                            samples[i].<font color='#BB00BB'>current_shape</font><font face='Lucida Console'>(</font><font color='#979000'>2</font><font color='#5555FF'>*</font>j<font face='Lucida Console'>)</font> <font color='#5555FF'>+</font><font color='#5555FF'>=</font> off.<font color='#BB00BB'>x</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
+                            samples[i].<font color='#BB00BB'>current_shape</font><font face='Lucida Console'>(</font><font color='#979000'>2</font><font color='#5555FF'>*</font>j<font color='#5555FF'>+</font><font color='#979000'>1</font><font face='Lucida Console'>)</font> <font color='#5555FF'>+</font><font color='#5555FF'>=</font> off.<font color='#BB00BB'>y</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
+                        <b>}</b>
+                    <b>}</b>
                 <b>}</b>
 
             <b>}</b>
@@ -796,6 +826,7 @@
         <font color='#0000FF'><u>bool</u></font> _verbose;
         <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> _num_threads;
         padding_mode_t _padding_mode;
+        <font color='#0000FF'><u>double</u></font> _oversampling_translation_jitter;
     <b>}</b>;
 
 <font color='#009900'>// ----------------------------------------------------------------------------------------

@@ -8,6 +8,7 @@
 <font color='#0000FF'>#include</font> "<a style='text-decoration:none' href='../image_processing/object_detector_abstract.h.html'>../image_processing/object_detector_abstract.h</a>"
 <font color='#0000FF'>#include</font> "<a style='text-decoration:none' href='../image_processing/box_overlap_testing_abstract.h.html'>../image_processing/box_overlap_testing_abstract.h</a>"
 <font color='#0000FF'>#include</font> "<a style='text-decoration:none' href='../image_processing/full_object_detection_abstract.h.html'>../image_processing/full_object_detection_abstract.h</a>"
+<font color='#0000FF'>#include</font> <font color='#5555FF'>&lt;</font>chrono<font color='#5555FF'>&gt;</font>
 
 
 <font color='#0000FF'>namespace</font> dlib
@@ -64,6 +65,8 @@
                   (note that only the "configuration" of scanner is copied.
                   I.e. the copy is done using copy_configuration())
                 - #auto_set_overlap_tester() == true
+                - #get_max_runtime() == std::chrono::hours(24*356*290)
+                  (i.e. 290 years, so basically forever)
         !*/</font>
 
         <font color='#0000FF'>const</font> image_scanner_type<font color='#5555FF'>&amp;</font> <b><a name='get_scanner'></a>get_scanner</b> <font face='Lucida Console'>(</font>
@@ -143,6 +146,22 @@
                   to train.  You can think of this epsilon value as saying "solve the 
                   optimization problem until the average loss per sample is within epsilon 
                   of its optimal value".
+        !*/</font>
+
+        <font color='#0000FF'><u>void</u></font> <b><a name='set_max_runtime'></a>set_max_runtime</b> <font face='Lucida Console'>(</font>
+            <font color='#0000FF'>const</font> std::chrono::nanoseconds<font color='#5555FF'>&amp;</font> max_runtime
+        <font face='Lucida Console'>)</font>; 
+        <font color='#009900'>/*!
+            ensures
+                - #get_max_runtime() == max_runtime
+        !*/</font>
+
+        std::chrono::nanoseconds <b><a name='get_max_runtime'></a>get_max_runtime</b> <font face='Lucida Console'>(</font>
+        <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>;
+        <font color='#009900'>/*!
+            ensures
+                - returns the maximum amount of time we will let .train() run before 
+                  making it terminate.
         !*/</font>
 
         <font color='#0000FF'><u>void</u></font> <b><a name='set_max_cache_size'></a>set_max_cache_size</b> <font face='Lucida Console'>(</font>

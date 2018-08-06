@@ -171,12 +171,6 @@ else()
 
       add_executable(webcam_face_pose_ex webcam_face_pose_ex.cpp)
       target_link_libraries(webcam_face_pose_ex dlib::dlib ${OpenCV_LIBS} )
-
-      add_executable(webcam_face_pose_ex_modify webcam_face_pose_ex_modify.cpp)
-      target_link_libraries(webcam_face_pose_ex_modify dlib::dlib ${OpenCV_LIBS} )
-
-      add_executable(webcam_face_pose_ex_modify2 webcam_face_pose_ex_modify2.cpp)
-      target_link_libraries(webcam_face_pose_ex_modify2 dlib::dlib ${OpenCV_LIBS} )
    else()
       message("OpenCV not found, so we won't build the webcam_face_pose_ex example.")
    endif()

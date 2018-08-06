@@ -147,7 +147,8 @@ class CMakeBuild(build_ext):
             cmake_args += ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}'.format(cfg.upper(), extdir)]
             if sys.maxsize > 2**32:
                 cmake_args += ['-A', 'x64']
-            build_args += ['--', '/m']
+            # Do a parallel build
+            build_args += ['--', '/m'] 
         else:
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
             # Do a parallel build
@@ -221,7 +222,7 @@ setup(
     name='dlib',
     version=read_version_from_cmakelists('dlib/CMakeLists.txt'),
     description='A toolkit for making real world machine learning and data analysis applications',
-    long_description=read_entire_file('README.md'),
+    long_description='See http://dlib.net for documentation.',
     author='Davis King',
     author_email='davis@dlib.net',
     url='https://github.com/davisking/dlib',

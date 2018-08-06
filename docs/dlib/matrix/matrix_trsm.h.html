@@ -12,19 +12,23 @@
     <b>{</b>
 <font color='#0000FF'>#ifdef</font> DLIB_USE_BLAS
 <font color='#0000FF'>#ifndef</font> CBLAS_H
+
+<font color='#0000FF'>#ifndef</font> CBLAS_INT_TYPE
+<font color='#0000FF'>#define</font> CBLAS_INT_TYPE <font color='#0000FF'><u>int</u></font> 
+<font color='#0000FF'>#endif</font>
         <font color='#0000FF'>extern</font> "<font color='#CC0000'>C</font>"
         <b>{</b>
             <font color='#0000FF'><u>void</u></font> <b><a name='cblas_strsm'></a>cblas_strsm</b><font face='Lucida Console'>(</font><font color='#0000FF'>const</font> CBLAS_ORDER Order, <font color='#0000FF'>const</font> CBLAS_SIDE Side,
                              <font color='#0000FF'>const</font> CBLAS_UPLO Uplo, <font color='#0000FF'>const</font> CBLAS_TRANSPOSE TransA,
-                             <font color='#0000FF'>const</font> CBLAS_DIAG Diag, <font color='#0000FF'>const</font> <font color='#0000FF'><u>int</u></font> M, <font color='#0000FF'>const</font> <font color='#0000FF'><u>int</u></font> N,
-                             <font color='#0000FF'>const</font> <font color='#0000FF'><u>float</u></font> alpha, <font color='#0000FF'>const</font> <font color='#0000FF'><u>float</u></font> <font color='#5555FF'>*</font>A, <font color='#0000FF'>const</font> <font color='#0000FF'><u>int</u></font> lda,
-                             <font color='#0000FF'><u>float</u></font> <font color='#5555FF'>*</font>B, <font color='#0000FF'>const</font> <font color='#0000FF'><u>int</u></font> ldb<font face='Lucida Console'>)</font>;
+                             <font color='#0000FF'>const</font> CBLAS_DIAG Diag, <font color='#0000FF'>const</font> CBLAS_INT_TYPE M, <font color='#0000FF'>const</font> CBLAS_INT_TYPE N,
+                             <font color='#0000FF'>const</font> <font color='#0000FF'><u>float</u></font> alpha, <font color='#0000FF'>const</font> <font color='#0000FF'><u>float</u></font> <font color='#5555FF'>*</font>A, <font color='#0000FF'>const</font> CBLAS_INT_TYPE lda,
+                             <font color='#0000FF'><u>float</u></font> <font color='#5555FF'>*</font>B, <font color='#0000FF'>const</font> CBLAS_INT_TYPE ldb<font face='Lucida Console'>)</font>;
 
             <font color='#0000FF'><u>void</u></font> <b><a name='cblas_dtrsm'></a>cblas_dtrsm</b><font face='Lucida Console'>(</font><font color='#0000FF'>const</font> CBLAS_ORDER Order, <font color='#0000FF'>const</font> CBLAS_SIDE Side,
                              <font color='#0000FF'>const</font> CBLAS_UPLO Uplo, <font color='#0000FF'>const</font> CBLAS_TRANSPOSE TransA,
-                             <font color='#0000FF'>const</font> CBLAS_DIAG Diag, <font color='#0000FF'>const</font> <font color='#0000FF'><u>int</u></font> M, <font color='#0000FF'>const</font> <font color='#0000FF'><u>int</u></font> N,
-                             <font color='#0000FF'>const</font> <font color='#0000FF'><u>double</u></font> alpha, <font color='#0000FF'>const</font> <font color='#0000FF'><u>double</u></font> <font color='#5555FF'>*</font>A, <font color='#0000FF'>const</font> <font color='#0000FF'><u>int</u></font> lda,
-                             <font color='#0000FF'><u>double</u></font> <font color='#5555FF'>*</font>B, <font color='#0000FF'>const</font> <font color='#0000FF'><u>int</u></font> ldb<font face='Lucida Console'>)</font>;
+                             <font color='#0000FF'>const</font> CBLAS_DIAG Diag, <font color='#0000FF'>const</font> CBLAS_INT_TYPE M, <font color='#0000FF'>const</font> CBLAS_INT_TYPE N,
+                             <font color='#0000FF'>const</font> <font color='#0000FF'><u>double</u></font> alpha, <font color='#0000FF'>const</font> <font color='#0000FF'><u>double</u></font> <font color='#5555FF'>*</font>A, <font color='#0000FF'>const</font> CBLAS_INT_TYPE lda,
+                             <font color='#0000FF'><u>double</u></font> <font color='#5555FF'>*</font>B, <font color='#0000FF'>const</font> CBLAS_INT_TYPE ldb<font face='Lucida Console'>)</font>;
         <b>}</b>
 <font color='#0000FF'>#endif</font> <font color='#009900'>// if not CBLAS_H
 </font><font color='#0000FF'>#endif</font> <font color='#009900'>// if DLIB_USE_BLAS

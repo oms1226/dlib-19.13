@@ -7,6 +7,17 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(dlib)
 
+set(CPACK_PACKAGE_NAME "dlib")
+set(CPACK_PACKAGE_VERSION_MAJOR "19")
+set(CPACK_PACKAGE_VERSION_MINOR "15")
+set(CPACK_PACKAGE_VERSION_PATCH "0")
+set(VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
+# Only print these messages once, even if dlib is added multiple times via add_subdirectory()
+if (NOT TARGET dlib)
+   message(STATUS "Using CMake version: ${CMAKE_VERSION}")
+   message(STATUS "Compiling dlib version: ${VERSION}")
+endif()
+
 
 include(cmake_utils/set_compiler_specific_options.cmake)
 
@@ -24,12 +35,6 @@ endif()
 include(cmake_utils/release_build_by_default)
 include(cmake_utils/use_cpp_11.cmake)
 
-set(CPACK_PACKAGE_NAME "dlib")
-
-set(CPACK_PACKAGE_VERSION_MAJOR "19")
-set(CPACK_PACKAGE_VERSION_MINOR "13")
-set(CPACK_PACKAGE_VERSION_PATCH "0")
-set(VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
 # Set DLIB_VERSION in the including CMake file so they can use it to do whatever they want. 
 get_directory_property(has_parent PARENT_DIRECTORY)
 if(has_parent)
@@ -122,8 +127,6 @@ endif()
 # once.  This most often happens when the top level of a project depends on two
 # or more other things which both depend on dlib. 
 if (NOT TARGET dlib)
-   message(STATUS "Using CMake version: ${CMAKE_VERSION}")
-   message(STATUS "Compiling dlib version: ${VERSION}")
 
    set (DLIB_ISO_CPP_ONLY_STR 
       "Enable this if you don't want to compile any non-ISO C++ code (i.e. you don't use any of the API Wrappers)" )
@@ -137,6 +140,8 @@ if (NOT TARGET dlib)
       "Disable this if you don't want to use a LAPACK library" )
    set (DLIB_USE_CUDA_STR
       "Disable this if you don't want to use NVIDIA CUDA" )
+   set (DLIB_USE_MKL_SEQUENTIAL_STR
+      "Enable this if you have MKL installed and want to use the sequential version instead of the multi-core version." )
    set (DLIB_PNG_SUPPORT_STR
       "Disable this if you don't want to link against libpng" )
    set (DLIB_GIF_SUPPORT_STR
@@ -159,6 +164,7 @@ if (NOT TARGET dlib)
    toggle_preprocessor_switch(DLIB_NO_GUI_SUPPORT)
    option(DLIB_ENABLE_STACK_TRACE ${DLIB_ENABLE_STACK_TRACE_STR} OFF)
    toggle_preprocessor_switch(DLIB_ENABLE_STACK_TRACE)
+   option(DLIB_USE_MKL_SEQUENTIAL ${DLIB_USE_MKL_SEQUENTIAL_STR} OFF)
 
    if(DLIB_ENABLE_ASSERTS)
       # Set these variables so they are set in the config.h.in file when dlib
@@ -237,6 +243,7 @@ if (NOT TARGET dlib)
       global_optimization/global_function_search.cpp
       filtering/kalman_filter.cpp
       test_for_odr_violations.cpp
+      svm/auto.cpp
       )
 
 
@@ -398,8 +405,9 @@ if (NOT TARGET dlib)
          # try to find libpng 
          find_package(PNG QUIET)
          # Make sure there isn't something wrong with the version of LIBPNG
-         # installed on this system.  
-         if (PNG_FOUND)
+         # installed on this system.  Also never link to anything from anaconda
+         # since it's probably broken.
+         if (PNG_FOUND AND NOT ("${PNG_INCLUDE_DIR}" MATCHES "(.*)(Ana|ana|mini)conda(.*)"))
             set(CMAKE_REQUIRED_LIBRARIES ${PNG_LIBRARIES})
             CHECK_FUNCTION_EXISTS(png_create_read_struct LIBPNG_IS_GOOD)
          endif()
@@ -592,6 +600,12 @@ if (NOT TARGET dlib)
                # Grab all the -D flags from CMAKE_CXX_FLAGS so we can pass them
                # to nvcc.
                string(REGEX MATCHALL "-D[^ ]*" FLAGS_FOR_NVCC "${CMAKE_CXX_FLAGS}")
+
+               # Check if we are being built as part of a pybind11 module. 
+               if (COMMAND pybind11_add_module)
+                  # Don't export unnecessary symbols.
+                  list(APPEND FLAGS_FOR_NVCC "-Xcompiler=-fvisibility=hidden")
+               endif()
             endif()
 
 
@@ -668,7 +682,7 @@ if (NOT TARGET dlib)
             # Intel MKL, hasn't already decided what to use.  This is because
             # it makes the MKL bug out if you link to another openmp lib other
             # than Intel's when you use the MKL.
-            if (NOT openmp_libraries AND NOT MSVC AND NOT XCODE)
+            if (NOT openmp_libraries AND NOT MSVC AND NOT XCODE AND NOT APPLE)
                find_package(OpenMP)
                if (OPENMP_FOUND)
                   set(openmp_libraries ${OpenMP_CXX_FLAGS}) 
@@ -811,8 +825,21 @@ if (NOT TARGET dlib)
          ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
       install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/dlib
-         FILES_MATCHING PATTERN "*.h" PATTERN "*.cmake"
-         REGEX "${CMAKE_CURRENT_BINARY_DIR}" EXCLUDE)
+         FILES_MATCHING 
+            PATTERN "*.h" 
+            PATTERN "*.cmake"
+            PATTERN "*_tutorial.txt"
+            PATTERN "cassert"
+            PATTERN "cstring"
+            PATTERN "fstream"
+            PATTERN "iomanip"
+            PATTERN "iosfwd"
+            PATTERN "iostream"
+            PATTERN "istream"
+            PATTERN "locale"
+            PATTERN "ostream"
+            PATTERN "sstream"
+            REGEX "${CMAKE_CURRENT_BINARY_DIR}" EXCLUDE)
 
 
       configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
@@ -876,6 +903,7 @@ endif()
 if (COMMAND pybind11_add_module)
    # Don't export unnecessary symbols.
    set_target_properties(dlib PROPERTIES CXX_VISIBILITY_PRESET "hidden")
+   set_target_properties(dlib PROPERTIES CUDA_VISIBILITY_PRESET "hidden")
 endif()
 
 add_library(dlib::dlib ALIAS dlib)

@@ -56,6 +56,8 @@ are listed on the left of the main dlib web page.</p>
 <ul class="simple">
 <li><a class="reference internal" href="#dlib.array" title="dlib.array"><code class="xref py py-class docutils literal"><span class="pre">dlib.array</span></code></a></li>
 <li><a class="reference internal" href="#dlib.cca_outputs" title="dlib.cca_outputs"><code class="xref py py-class docutils literal"><span class="pre">dlib.cca_outputs</span></code></a></li>
+<li><a class="reference internal" href="#dlib.chip_details" title="dlib.chip_details"><code class="xref py py-class docutils literal"><span class="pre">dlib.chip_details</span></code></a></li>
+<li><a class="reference internal" href="#dlib.chip_dims" title="dlib.chip_dims"><code class="xref py py-class docutils literal"><span class="pre">dlib.chip_dims</span></code></a></li>
 <li><a class="reference internal" href="#dlib.cnn_face_detection_model_v1" title="dlib.cnn_face_detection_model_v1"><code class="xref py py-class docutils literal"><span class="pre">dlib.cnn_face_detection_model_v1</span></code></a></li>
 <li><a class="reference internal" href="#dlib.correlation_tracker" title="dlib.correlation_tracker"><code class="xref py py-class docutils literal"><span class="pre">dlib.correlation_tracker</span></code></a></li>
 <li><a class="reference internal" href="#dlib.dpoint" title="dlib.dpoint"><code class="xref py py-class docutils literal"><span class="pre">dlib.dpoint</span></code></a></li>
@@ -124,8 +126,10 @@ are listed on the left of the main dlib web page.</p>
 <li><a class="reference internal" href="#dlib.vectors" title="dlib.vectors"><code class="xref py py-class docutils literal"><span class="pre">dlib.vectors</span></code></a></li>
 <li><a class="reference internal" href="#dlib.vectorss" title="dlib.vectorss"><code class="xref py py-class docutils literal"><span class="pre">dlib.vectorss</span></code></a></li>
 <li><a class="reference internal" href="#dlib.image_dataset_metadata.box" title="dlib.image_dataset_metadata.box"><code class="xref py py-class docutils literal"><span class="pre">dlib.image_dataset_metadata.box</span></code></a></li>
+<li><a class="reference internal" href="#dlib.image_dataset_metadata.boxes" title="dlib.image_dataset_metadata.boxes"><code class="xref py py-class docutils literal"><span class="pre">dlib.image_dataset_metadata.boxes</span></code></a></li>
 <li><a class="reference internal" href="#dlib.image_dataset_metadata.dataset" title="dlib.image_dataset_metadata.dataset"><code class="xref py py-class docutils literal"><span class="pre">dlib.image_dataset_metadata.dataset</span></code></a></li>
 <li><a class="reference internal" href="#dlib.image_dataset_metadata.image" title="dlib.image_dataset_metadata.image"><code class="xref py py-class docutils literal"><span class="pre">dlib.image_dataset_metadata.image</span></code></a></li>
+<li><a class="reference internal" href="#dlib.image_dataset_metadata.images" title="dlib.image_dataset_metadata.images"><code class="xref py py-class docutils literal"><span class="pre">dlib.image_dataset_metadata.images</span></code></a></li>
 <li><a class="reference internal" href="#dlib.image_dataset_metadata.parts" title="dlib.image_dataset_metadata.parts"><code class="xref py py-class docutils literal"><span class="pre">dlib.image_dataset_metadata.parts</span></code></a></li>
 </ul>
 </div>
@@ -141,7 +145,9 @@ are listed on the left of the main dlib web page.</p>
 <li><a class="reference internal" href="#dlib.apply_cca_transform" title="dlib.apply_cca_transform"><code class="xref py py-func docutils literal"><span class="pre">dlib.apply_cca_transform()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.as_grayscale" title="dlib.as_grayscale"><code class="xref py py-func docutils literal"><span class="pre">dlib.as_grayscale()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.assignment_cost" title="dlib.assignment_cost"><code class="xref py py-func docutils literal"><span class="pre">dlib.assignment_cost()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.auto_train_rbf_classifier" title="dlib.auto_train_rbf_classifier"><code class="xref py py-func docutils literal"><span class="pre">dlib.auto_train_rbf_classifier()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.cca" title="dlib.cca"><code class="xref py py-func docutils literal"><span class="pre">dlib.cca()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.center" title="dlib.center"><code class="xref py py-func docutils literal"><span class="pre">dlib.center()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.centered_rect" title="dlib.centered_rect"><code class="xref py py-func docutils literal"><span class="pre">dlib.centered_rect()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.centered_rects" title="dlib.centered_rects"><code class="xref py py-func docutils literal"><span class="pre">dlib.centered_rects()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.chinese_whispers_clustering" title="dlib.chinese_whispers_clustering"><code class="xref py py-func docutils literal"><span class="pre">dlib.chinese_whispers_clustering()</span></code></a></li>
@@ -159,6 +165,8 @@ are listed on the left of the main dlib web page.</p>
 <li><a class="reference internal" href="#dlib.dot" title="dlib.dot"><code class="xref py py-func docutils literal"><span class="pre">dlib.dot()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.equalize_histogram" title="dlib.equalize_histogram"><code class="xref py py-func docutils literal"><span class="pre">dlib.equalize_histogram()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.extract_image_4points" title="dlib.extract_image_4points"><code class="xref py py-func docutils literal"><span class="pre">dlib.extract_image_4points()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.extract_image_chip" title="dlib.extract_image_chip"><code class="xref py py-func docutils literal"><span class="pre">dlib.extract_image_chip()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.extract_image_chips" title="dlib.extract_image_chips"><code class="xref py py-func docutils literal"><span class="pre">dlib.extract_image_chips()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.find_bright_keypoints" title="dlib.find_bright_keypoints"><code class="xref py py-func docutils literal"><span class="pre">dlib.find_bright_keypoints()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.find_bright_lines" title="dlib.find_bright_lines"><code class="xref py py-func docutils literal"><span class="pre">dlib.find_bright_lines()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.find_candidate_object_locations" title="dlib.find_candidate_object_locations"><code class="xref py py-func docutils literal"><span class="pre">dlib.find_candidate_object_locations()</span></code></a></li>
@@ -174,6 +182,7 @@ are listed on the left of the main dlib web page.</p>
 <li><a class="reference internal" href="#dlib.get_face_chip" title="dlib.get_face_chip"><code class="xref py py-func docutils literal"><span class="pre">dlib.get_face_chip()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.get_face_chips" title="dlib.get_face_chips"><code class="xref py py-func docutils literal"><span class="pre">dlib.get_face_chips()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.get_frontal_face_detector" title="dlib.get_frontal_face_detector"><code class="xref py py-func docutils literal"><span class="pre">dlib.get_frontal_face_detector()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.get_histogram" title="dlib.get_histogram"><code class="xref py py-func docutils literal"><span class="pre">dlib.get_histogram()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.get_rect" title="dlib.get_rect"><code class="xref py py-func docutils literal"><span class="pre">dlib.get_rect()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.grow_rect" title="dlib.grow_rect"><code class="xref py py-func docutils literal"><span class="pre">dlib.grow_rect()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.hit_enter_to_continue" title="dlib.hit_enter_to_continue"><code class="xref py py-func docutils literal"><span class="pre">dlib.hit_enter_to_continue()</span></code></a></li>
@@ -192,11 +201,16 @@ are listed on the left of the main dlib web page.</p>
 <li><a class="reference internal" href="#dlib.make_sparse_vector" title="dlib.make_sparse_vector"><code class="xref py py-func docutils literal"><span class="pre">dlib.make_sparse_vector()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.max_cost_assignment" title="dlib.max_cost_assignment"><code class="xref py py-func docutils literal"><span class="pre">dlib.max_cost_assignment()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.max_index_plus_one" title="dlib.max_index_plus_one"><code class="xref py py-func docutils literal"><span class="pre">dlib.max_index_plus_one()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.max_point" title="dlib.max_point"><code class="xref py py-func docutils literal"><span class="pre">dlib.max_point()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.max_point_interpolated" title="dlib.max_point_interpolated"><code class="xref py py-func docutils literal"><span class="pre">dlib.max_point_interpolated()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.min_barrier_distance" title="dlib.min_barrier_distance"><code class="xref py py-func docutils literal"><span class="pre">dlib.min_barrier_distance()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.normalize_image_gradients" title="dlib.normalize_image_gradients"><code class="xref py py-func docutils literal"><span class="pre">dlib.normalize_image_gradients()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.num_separable_filters" title="dlib.num_separable_filters"><code class="xref py py-func docutils literal"><span class="pre">dlib.num_separable_filters()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.partition_pixels" title="dlib.partition_pixels"><code class="xref py py-func docutils literal"><span class="pre">dlib.partition_pixels()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.polygon_area" title="dlib.polygon_area"><code class="xref py py-func docutils literal"><span class="pre">dlib.polygon_area()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.probability_that_sequence_is_increasing" title="dlib.probability_that_sequence_is_increasing"><code class="xref py py-func docutils literal"><span class="pre">dlib.probability_that_sequence_is_increasing()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.randomly_color_image" title="dlib.randomly_color_image"><code class="xref py py-func docutils literal"><span class="pre">dlib.randomly_color_image()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.reduce" title="dlib.reduce"><code class="xref py py-func docutils literal"><span class="pre">dlib.reduce()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.remove_incoherent_edge_pixels" title="dlib.remove_incoherent_edge_pixels"><code class="xref py py-func docutils literal"><span class="pre">dlib.remove_incoherent_edge_pixels()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.resize_image" title="dlib.resize_image"><code class="xref py py-func docutils literal"><span class="pre">dlib.resize_image()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.reverse" title="dlib.reverse"><code class="xref py py-func docutils literal"><span class="pre">dlib.reverse()</span></code></a></li>
@@ -210,6 +224,9 @@ are listed on the left of the main dlib web page.</p>
 <li><a class="reference internal" href="#dlib.skeleton" title="dlib.skeleton"><code class="xref py py-func docutils literal"><span class="pre">dlib.skeleton()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.sobel_edge_detector" title="dlib.sobel_edge_detector"><code class="xref py py-func docutils literal"><span class="pre">dlib.sobel_edge_detector()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.solve_structural_svm_problem" title="dlib.solve_structural_svm_problem"><code class="xref py py-func docutils literal"><span class="pre">dlib.solve_structural_svm_problem()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.spatially_filter_image" title="dlib.spatially_filter_image"><code class="xref py py-func docutils literal"><span class="pre">dlib.spatially_filter_image()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.spatially_filter_image_separable" title="dlib.spatially_filter_image_separable"><code class="xref py py-func docutils literal"><span class="pre">dlib.spatially_filter_image_separable()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.sub_image" title="dlib.sub_image"><code class="xref py py-func docutils literal"><span class="pre">dlib.sub_image()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.suppress_non_maximum_edges" title="dlib.suppress_non_maximum_edges"><code class="xref py py-func docutils literal"><span class="pre">dlib.suppress_non_maximum_edges()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.test_binary_decision_function" title="dlib.test_binary_decision_function"><code class="xref py py-func docutils literal"><span class="pre">dlib.test_binary_decision_function()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.test_ranking_function" title="dlib.test_ranking_function"><code class="xref py py-func docutils literal"><span class="pre">dlib.test_ranking_function()</span></code></a></li>
@@ -217,11 +234,15 @@ are listed on the left of the main dlib web page.</p>
 <li><a class="reference internal" href="#dlib.test_sequence_segmenter" title="dlib.test_sequence_segmenter"><code class="xref py py-func docutils literal"><span class="pre">dlib.test_sequence_segmenter()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.test_shape_predictor" title="dlib.test_shape_predictor"><code class="xref py py-func docutils literal"><span class="pre">dlib.test_shape_predictor()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.test_simple_object_detector" title="dlib.test_simple_object_detector"><code class="xref py py-func docutils literal"><span class="pre">dlib.test_simple_object_detector()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.threshold_filter_singular_values" title="dlib.threshold_filter_singular_values"><code class="xref py py-func docutils literal"><span class="pre">dlib.threshold_filter_singular_values()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.threshold_image" title="dlib.threshold_image"><code class="xref py py-func docutils literal"><span class="pre">dlib.threshold_image()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.tile_images" title="dlib.tile_images"><code class="xref py py-func docutils literal"><span class="pre">dlib.tile_images()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.train_sequence_segmenter" title="dlib.train_sequence_segmenter"><code class="xref py py-func docutils literal"><span class="pre">dlib.train_sequence_segmenter()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.train_shape_predictor" title="dlib.train_shape_predictor"><code class="xref py py-func docutils literal"><span class="pre">dlib.train_shape_predictor()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.train_simple_object_detector" title="dlib.train_simple_object_detector"><code class="xref py py-func docutils literal"><span class="pre">dlib.train_simple_object_detector()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.transform_image" title="dlib.transform_image"><code class="xref py py-func docutils literal"><span class="pre">dlib.transform_image()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.translate_rect" title="dlib.translate_rect"><code class="xref py py-func docutils literal"><span class="pre">dlib.translate_rect()</span></code></a></li>
+<li><a class="reference internal" href="#dlib.zero_border_pixels" title="dlib.zero_border_pixels"><code class="xref py py-func docutils literal"><span class="pre">dlib.zero_border_pixels()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.cuda.get_device" title="dlib.cuda.get_device"><code class="xref py py-func docutils literal"><span class="pre">dlib.cuda.get_device()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.cuda.get_num_devices" title="dlib.cuda.get_num_devices"><code class="xref py py-func docutils literal"><span class="pre">dlib.cuda.get_num_devices()</span></code></a></li>
 <li><a class="reference internal" href="#dlib.cuda.set_device" title="dlib.cuda.set_device"><code class="xref py py-func docutils literal"><span class="pre">dlib.cuda.set_device()</span></code></a></li>
@@ -359,13 +380,12 @@ the range [0 90].</li>
 <code class="descclassname">dlib.</code><code class="descname">assignment_cost</code><span class="sig-paren">(</span><em>cost: dlib.matrix</em>, <em>assignment: list</em><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#dlib.assignment_cost" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>requires    </dt>
-<dd><ul class="first last">
-<li><p class="first">cost.nr() == cost.nc()    
-(i.e. the input must be a square matrix)</p>
-</li>
+<dd><ul class="first last simple">
+<li>cost.nr() == cost.nc()    
+(i.e. the input must be a square matrix)</li>
 <li><dl class="first docutils">
 <dt>for all valid i:    </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>0 &lt;= assignment[i] &lt; cost.nr()</li>
 </ul>
 </dd>
@@ -387,6 +407,66 @@ a number which is:</p>
 <div><p>sum over i: cost[i][assignment[i]]</p>
 </div></blockquote>
 </li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlib.auto_train_rbf_classifier">
+<code class="descclassname">dlib.</code><code class="descname">auto_train_rbf_classifier</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.auto_train_rbf_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>auto_train_rbf_classifier(x: dlib.vectors, y: dlib.array, max_runtime_seconds: float, be_verbose: bool=True) -&gt; dlib._normalized_decision_function_radial_basis</li>
+</ol>
+<dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>y contains at least 6 examples of each class.  Moreover, every element in y 
+is either +1 or -1.</li>
+<li>max_runtime_seconds &gt;= 0</li>
+<li>len(x) == len(y)</li>
+<li>all the vectors in x have the same dimension.</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>This routine trains a radial basis function SVM on the given binary 
+classification training data.  It uses the svm_c_trainer to do this.  It also 
+uses find_max_global() and 6-fold cross-validation to automatically determine 
+the best settings of the SVM&#8217;s hyper parameters.</li>
+<li>Note that we interpret y[i] as the label for the vector x[i].  Therefore, the 
+returned function, df, should generally satisfy sign(df(x[i])) == y[i] as 
+often as possible.</li>
+<li>The hyperparameter search will run for about max_runtime and will print 
+messages to the screen as it runs if be_verbose==true.</li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li>auto_train_rbf_classifier(x: numpy.ndarray[(rows,cols),float64], y: numpy.ndarray[float64], max_runtime_seconds: float, be_verbose: bool=True) -&gt; dlib._normalized_decision_function_radial_basis</li>
+</ol>
+<dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>y contains at least 6 examples of each class.  Moreover, every element in y 
+is either +1 or -1.</li>
+<li>max_runtime_seconds &gt;= 0</li>
+<li>len(x.shape(0)) == len(y)</li>
+<li>x.shape(1) &gt; 0</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>This routine trains a radial basis function SVM on the given binary 
+classification training data.  It uses the svm_c_trainer to do this.  It also 
+uses find_max_global() and 6-fold cross-validation to automatically determine 
+the best settings of the SVM&#8217;s hyper parameters.</li>
+<li>Note that we interpret y[i] as the label for the vector x[i].  Therefore, the 
+returned function, df, should generally satisfy sign(df(x[i])) == y[i] as 
+often as possible.</li>
+<li>The hyperparameter search will run for about max_runtime and will print 
+messages to the screen as it runs if be_verbose==true.</li>
 </ul>
 </dd>
 </dl>
@@ -496,9 +576,34 @@ vector models of words&#8221;.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="dlib.center">
+<code class="descclassname">dlib.</code><code class="descname">center</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic">
+<li><p class="first">center(rect: dlib.rectangle) -&gt; dlib.point</p>
+<blockquote>
+<div><p>returns the center of the given rectangle</p>
+</div></blockquote>
+</li>
+<li><p class="first">center(rect: dlib.drectangle) -&gt; dlib.dpoint</p>
+<blockquote>
+<div><p>returns the center of the given rectangle</p>
+</div></blockquote>
+</li>
+</ol>
+</dd></dl>
+
+<dl class="function">
 <dt id="dlib.centered_rect">
-<code class="descclassname">dlib.</code><code class="descname">centered_rect</code><span class="sig-paren">(</span><em>p: dlib.point</em>, <em>width: int</em>, <em>height: int</em><span class="sig-paren">)</span> &rarr; dlib.rectangle<a class="headerlink" href="#dlib.centered_rect" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">dlib.</code><code class="descname">centered_rect</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.centered_rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>centered_rect(p: dlib.point, width: int, height: int) -&gt; dlib.rectangle</li>
+<li>centered_rect(p: dlib.dpoint, width: int, height: int) -&gt; dlib.rectangle</li>
+<li>centered_rect(rect: dlib.rectangle, width: int, height: int) -&gt; dlib.rectangle</li>
+<li>centered_rect(rect: dlib.drectangle, width: int, height: int) -&gt; dlib.rectangle</li>
+</ol>
+</dd></dl>
 
 <dl class="function">
 <dt id="dlib.centered_rects">
@@ -509,6 +614,180 @@ vector models of words&#8221;.</p>
 <dt id="dlib.chinese_whispers_clustering">
 <code class="descclassname">dlib.</code><code class="descname">chinese_whispers_clustering</code><span class="sig-paren">(</span><em>descriptors: list</em>, <em>threshold: float</em><span class="sig-paren">)</span> &rarr; list<a class="headerlink" href="#dlib.chinese_whispers_clustering" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a list of descriptors and returns a list that contains a label for each descriptor. Clustering is done using dlib::chinese_whispers.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="dlib.chip_details">
+<em class="property">class </em><code class="descclassname">dlib.</code><code class="descname">chip_details</code><a class="headerlink" href="#dlib.chip_details" title="Permalink to this definition">¶</a></dt>
+<dd><p>WHAT THIS OBJECT REPRESENTS 
+This object describes where an image chip is to be extracted from within 
+another image.  In particular, it specifies that the image chip is 
+contained within the rectangle self.rect and that prior to extraction the 
+image should be rotated counter-clockwise by self.angle radians.  Finally, 
+the extracted chip should have self.rows rows and self.cols columns in it 
+regardless of the shape of self.rect.  This means that the extracted chip 
+will be stretched to fit via bilinear interpolation when necessary.</p>
+<dl class="method">
+<dt id="dlib.chip_details.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.chip_details.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>__init__(self: dlib.chip_details, rect: dlib.drectangle) -&gt; None</li>
+<li>__init__(self: dlib.chip_details, rect: dlib.rectangle) -&gt; None</li>
+</ol>
+<dl class="docutils">
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>self.rect == <a href="#id1"><span class="problematic" id="id2">rect_</span></a></li>
+<li>self.angle == 0</li>
+<li>self.rows == rect.height()</li>
+<li>self.cols == rect.width()</li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="3">
+<li>__init__(self: dlib.chip_details, rect: dlib.drectangle, size: int) -&gt; None</li>
+<li>__init__(self: dlib.chip_details, rect: dlib.rectangle, size: int) -&gt; None</li>
+</ol>
+<dl class="docutils">
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>self.rect == rect</li>
+<li>self.angle == 0</li>
+<li>self.rows and self.cols is set such that the total size of the chip is as close 
+to size as possible but still matches the aspect ratio of rect.</li>
+<li>As long as size and the aspect ratio of of rect stays constant then 
+self.rows and self.cols will always have the same values.  This means 
+that, for example, if you want all your chips to have the same dimensions 
+then ensure that size is always the same and also that rect always has 
+the same aspect ratio.  Otherwise the calculated values of self.rows and 
+self.cols may be different for different chips.  Alternatively, you can 
+use the chip_details constructor below that lets you specify the exact 
+values for rows and cols.</li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="5">
+<li>__init__(self: dlib.chip_details, rect: dlib.drectangle, size: int, angle: float) -&gt; None</li>
+<li>__init__(self: dlib.chip_details, rect: dlib.rectangle, size: int, angle: float) -&gt; None</li>
+</ol>
+<dl class="docutils">
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>self.rect == rect</li>
+<li>self.angle == angle</li>
+<li>self.rows and self.cols is set such that the total size of the chip is as 
+close to size as possible but still matches the aspect ratio of rect.</li>
+<li>As long as size and the aspect ratio of of rect stays constant then 
+self.rows and self.cols will always have the same values.  This means 
+that, for example, if you want all your chips to have the same dimensions 
+then ensure that size is always the same and also that rect always has 
+the same aspect ratio.  Otherwise the calculated values of self.rows and 
+self.cols may be different for different chips.  Alternatively, you can 
+use the chip_details constructor below that lets you specify the exact 
+values for rows and cols.</li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="7">
+<li>__init__(self: dlib.chip_details, rect: dlib.drectangle, dims: dlib.chip_dims) -&gt; None</li>
+<li>__init__(self: dlib.chip_details, rect: dlib.rectangle, dims: dlib.chip_dims) -&gt; None</li>
+</ol>
+<dl class="docutils">
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>self.rect == rect</li>
+<li>self.angle == 0</li>
+<li>self.rows == dims.rows</li>
+<li>self.cols == dims.cols</li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="9">
+<li>__init__(self: dlib.chip_details, rect: dlib.drectangle, dims: dlib.chip_dims, angle: float) -&gt; None</li>
+<li>__init__(self: dlib.chip_details, rect: dlib.rectangle, dims: dlib.chip_dims, angle: float) -&gt; None</li>
+</ol>
+<dl class="docutils">
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>self.rect == rect</li>
+<li>self.angle == angle</li>
+<li>self.rows == dims.rows</li>
+<li>self.cols == dims.cols</li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="11">
+<li>__init__(self: dlib.chip_details, chip_points: dlib.dpoints, img_points: dlib.dpoints, dims: dlib.chip_dims) -&gt; None</li>
+<li>__init__(self: dlib.chip_details, chip_points: dlib.points, img_points: dlib.points, dims: dlib.chip_dims) -&gt; None</li>
+</ol>
+<dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>len(chip_points) == len(img_points)</li>
+<li>len(chip_points) &gt;= 2</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>The chip will be extracted such that the pixel locations chip_points[i] 
+in the chip are mapped to img_points[i] in the original image by a 
+similarity transform.  That is, if you know the pixelwize mapping you 
+want between the chip and the original image then you use this function 
+of chip_details constructor to define the mapping.</li>
+<li>self.rows == dims.rows</li>
+<li>self.cols == dims.cols</li>
+<li>self.rect and self.angle are computed based on the given size of the output chip 
+(specified by dims) and the similarity transform between the chip and 
+image (specified by chip_points and img_points).</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.chip_details.angle">
+<code class="descname">angle</code><a class="headerlink" href="#dlib.chip_details.angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.chip_details.cols">
+<code class="descname">cols</code><a class="headerlink" href="#dlib.chip_details.cols" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.chip_details.rect">
+<code class="descname">rect</code><a class="headerlink" href="#dlib.chip_details.rect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.chip_details.rows">
+<code class="descname">rows</code><a class="headerlink" href="#dlib.chip_details.rows" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlib.chip_dims">
+<em class="property">class </em><code class="descclassname">dlib.</code><code class="descname">chip_dims</code><a class="headerlink" href="#dlib.chip_dims" title="Permalink to this definition">¶</a></dt>
+<dd><p>WHAT THIS OBJECT REPRESENTS 
+This is a simple tool for passing in a pair of row and column values to the 
+chip_details constructor.</p>
+<dl class="method">
+<dt id="dlib.chip_dims.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self: dlib.chip_dims</em>, <em>rows: int</em>, <em>cols: int</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.chip_dims.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.chip_dims.cols">
+<code class="descname">cols</code><a class="headerlink" href="#dlib.chip_dims.cols" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.chip_dims.rows">
+<code class="descname">rows</code><a class="headerlink" href="#dlib.chip_dims.rows" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -805,14 +1084,19 @@ that appear in the same region as reference_point.</li>
 <code class="descclassname">dlib.</code><code class="descname">count_points_on_side_of_line</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.count_points_on_side_of_line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li>count_points_on_side_of_line(l: dlib.line, reference_point: dlib.dpoint, pts: dlib.points, dist_thresh: float) -&gt; int</li>
-<li>count_points_on_side_of_line(l: dlib.line, reference_point: dlib.dpoint, pts: dlib.dpoints, dist_thresh: float) -&gt; int</li>
+<li>count_points_on_side_of_line(l: dlib.line, reference_point: dlib.dpoint, pts: dlib.points, dist_thresh_min: float=0L, dist_thresh_max: float=inf) -&gt; int</li>
+<li>count_points_on_side_of_line(l: dlib.line, reference_point: dlib.dpoint, pts: dlib.dpoints, dist_thresh_min: float=0L, dist_thresh_max: float=inf) -&gt; int</li>
 </ol>
 <dl class="docutils">
 <dt>ensures </dt>
 <dd><ul class="first last simple">
-<li>Returns a count of how many points in pts are on the same side of l as 
-reference_point, but also no more than dist_thresh distance from the line.</li>
+<li>Returns a count of how many points in pts have a distance from the line l 
+that is in the range [dist_thresh_min, dist_thresh_max].  This distance is a 
+signed value that indicates how far a point is from the line. Moreover, if 
+the point is on the same side as reference_point then the distance is 
+positive, otherwise it is negative.  So for example, If this range is [0, 
+infinity] then this function counts how many points are on the same side of l 
+as reference_point.</li>
 </ul>
 </dd>
 </dl>
@@ -1016,6 +1300,7 @@ largest values in the time series are ignored.</li>
 <p>Copy constructor</p>
 <ol class="arabic simple" start="3">
 <li>__init__(self: dlib.dpoints, arg0: iterable) -&gt; None</li>
+<li>__init__(self: dlib.dpoints, initial_size: int) -&gt; None</li>
 </ol>
 </dd></dl>
 
@@ -1131,6 +1416,7 @@ largest values in the time series are ignored.</li>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li>contains(self: dlib.drectangle, point: dlib.point) -&gt; bool</li>
+<li>contains(self: dlib.drectangle, point: dlib.dpoint) -&gt; bool</li>
 <li>contains(self: dlib.drectangle, x: int, y: int) -&gt; bool</li>
 <li>contains(self: dlib.drectangle, rectangle: dlib.drectangle) -&gt; bool</li>
 </ol>
@@ -1228,12 +1514,11 @@ largest values in the time series are ignored.</li>
 </ul>
 </dd>
 <dt>ensures </dt>
-<dd><ul class="first last">
-<li><p class="first">The returned image has the given number of rows and columns.</p>
-</li>
+<dd><ul class="first last simple">
+<li>The returned image has the given number of rows and columns.</li>
 <li><dl class="first docutils">
 <dt>if (corners contains dpoints) then </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>The 4 points in corners define a convex quadrilateral and this function 
 extracts that part of the input image img and returns it.  Therefore, 
 each corner of the quadrilateral is associated to a corner of the 
@@ -1251,7 +1536,7 @@ corner, etc.).</li>
 </li>
 <li><dl class="first docutils">
 <dt>else </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>This routine finds the 4 intersecting points of the given lines which 
 form a convex quadrilateral and uses them as described above to extract 
 an image.   i.e. It just then calls: extract_image_4points(img, 
@@ -1262,6 +1547,105 @@ routine throws no_convex_quadrilateral.</li>
 </dd>
 </dl>
 </li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlib.extract_image_chip">
+<code class="descclassname">dlib.</code><code class="descname">extract_image_chip</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.extract_image_chip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic">
+<li><p class="first">extract_image_chip(img: numpy.ndarray[(rows,cols),uint8], chip_location: dlib.chip_details) -&gt; numpy.ndarray[(rows,cols),uint8]</p>
+</li>
+<li><p class="first">extract_image_chip(img: numpy.ndarray[(rows,cols),uint16], chip_location: dlib.chip_details) -&gt; numpy.ndarray[(rows,cols),uint16]</p>
+</li>
+<li><p class="first">extract_image_chip(img: numpy.ndarray[(rows,cols),uint32], chip_location: dlib.chip_details) -&gt; numpy.ndarray[(rows,cols),uint32]</p>
+</li>
+<li><p class="first">extract_image_chip(img: numpy.ndarray[(rows,cols),uint64], chip_location: dlib.chip_details) -&gt; numpy.ndarray[(rows,cols),uint64]</p>
+</li>
+<li><p class="first">extract_image_chip(img: numpy.ndarray[(rows,cols),int8], chip_location: dlib.chip_details) -&gt; numpy.ndarray[(rows,cols),int8]</p>
+</li>
+<li><p class="first">extract_image_chip(img: numpy.ndarray[(rows,cols),int16], chip_location: dlib.chip_details) -&gt; numpy.ndarray[(rows,cols),int16]</p>
+</li>
+<li><p class="first">extract_image_chip(img: numpy.ndarray[(rows,cols),int32], chip_location: dlib.chip_details) -&gt; numpy.ndarray[(rows,cols),int32]</p>
+</li>
+<li><p class="first">extract_image_chip(img: numpy.ndarray[(rows,cols),int64], chip_location: dlib.chip_details) -&gt; numpy.ndarray[(rows,cols),int64]</p>
+</li>
+<li><p class="first">extract_image_chip(img: numpy.ndarray[(rows,cols),float32], chip_location: dlib.chip_details) -&gt; numpy.ndarray[(rows,cols),float32]</p>
+</li>
+<li><p class="first">extract_image_chip(img: numpy.ndarray[(rows,cols),float64], chip_location: dlib.chip_details) -&gt; numpy.ndarray[(rows,cols),float64]</p>
+</li>
+<li><p class="first">extract_image_chip(img: numpy.ndarray[(rows,cols,3),uint8], chip_location: dlib.chip_details) -&gt; numpy.ndarray[(rows,cols,3),uint8]</p>
+<p>This routine is just like extract_image_chips() except it takes a single 
+chip_details object and returns a single chip image rather than a list of images.</p>
+</li>
+</ol>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlib.extract_image_chips">
+<code class="descclassname">dlib.</code><code class="descname">extract_image_chips</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.extract_image_chips" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>extract_image_chips(img: numpy.ndarray[(rows,cols),uint8], chip_locations: list) -&gt; list</li>
+<li>extract_image_chips(img: numpy.ndarray[(rows,cols),uint16], chip_locations: list) -&gt; list</li>
+<li>extract_image_chips(img: numpy.ndarray[(rows,cols),uint32], chip_locations: list) -&gt; list</li>
+<li>extract_image_chips(img: numpy.ndarray[(rows,cols),uint64], chip_locations: list) -&gt; list</li>
+<li>extract_image_chips(img: numpy.ndarray[(rows,cols),int8], chip_locations: list) -&gt; list</li>
+<li>extract_image_chips(img: numpy.ndarray[(rows,cols),int16], chip_locations: list) -&gt; list</li>
+<li>extract_image_chips(img: numpy.ndarray[(rows,cols),int32], chip_locations: list) -&gt; list</li>
+<li>extract_image_chips(img: numpy.ndarray[(rows,cols),int64], chip_locations: list) -&gt; list</li>
+<li>extract_image_chips(img: numpy.ndarray[(rows,cols),float32], chip_locations: list) -&gt; list</li>
+<li>extract_image_chips(img: numpy.ndarray[(rows,cols),float64], chip_locations: list) -&gt; list</li>
+<li>extract_image_chips(img: numpy.ndarray[(rows,cols,3),uint8], chip_locations: list) -&gt; list</li>
+</ol>
+<dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt>for all valid i:  </dt>
+<dd><ul class="first last">
+<li>chip_locations[i].rect.is_empty() == false</li>
+<li>chip_locations[i].rows*chip_locations[i].cols != 0</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>This function extracts &#8220;chips&#8221; from an image.  That is, it takes a list of 
+rectangular sub-windows (i.e. chips) within an image and extracts those 
+sub-windows, storing each into its own image.  It also scales and rotates the 
+image chips according to the instructions inside each chip_details object. 
+It uses bilinear interpolation.</li>
+<li>The extracted image chips are returned in a python list of numpy arrays.  The 
+length of the returned array is len(chip_locations).</li>
+<li><dl class="first docutils">
+<dt>Let CHIPS be the returned array, then we have: </dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>for all valid i: </dt>
+<dd><ul class="first last">
+<li>#CHIPS[i] == The image chip extracted from the position 
+chip_locations[i].rect in img.</li>
+<li>#CHIPS[i].shape(0) == chip_locations[i].rows</li>
+<li>#CHIPS[i].shape(1) == chip_locations[i].cols</li>
+<li>The image will have been rotated counter-clockwise by 
+chip_locations[i].angle radians, around the center of 
+chip_locations[i].rect, before the chip was extracted.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Any pixels in an image chip that go outside img are set to 0 (i.e. black).</li>
 </ul>
 </dd>
 </dl>
@@ -1285,9 +1669,13 @@ routine throws no_convex_quadrilateral.</li>
 </ol>
 <p>Takes an image and a full_object_detection that references a face in that image and converts it into a 128D face descriptor. If num_jitters&gt;1 then each face will be randomly jittered slightly num_jitters times, each run through the 128D projection, and the average used as the face descriptor.</p>
 <ol class="arabic simple" start="2">
-<li>compute_face_descriptor(self: dlib.face_recognition_model_v1, img: numpy.ndarray[(rows,cols,3),uint8], faces: std::vector&lt;dlib::full_object_detection, std::allocator&lt;dlib::full_object_detection&gt; &gt;, num_jitters: int=0L) -&gt; dlib.vectors</li>
+<li>compute_face_descriptor(self: dlib.face_recognition_model_v1, img: numpy.ndarray[(rows,cols,3),uint8], faces: dlib.full_object_detections, num_jitters: int=0L) -&gt; dlib.vectors</li>
 </ol>
 <p>Takes an image and an array of full_object_detections that reference faces in that image and converts them into 128D face descriptors.  If num_jitters&gt;1 then each face will be randomly jittered slightly num_jitters times, each run through the 128D projection, and the average used as the face descriptor.</p>
+<ol class="arabic simple" start="3">
+<li>compute_face_descriptor(self: dlib.face_recognition_model_v1, batch_img: List[numpy.ndarray[(rows,cols,3),uint8]], batch_faces: List[dlib.full_object_detections], num_jitters: int=0L) -&gt; dlib.vectorss</li>
+</ol>
+<p>Takes an array of images and an array of arrays of full_object_detections. <cite>batch_faces[i]</cite> must be an array of full_object_detections corresponding to the image <cite>batch_img[i]</cite>, referencing faces in that image. Every face will be converting into 128D face descriptors.  If num_jitters&gt;1 then each face will be randomly jittered slightly num_jitters times, each run through the 128D projection, and the average used as the face descriptor.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1325,6 +1713,21 @@ detector.</li>
 train_simple_object_detector() routine or a serialized C++ object of type
 object_detector&lt;scan_fhog_pyramid&lt;pyramid_down&lt;6&gt;&gt;&gt;.</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.fhog_object_detector.detection_window_height">
+<code class="descname">detection_window_height</code><a class="headerlink" href="#dlib.fhog_object_detector.detection_window_height" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.fhog_object_detector.detection_window_width">
+<code class="descname">detection_window_width</code><a class="headerlink" href="#dlib.fhog_object_detector.detection_window_width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.fhog_object_detector.num_detectors">
+<code class="descname">num_detectors</code><a class="headerlink" href="#dlib.fhog_object_detector.num_detectors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="dlib.fhog_object_detector.run">
@@ -1396,12 +1799,11 @@ the image Hessian at each location and storing this value into the returned
 image if both eigenvalues of the Hessian are negative.  If either eigenvalue 
 is positive then the output value for that pixel is 0.  I.e.</p>
 <blockquote>
-<div><ul>
-<li><p class="first">Let OUT denote the returned image.</p>
-</li>
+<div><ul class="simple">
+<li>Let OUT denote the returned image.</li>
 <li><dl class="first docutils">
 <dt>for all valid r,c: </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>OUT[r][c] == a number &gt;= 0 and larger values indicate the 
 presence of a keypoint at this pixel location.</li>
 </ul>
@@ -1532,12 +1934,11 @@ the image Hessian at each location and storing this value into the returned
 image if both eigenvalues of the Hessian are negative.  If either eigenvalue 
 is negative then the output value for that pixel is 0.  I.e.</p>
 <blockquote>
-<div><ul>
-<li><p class="first">Let OUT denote the returned image.</p>
-</li>
+<div><ul class="simple">
+<li>Let OUT denote the returned image.</li>
 <li><dl class="first docutils">
 <dt>for all valid r,c: </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>OUT[r][c] == a number &gt;= 0 and larger values indicate the 
 presence of a keypoint at this pixel location.</li>
 </ul>
@@ -1640,7 +2041,8 @@ The goal is to maximize the following objective function:</p>
 <dl class="docutils">
 <dt>subject to the constraints: </dt>
 <dd><p class="first last">min(bound1[i],bound2[i]) &lt;= x[i] &lt;= max(bound1[i],bound2[i]) 
-if (is_integer_variable[i]) then x[i] is an integer.</p>
+if (is_integer_variable[i]) then x[i] is an integer value (but still 
+represented with float type).</p>
 </dd>
 </dl>
 </li>
@@ -2165,9 +2567,51 @@ inside the image are set to zero.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="dlib.get_histogram">
+<code class="descclassname">dlib.</code><code class="descname">get_histogram</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.get_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>get_histogram(img: numpy.ndarray[(rows,cols),uint8], hist_size: int) -&gt; numpy.ndarray[uint64]</li>
+<li>get_histogram(img: numpy.ndarray[(rows,cols),uint16], hist_size: int) -&gt; numpy.ndarray[uint64]</li>
+<li>get_histogram(img: numpy.ndarray[(rows,cols),uint32], hist_size: int) -&gt; numpy.ndarray[uint64]</li>
+<li>get_histogram(img: numpy.ndarray[(rows,cols),uint64], hist_size: int) -&gt; numpy.ndarray[uint64]</li>
+</ol>
+<dl class="docutils">
+<dt>ensures </dt>
+<dd><ul class="first last">
+<li><p class="first">Returns a numpy array, HIST, that contains a histogram of the pixels in img. 
+In particular, we will have:</p>
+<blockquote>
+<div><ul class="simple">
+<li>len(HIST) == hist_size</li>
+<li><dl class="first docutils">
+<dt>for all valid i:  </dt>
+<dd><ul class="first last">
+<li>HIST[i] == the number of times a pixel with intensity i appears in img.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="dlib.get_rect">
-<code class="descclassname">dlib.</code><code class="descname">get_rect</code><span class="sig-paren">(</span><em>img: array</em><span class="sig-paren">)</span> &rarr; dlib.rectangle<a class="headerlink" href="#dlib.get_rect" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns a rectangle(0,0,img.shape(1)-1,img.shape(0)-1).  Therefore, it is the rectangle that bounds the image.</p>
+<code class="descclassname">dlib.</code><code class="descname">get_rect</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.get_rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>get_rect(img: array) -&gt; dlib.rectangle</li>
+</ol>
+<p>returns a rectangle(0,0,img.shape(1)-1,img.shape(0)-1).  Therefore, it is the rectangle that bounds the image.</p>
+<ol class="arabic simple" start="2">
+<li>get_rect(ht: dlib.hough_transform) -&gt; dlib.rectangle</li>
+</ol>
+<p>returns a rectangle(0,0,ht.size()-1,ht.size()-1).  Therefore, it is the rectangle that bounds the Hough transform image.</p>
 </dd></dl>
 
 <dl class="class">
@@ -2294,8 +2738,8 @@ correspondingly stronger line detections in the final Hough transform.</p>
 <dl class="docutils">
 <dt>requires </dt>
 <dd><ul class="first last simple">
-<li>box.width() == size()</li>
-<li>box.height() == size()</li>
+<li>box.width() == size</li>
+<li>box.height() == size</li>
 </ul>
 </dd>
 <dt>ensures </dt>
@@ -2309,7 +2753,7 @@ in img to each Hough accumulator bin.  This means that, if all the
 pixels in img are 0 or 1 then this routine performs a normal Hough 
 transform.  However, if some pixels have larger values then they will be 
 weighted correspondingly more in the resulting Hough transform.</li>
-<li>The returned hough transform image will be size() rows by size() columns.</li>
+<li>The returned hough transform image will be size rows by size columns.</li>
 <li>The returned image is the Hough transform of the part of img contained in 
 box.  Each point in the Hough image corresponds to a line in the input box. 
 In particular, the line for hough_image[y][x] is given by get_line(point(x,y)).  
@@ -2351,15 +2795,15 @@ obtained by calling get_line_properties().</li>
 <dd><dl class="docutils">
 <dt>requires </dt>
 <dd><ul class="first last simple">
-<li><a href="#id1"><span class="problematic" id="id2">size_</span></a> &gt; 0</li>
+<li><a href="#id3"><span class="problematic" id="id4">size_</span></a> &gt; 0</li>
 </ul>
 </dd>
 <dt>ensures </dt>
 <dd><ul class="first last simple">
-<li>This object will compute Hough transforms that are <a href="#id3"><span class="problematic" id="id4">size_</span></a> by <a href="#id5"><span class="problematic" id="id6">size_</span></a> pixels.   
+<li>This object will compute Hough transforms that are <a href="#id5"><span class="problematic" id="id6">size_</span></a> by <a href="#id7"><span class="problematic" id="id8">size_</span></a> pixels.   
 This is in terms of both the Hough accumulator array size as well as the 
 input image size.</li>
-<li>size() == <a href="#id7"><span class="problematic" id="id8">size_</span></a></li>
+<li>size() == <a href="#id9"><span class="problematic" id="id10">size_</span></a></li>
 </ul>
 </dd>
 </dl>
@@ -2383,25 +2827,21 @@ input image size.</li>
 </ol>
 <dl class="docutils">
 <dt>requires </dt>
-<dd><ul class="first last">
-<li><p class="first">box.width() == size()</p>
-</li>
-<li><p class="first">box.height() == size()</p>
-</li>
+<dd><ul class="first last simple">
+<li>box.width() == size</li>
+<li>box.height() == size</li>
 <li><dl class="first docutils">
 <dt>for all valid i: </dt>
-<dd><ul class="first last simple">
-<li>rectangle(0,0,size()-1,size()-1).contains(hough_points[i]) == true 
+<dd><ul class="first last">
+<li>rectangle(0,0,size-1,size-1).contains(hough_points[i]) == true 
 (i.e. hough_points must contain points in the output Hough transform 
 space generated by this object.)</li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><p class="first">angle_window_size &gt;= 1</p>
-</li>
-<li><p class="first">radius_window_size &gt;= 1</p>
-</li>
+<li>angle_window_size &gt;= 1</li>
+<li>radius_window_size &gt;= 1</li>
 </ul>
 </dd>
 <dt>ensures </dt>
@@ -2420,12 +2860,11 @@ pixels in the input image belong to those lines.</p>
 <li><p class="first">This routine returns a vector, CONSTITUENT_POINTS, with the following 
 properties:</p>
 <blockquote>
-<div><ul>
-<li><p class="first">CONSTITUENT_POINTS.size() == hough_points.size()</p>
-</li>
+<div><ul class="simple">
+<li>CONSTITUENT_POINTS.size == hough_points.size</li>
 <li><dl class="first docutils">
 <dt>for all valid i: </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>Let HP[i] = centered_rect(hough_points[i], angle_window_size, radius_window_size)</li>
 <li>Any point in img with a non-zero value that lies on a line 
 corresponding to one of the Hough points in HP[i] is added to 
@@ -2433,14 +2872,14 @@ CONSTITUENT_POINTS[i].  Therefore, when this routine finishes,
 #CONSTITUENT_POINTS[i] will contain all the points in img that 
 voted for the lines associated with the Hough accumulator bins in 
 HP[i].</li>
-<li>#CONSTITUENT_POINTS[i].size() == the number of points in img that 
+<li>#CONSTITUENT_POINTS[i].size == the number of points in img that 
 voted for any of the lines HP[i] in Hough space.  Note, however, 
 that if angle_window_size or radius_window_size are made so large 
 that HP[i] overlaps HP[j] for i!=j then the overlapping regions 
-of Hough space are assign to HP[i] or HP[j] arbitrarily. 
-Therefore, all points in CONSTITUENT_POINTS are unique, that is, 
-there is no overlap in points between any two elements of 
-CONSTITUENT_POINTS.</li>
+of Hough space are assigned to HP[i] or HP[j] arbitrarily. 
+That is, we treat HP[i] and HP[j] as disjoint even if their boxes 
+overlap.  In this case, the overlapping region is assigned to 
+either HP[i] or HP[j] in an arbitrary manner.</li>
 </ul>
 </dd>
 </dl>
@@ -2479,7 +2918,7 @@ CONSTITUENT_POINTS.</li>
 
 <dl class="method">
 <dt id="dlib.hough_transform.find_strong_hough_points">
-<code class="descname">find_strong_hough_points</code><span class="sig-paren">(</span><em>self: dlib.hough_transform, himg: numpy.ndarray[(rows,cols),float32], hough_count_threshold: float, angle_nms_thresh: float, radius_nms_thresh: float</em><span class="sig-paren">)</span> &rarr; dlib.points<a class="headerlink" href="#dlib.hough_transform.find_strong_hough_points" title="Permalink to this definition">¶</a></dt>
+<code class="descname">find_strong_hough_points</code><span class="sig-paren">(</span><em>self: dlib.hough_transform, himg: numpy.ndarray[(rows,cols),float32], hough_count_thresh: float, angle_nms_thresh: float, radius_nms_thresh: float</em><span class="sig-paren">)</span> &rarr; dlib.points<a class="headerlink" href="#dlib.hough_transform.find_strong_hough_points" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>requires </dt>
 <dd><ul class="first last simple">
@@ -2494,12 +2933,14 @@ CONSTITUENT_POINTS.</li>
 non-maximum suppression on the detected lines.  Recall that each point in 
 Hough space is associated with a line. Therefore, this routine finds all 
 the pixels in himg (a Hough transform image) with values &gt;= 
-hough_count_threshold and performs non-maximum suppression on the 
+hough_count_thresh and performs non-maximum suppression on the 
 identified list of pixels.  It does this by discarding lines that are 
 within angle_nms_thresh degrees of a stronger line or within 
 radius_nms_thresh distance (in terms of radius as defined by 
 get_line_properties()) to a stronger Hough point.</li>
 <li>The identified lines are returned as a list of coordinates in himg.</li>
+<li>The returned points are sorted so that points with larger Hough transform 
+values come first.</li>
 </ul>
 </dd>
 </dl>
@@ -2511,8 +2952,8 @@ get_line_properties()) to a stronger Hough point.</li>
 <dd><dl class="docutils">
 <dt>requires </dt>
 <dd><ul class="first last simple">
-<li>himg has size() rows and columns.</li>
-<li>rectangle(0,0,size()-1,size()-1).contains(p) == true</li>
+<li>himg has size rows and columns.</li>
+<li>rectangle(0,0,size-1,size-1).contains(p) == true</li>
 </ul>
 </dd>
 <dt>ensures </dt>
@@ -2530,11 +2971,16 @@ largest score.</li>
 
 <dl class="method">
 <dt id="dlib.hough_transform.get_line">
-<code class="descname">get_line</code><span class="sig-paren">(</span><em>self: dlib.hough_transform</em>, <em>p: dlib.point</em><span class="sig-paren">)</span> &rarr; dlib.line<a class="headerlink" href="#dlib.hough_transform.get_line" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<code class="descname">get_line</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.hough_transform.get_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>get_line(self: dlib.hough_transform, p: dlib.point) -&gt; dlib.line</li>
+<li>get_line(self: dlib.hough_transform, p: dlib.dpoint) -&gt; dlib.line</li>
+</ol>
+<dl class="docutils">
 <dt>requires </dt>
 <dd><ul class="first last simple">
-<li>rectangle(0,0,size()-1,size()-1).contains(p) == true 
+<li>rectangle(0,0,size-1,size-1).contains(p) == true 
 (i.e. p must be a point inside the Hough accumulator array)</li>
 </ul>
 </dd>
@@ -2542,7 +2988,7 @@ largest score.</li>
 <dd><ul class="first last simple">
 <li>returns the line segment in the original image space corresponding 
 to Hough transform point p.</li>
-<li>The returned points are inside rectangle(0,0,size()-1,size()-1).</li>
+<li>The returned points are inside rectangle(0,0,size-1,size-1).</li>
 </ul>
 </dd>
 </dl>
@@ -2550,11 +2996,16 @@ to Hough transform point p.</li>
 
 <dl class="method">
 <dt id="dlib.hough_transform.get_line_angle_in_degrees">
-<code class="descname">get_line_angle_in_degrees</code><span class="sig-paren">(</span><em>self: dlib.hough_transform</em>, <em>p: dlib.point</em><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#dlib.hough_transform.get_line_angle_in_degrees" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<code class="descname">get_line_angle_in_degrees</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.hough_transform.get_line_angle_in_degrees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>get_line_angle_in_degrees(self: dlib.hough_transform, p: dlib.point) -&gt; float</li>
+<li>get_line_angle_in_degrees(self: dlib.hough_transform, p: dlib.dpoint) -&gt; float</li>
+</ol>
+<dl class="docutils">
 <dt>requires </dt>
 <dd><ul class="first last simple">
-<li>rectangle(0,0,size()-1,size()-1).contains(p) == true 
+<li>rectangle(0,0,size-1,size-1).contains(p) == true 
 (i.e. p must be a point inside the Hough accumulator array)</li>
 </ul>
 </dd>
@@ -2569,11 +3020,16 @@ transform point p.</li>
 
 <dl class="method">
 <dt id="dlib.hough_transform.get_line_properties">
-<code class="descname">get_line_properties</code><span class="sig-paren">(</span><em>self: dlib.hough_transform</em>, <em>p: dlib.point</em><span class="sig-paren">)</span> &rarr; tuple<a class="headerlink" href="#dlib.hough_transform.get_line_properties" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<code class="descname">get_line_properties</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.hough_transform.get_line_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>get_line_properties(self: dlib.hough_transform, p: dlib.point) -&gt; tuple</li>
+<li>get_line_properties(self: dlib.hough_transform, p: dlib.dpoint) -&gt; tuple</li>
+</ol>
+<dl class="docutils">
 <dt>requires </dt>
 <dd><ul class="first last simple">
-<li>rectangle(0,0,size()-1,size()-1).contains(p) == true 
+<li>rectangle(0,0,size-1,size-1).contains(p) == true 
 (i.e. p must be a point inside the Hough accumulator array)</li>
 </ul>
 </dd>
@@ -2585,17 +3041,17 @@ and a radius, measured in pixels from the center of the input image.</li>
 transform point p.  Moreover: -90 &lt;= ANGLE_IN_DEGREES &lt; 90.</li>
 <li>RADIUS == the distance from the center of the input image, measured in 
 pixels, and the line corresponding to the Hough transform point p. 
-Moreover: -sqrt(size()*size()/2) &lt;= RADIUS &lt;= sqrt(size()*size()/2)</li>
+Moreover: -sqrt(size*size/2) &lt;= RADIUS &lt;= sqrt(size*size/2)</li>
 <li>returns a tuple of (ANGLE_IN_DEGREES, RADIUS)</li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="attribute">
 <dt id="dlib.hough_transform.size">
-<code class="descname">size</code><span class="sig-paren">(</span><em>self: dlib.hough_transform</em><span class="sig-paren">)</span> &rarr; int<a class="headerlink" href="#dlib.hough_transform.size" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns the size of the Hough transforms generated by this object.  In particular, this object creates Hough transform images that are size() by size() pixels in size.</p>
+<code class="descname">size</code><a class="headerlink" href="#dlib.hough_transform.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the size of the Hough transforms generated by this object.  In particular, this object creates Hough transform images that are size by size pixels in size.</p>
 </dd></dl>
 
 </dd></dl>
@@ -2606,15 +3062,15 @@ Moreover: -sqrt(size()*size()/2) &lt;= RADIUS &lt;= sqrt(size()*size()/2)</li>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint8], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint16], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),uint16]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint32], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),uint32]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint64], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),uint64]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int8], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),int8]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int16], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),int16]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int32], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),int32]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int64], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),int64]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),float32], lower_thresh: float, upper_thresh: float) -&gt; numpy.ndarray[(rows,cols),float32]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),float64], lower_thresh: float, upper_thresh: float) -&gt; numpy.ndarray[(rows,cols),float64]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint16], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint32], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint64], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int8], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int16], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int32], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int64], lower_thresh: int, upper_thresh: int) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),float32], lower_thresh: float, upper_thresh: float) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),float64], lower_thresh: float, upper_thresh: float) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
 </ol>
 <p>Applies hysteresis thresholding to img and returns the results.  In particular, 
 pixels in img with values &gt;= upper_thresh have an output value of 255 and all 
@@ -2624,15 +3080,15 @@ pixels are connected if there is a path between them composed of pixels that wou
 receive an output of 255.</p>
 <ol class="arabic simple" start="11">
 <li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint8]) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint16]) -&gt; numpy.ndarray[(rows,cols),uint16]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint32]) -&gt; numpy.ndarray[(rows,cols),uint32]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint64]) -&gt; numpy.ndarray[(rows,cols),uint64]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int8]) -&gt; numpy.ndarray[(rows,cols),int8]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int16]) -&gt; numpy.ndarray[(rows,cols),int16]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int32]) -&gt; numpy.ndarray[(rows,cols),int32]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int64]) -&gt; numpy.ndarray[(rows,cols),int64]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),float32]) -&gt; numpy.ndarray[(rows,cols),float32]</li>
-<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),float64]) -&gt; numpy.ndarray[(rows,cols),float64]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint16]) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint32]) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),uint64]) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int8]) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int16]) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int32]) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),int64]) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),float32]) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
+<li>hysteresis_threshold(img: numpy.ndarray[(rows,cols),float64]) -&gt; numpy.ndarray[(rows,cols),uint8]</li>
 </ol>
 <p>performs: return hysteresis_threshold(img, t1, t2) where the thresholds 
 are first obtained by calling [t1, t2]=partition_pixels(img).</p>
@@ -2672,7 +3128,7 @@ scale must be &gt;= 1.</p>
 <dl class="method">
 <dt id="dlib.image_gradients.get_scale">
 <code class="descname">get_scale</code><span class="sig-paren">(</span><em>self: dlib.image_gradients</em><span class="sig-paren">)</span> &rarr; int<a class="headerlink" href="#dlib.image_gradients.get_scale" title="Permalink to this definition">¶</a></dt>
-<dd><p>When we estimate a gradient we do so by fitting a quadratic filter so a window of size 
+<dd><p>When we estimate a gradient we do so by fitting a quadratic filter to a window of size 
 get_scale()*2+1 centered on each pixel.  Therefore, the scale parameter controls the size 
 of gradients we will find.  For example, a very large scale will cause the gradient_xx() 
 to be insensitive to high frequency noise in the image while smaller scales would be more 
@@ -2831,6 +3287,10 @@ where the first element is the gradient image and the second is VALID_AREA.</li>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li>__init__(self: dlib.image_window) -&gt; None</li>
+<li>__init__(self: dlib.image_window, arg0: dlib.fhog_object_detector) -&gt; None</li>
+<li>__init__(self: dlib.image_window, arg0: dlib.simple_object_detector) -&gt; None</li>
+<li>__init__(self: dlib.image_window, arg0: dlib.fhog_object_detector, arg1: unicode) -&gt; None</li>
+<li>__init__(self: dlib.image_window, arg0: dlib.simple_object_detector, arg1: unicode) -&gt; None</li>
 <li>__init__(self: dlib.image_window, arg0: numpy.ndarray[(rows,cols),uint8]) -&gt; None</li>
 <li>__init__(self: dlib.image_window, arg0: numpy.ndarray[(rows,cols),uint16]) -&gt; None</li>
 <li>__init__(self: dlib.image_window, arg0: numpy.ndarray[(rows,cols),uint32]) -&gt; None</li>
@@ -2844,7 +3304,7 @@ where the first element is the gradient image and the second is VALID_AREA.</li>
 <li>__init__(self: dlib.image_window, arg0: numpy.ndarray[(rows,cols,3),uint8]) -&gt; None</li>
 </ol>
 <p>Create an image window that displays the given numpy image.</p>
-<ol class="arabic simple" start="13">
+<ol class="arabic simple" start="17">
 <li>__init__(self: dlib.image_window, arg0: numpy.ndarray[(rows,cols),uint8], arg1: unicode) -&gt; None</li>
 <li>__init__(self: dlib.image_window, arg0: numpy.ndarray[(rows,cols),uint16], arg1: unicode) -&gt; None</li>
 <li>__init__(self: dlib.image_window, arg0: numpy.ndarray[(rows,cols),uint32], arg1: unicode) -&gt; None</li>
@@ -2884,6 +3344,10 @@ where the first element is the gradient image and the second is VALID_AREA.</li>
 <li>add_overlay(self: dlib.image_window, line: dlib.line, color: dlib.rgb_pixel=rgb_pixel(255,0,0)) -&gt; None</li>
 </ol>
 <p>Add line to the image window.</p>
+<ol class="arabic simple" start="6">
+<li>add_overlay(self: dlib.image_window, objects: list, color: dlib.rgb_pixel=rgb_pixel(255,0,0)) -&gt; None</li>
+</ol>
+<p>Adds all the overlayable objects, uses the given color.</p>
 </dd></dl>
 
 <dl class="method">
@@ -3004,6 +3468,9 @@ finally red as they approach the maximum pixel values.</p>
 <li>label_connected_blobs(img: numpy.ndarray[(rows,cols),uint8], zero_pixels_are_background: bool=True, neighborhood_connectivity: int=8L, connected_if_both_not_zero: bool=False) -&gt; tuple</li>
 <li>label_connected_blobs(img: numpy.ndarray[(rows,cols),uint16], zero_pixels_are_background: bool=True, neighborhood_connectivity: int=8L, connected_if_both_not_zero: bool=False) -&gt; tuple</li>
 <li>label_connected_blobs(img: numpy.ndarray[(rows,cols),uint32], zero_pixels_are_background: bool=True, neighborhood_connectivity: int=8L, connected_if_both_not_zero: bool=False) -&gt; tuple</li>
+<li>label_connected_blobs(img: numpy.ndarray[(rows,cols),uint64], zero_pixels_are_background: bool=True, neighborhood_connectivity: int=8L, connected_if_both_not_zero: bool=False) -&gt; tuple</li>
+<li>label_connected_blobs(img: numpy.ndarray[(rows,cols),float32], zero_pixels_are_background: bool=True, neighborhood_connectivity: int=8L, connected_if_both_not_zero: bool=False) -&gt; tuple</li>
+<li>label_connected_blobs(img: numpy.ndarray[(rows,cols),float64], zero_pixels_are_background: bool=True, neighborhood_connectivity: int=8L, connected_if_both_not_zero: bool=False) -&gt; tuple</li>
 </ol>
 <dl class="docutils">
 <dt>requires </dt>
@@ -3038,14 +3505,12 @@ I.e., if you ran this function like:</p>
 </li>
 <li><dl class="first docutils">
 <dt>for all valid r and c: </dt>
-<dd><ul class="first last">
-<li><p class="first">label_img[r][c] == the blob label number for pixel img[r][c].</p>
-</li>
-<li><p class="first">label_img[r][c] &gt;= 0</p>
-</li>
+<dd><ul class="first last simple">
+<li>label_img[r][c] == the blob label number for pixel img[r][c].</li>
+<li>label_img[r][c] &gt;= 0</li>
 <li><dl class="first docutils">
 <dt>if (img[r][c]==0) then </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>label_img[r][c] == 0</li>
 </ul>
 </dd>
@@ -3053,7 +3518,7 @@ I.e., if you ran this function like:</p>
 </li>
 <li><dl class="first docutils">
 <dt>else </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>label_img[r][c] != 0</li>
 </ul>
 </dd>
@@ -3135,10 +3600,10 @@ i.e. you can call it like this:</p>
 </li>
 <li><dl class="first docutils">
 <dt>for all valid r and c: </dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li><dl class="first docutils">
 <dt>if (img[r][c] &lt; background_thresh) then </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>label_img[r][c] == 0, (i.e. the pixel is labeled as background)</li>
 </ul>
 </dd>
@@ -3146,7 +3611,7 @@ i.e. you can call it like this:</p>
 </li>
 <li><dl class="first docutils">
 <dt>else </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>label_img[r][c] == an integer value indicating the identity of the segment 
 containing the pixel img[r][c].</li>
 </ul>
@@ -3430,6 +3895,70 @@ is empty then returns 0.</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="dlib.max_point">
+<code class="descclassname">dlib.</code><code class="descname">max_point</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.max_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>max_point(img: numpy.ndarray[(rows,cols),uint8]) -&gt; dlib.dpoint</li>
+<li>max_point(img: numpy.ndarray[(rows,cols),uint16]) -&gt; dlib.dpoint</li>
+<li>max_point(img: numpy.ndarray[(rows,cols),uint32]) -&gt; dlib.dpoint</li>
+<li>max_point(img: numpy.ndarray[(rows,cols),uint64]) -&gt; dlib.dpoint</li>
+<li>max_point(img: numpy.ndarray[(rows,cols),int8]) -&gt; dlib.dpoint</li>
+<li>max_point(img: numpy.ndarray[(rows,cols),int16]) -&gt; dlib.dpoint</li>
+<li>max_point(img: numpy.ndarray[(rows,cols),int32]) -&gt; dlib.dpoint</li>
+<li>max_point(img: numpy.ndarray[(rows,cols),int64]) -&gt; dlib.dpoint</li>
+<li>max_point(img: numpy.ndarray[(rows,cols),float32]) -&gt; dlib.dpoint</li>
+<li>max_point(img: numpy.ndarray[(rows,cols),float64]) -&gt; dlib.dpoint</li>
+</ol>
+<dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>m.size &gt; 0</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>returns the location of the maximum element of the array, that is, if the 
+returned point is P then it will be the case that: img[P.y,P.x] == img.max().</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlib.max_point_interpolated">
+<code class="descclassname">dlib.</code><code class="descname">max_point_interpolated</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.max_point_interpolated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>max_point_interpolated(img: numpy.ndarray[(rows,cols),uint8]) -&gt; dlib.dpoint</li>
+<li>max_point_interpolated(img: numpy.ndarray[(rows,cols),uint16]) -&gt; dlib.dpoint</li>
+<li>max_point_interpolated(img: numpy.ndarray[(rows,cols),uint32]) -&gt; dlib.dpoint</li>
+<li>max_point_interpolated(img: numpy.ndarray[(rows,cols),uint64]) -&gt; dlib.dpoint</li>
+<li>max_point_interpolated(img: numpy.ndarray[(rows,cols),int8]) -&gt; dlib.dpoint</li>
+<li>max_point_interpolated(img: numpy.ndarray[(rows,cols),int16]) -&gt; dlib.dpoint</li>
+<li>max_point_interpolated(img: numpy.ndarray[(rows,cols),int32]) -&gt; dlib.dpoint</li>
+<li>max_point_interpolated(img: numpy.ndarray[(rows,cols),int64]) -&gt; dlib.dpoint</li>
+<li>max_point_interpolated(img: numpy.ndarray[(rows,cols),float32]) -&gt; dlib.dpoint</li>
+<li>max_point_interpolated(img: numpy.ndarray[(rows,cols),float64]) -&gt; dlib.dpoint</li>
+</ol>
+<dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>m.size &gt; 0</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>Like max_point(), this function finds the location in m with the largest 
+value.  However, we additionally use some quadratic interpolation to find the 
+location of the maximum point with sub-pixel accuracy.  Therefore, the 
+returned point is equal to max_point(m) + some small sub-pixel delta.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="dlib.min_barrier_distance">
 <code class="descclassname">dlib.</code><code class="descname">min_barrier_distance</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.min_barrier_distance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
@@ -3679,6 +4208,12 @@ unless both img1[r][c] and img2[r][c] were 0 initially, then they stay zero.</li
 </dl>
 </dd></dl>
 
+<dl class="function">
+<dt id="dlib.num_separable_filters">
+<code class="descclassname">dlib.</code><code class="descname">num_separable_filters</code><span class="sig-paren">(</span><em>detector: dlib.simple_object_detector</em><span class="sig-paren">)</span> &rarr; int<a class="headerlink" href="#dlib.num_separable_filters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of separable filters necessary to represent the HOG filters in the given detector.</p>
+</dd></dl>
+
 <dl class="class">
 <dt id="dlib.pair">
 <em class="property">class </em><code class="descclassname">dlib.</code><code class="descname">pair</code><a class="headerlink" href="#dlib.pair" title="Permalink to this definition">¶</a></dt>
@@ -3793,10 +4328,10 @@ output is the same as if you did.  For example, suppose you called
 <li><p class="first">Applies the projective transformation defined by this object&#8217;s constructor 
 to p and returns the result.  To define this precisely:</p>
 <blockquote>
-<div><ul>
+<div><ul class="simple">
 <li><dl class="first docutils">
 <dt>let p_h == the point p in homogeneous coordinates.  That is: </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>p_h.x == p.x</li>
 <li>p_h.y == p.y</li>
 <li>p_h.z == 1</li>
@@ -3804,10 +4339,8 @@ to p and returns the result.  To define this precisely:</p>
 </dd>
 </dl>
 </li>
-<li><p class="first">let x == m*p_h</p>
-</li>
-<li><p class="first">Then this function returns the value x/x.z</p>
-</li>
+<li>let x == m*p_h</li>
+<li>Then this function returns the value x/x.z</li>
 </ul>
 </div></blockquote>
 </li>
@@ -3866,6 +4399,7 @@ as input it will return the same point as output.  Therefore, self.m == a 3x3 id
 <p>Copy constructor</p>
 <ol class="arabic simple" start="3">
 <li>__init__(self: dlib.points, arg0: iterable) -&gt; None</li>
+<li>__init__(self: dlib.points, initial_size: int) -&gt; None</li>
 </ol>
 </dd></dl>
 
@@ -3930,6 +4464,25 @@ as input it will return the same point as output.  Therefore, self.m == a 3x3 id
 <code class="descname">resize</code><span class="sig-paren">(</span><em>self: dlib.points</em>, <em>arg0: int</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.points.resize" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="dlib.polygon_area">
+<code class="descclassname">dlib.</code><code class="descname">polygon_area</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.polygon_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>polygon_area(pts: dlib.dpoints) -&gt; float</li>
+<li>polygon_area(pts: list) -&gt; float</li>
+</ol>
+<dl class="docutils">
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>If you walk the points pts in order to make a closed polygon, what is its 
+area?  This function returns that area.  It uses the shoelace formula to 
+compute the result and so works for general non-self-intersecting polygons.</li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -4097,8 +4650,13 @@ this colored version of img.</li>
 <dd><p>This object is used to represent a range of elements in an array.</p>
 <dl class="method">
 <dt id="dlib.range.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>self: dlib.range</em>, <em>arg0: int</em>, <em>arg1: int</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.range.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.range.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>__init__(self: dlib.range, arg0: int, arg1: int) -&gt; None</li>
+<li>__init__(self: dlib.range, arg0: int) -&gt; None</li>
+</ol>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dlib.range.begin">
@@ -4477,6 +5035,7 @@ up&#8221; to the new position.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li>contains(self: dlib.rectangle, point: dlib.point) -&gt; bool</li>
+<li>contains(self: dlib.rectangle, point: dlib.dpoint) -&gt; bool</li>
 <li>contains(self: dlib.rectangle, x: int, y: int) -&gt; bool</li>
 <li>contains(self: dlib.rectangle, rectangle: dlib.rectangle) -&gt; bool</li>
 </ol>
@@ -4551,6 +5110,7 @@ up&#8221; to the new position.</p>
 <p>Copy constructor</p>
 <ol class="arabic simple" start="3">
 <li>__init__(self: dlib.rectangles, arg0: iterable) -&gt; None</li>
+<li>__init__(self: dlib.rectangles, initial_size: int) -&gt; None</li>
 </ol>
 </dd></dl>
 
@@ -4632,6 +5192,7 @@ up&#8221; to the new position.</p>
 <p>Copy constructor</p>
 <ol class="arabic simple" start="3">
 <li>__init__(self: dlib.rectangless, arg0: iterable) -&gt; None</li>
+<li>__init__(self: dlib.rectangless, initial_size: int) -&gt; None</li>
 </ol>
 </dd></dl>
 
@@ -4699,21 +5260,50 @@ up&#8221; to the new position.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="dlib.reduce">
+<code class="descclassname">dlib.</code><code class="descname">reduce</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.reduce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>reduce(df: dlib._normalized_decision_function_radial_basis, x: dlib.vectors, num_basis_vectors: int, eps: float=0.001) -&gt; dlib._normalized_decision_function_radial_basis</li>
+<li>reduce(df: dlib._normalized_decision_function_radial_basis, x: numpy.ndarray[(rows,cols),float64], num_basis_vectors: int, eps: float=0.001) -&gt; dlib._normalized_decision_function_radial_basis</li>
+</ol>
+<dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>eps &gt; 0</li>
+<li>num_bv &gt; 0</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>This routine takes a learned radial basis function and tries to find a 
+new RBF function with num_basis_vectors basis vectors that approximates 
+the given df() as closely as possible.  In particular, it finds a 
+function new_df() such that new_df(x[i])==df(x[i]) as often as possible.</li>
+<li>This is accomplished using a reduced set method that begins by using a 
+projection, in kernel space, onto a random set of num_basis_vectors 
+vectors in x.  Then, L-BFGS is used to further optimize new_df() to match 
+df().  The eps parameter controls how long L-BFGS will run, smaller 
+values of eps possibly giving better solutions but taking longer to 
+execute.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="dlib.remove_incoherent_edge_pixels">
 <code class="descclassname">dlib.</code><code class="descname">remove_incoherent_edge_pixels</code><span class="sig-paren">(</span><em>line: dlib.points, horz_gradient: numpy.ndarray[(rows,cols),float32], vert_gradient: numpy.ndarray[(rows,cols),float32], angle_thresh: float</em><span class="sig-paren">)</span> &rarr; dlib.points<a class="headerlink" href="#dlib.remove_incoherent_edge_pixels" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>requires </dt>
-<dd><ul class="first last">
-<li><p class="first">horz_gradient and vert_gradient have the same dimensions.</p>
-</li>
-<li><p class="first">horz_gradient and vert_gradient represent unit normalized vectors.  That is, 
+<dd><ul class="first last simple">
+<li>horz_gradient and vert_gradient have the same dimensions.</li>
+<li>horz_gradient and vert_gradient represent unit normalized vectors.  That is, 
 you should have called normalize_image_gradients(horz_gradient,vert_gradient) 
-or otherwise caused all the gradients to have unit norm.</p>
-</li>
+or otherwise caused all the gradients to have unit norm.</li>
 <li><dl class="first docutils">
 <dt>for all valid i: </dt>
-<dd><p class="first last">get_rect(horz_gradient).contains(line[i])</p>
-</dd>
+<dd>get_rect(horz_gradient).contains(line[i])</dd>
 </dl>
 </li>
 </ul>
@@ -4724,20 +5314,18 @@ or otherwise caused all the gradients to have unit norm.</p>
 have outlying gradient directions.  To be specific, this routine returns a set 
 of points PTS such that:</p>
 <blockquote>
-<div><ul>
+<div><ul class="simple">
 <li><dl class="first docutils">
 <dt>for all valid i,j: </dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>The difference in angle between the gradients for PTS[i] and PTS[j] is  
 less than angle_threshold degrees.</li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><p class="first">len(PTS) &lt;= len(line)</p>
-</li>
-<li><p class="first">PTS is just line with some elements removed.</p>
-</li>
+<li>len(PTS) &lt;= len(line)</li>
+<li>PTS is just line with some elements removed.</li>
 </ul>
 </div></blockquote>
 </li>
@@ -4947,7 +5535,7 @@ signed distance of operator() is also flipped).</li>
 
 <dl class="function">
 <dt id="dlib.save_face_chips">
-<code class="descclassname">dlib.</code><code class="descname">save_face_chips</code><span class="sig-paren">(</span><em>img: numpy.ndarray[(rows,cols,3),uint8], faces: std::vector&lt;dlib::full_object_detection, std::allocator&lt;dlib::full_object_detection&gt; &gt;, chip_filename: unicode, size: int=150L, padding: float=0.25</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.save_face_chips" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dlib.</code><code class="descname">save_face_chips</code><span class="sig-paren">(</span><em>img: numpy.ndarray[(rows,cols,3),uint8], faces: dlib.full_object_detections, chip_filename: unicode, size: int=150L, padding: float=0.25</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.save_face_chips" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes an image and a full_object_detections object that reference faces in that image and saves the faces with the specified file name prefix.  The faces will be rotated upright and scaled to 150x150 pixels or with the optional specified size and padding.</p>
 </dd></dl>
 
@@ -5168,7 +5756,7 @@ train_shape_predictor() routine.</p>
 <dl class="attribute">
 <dt id="dlib.shape_predictor_training_options.feature_pool_region_padding">
 <code class="descname">feature_pool_region_padding</code><a class="headerlink" href="#dlib.shape_predictor_training_options.feature_pool_region_padding" title="Permalink to this definition">¶</a></dt>
-<dd><p>Size of region within which to sample features for the feature pool,                       e.g a padding of 0.5 would cause the algorithm to sample pixels from a box that was 2x2 pixels</p>
+<dd><p>Size of region within which to sample features for the feature pool.                       positive values increase the sampling region while negative values decrease it. E.g. padding of 0 means we                       sample fr</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -5181,6 +5769,12 @@ train_shape_predictor() routine.</p>
 <dt id="dlib.shape_predictor_training_options.lambda_param">
 <code class="descname">lambda_param</code><a class="headerlink" href="#dlib.shape_predictor_training_options.lambda_param" title="Permalink to this definition">¶</a></dt>
 <dd><p>Controls how tight the feature sampling should be. Lower values enforce closer features.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.shape_predictor_training_options.landmark_relative_padding_mode">
+<code class="descname">landmark_relative_padding_mode</code><a class="headerlink" href="#dlib.shape_predictor_training_options.landmark_relative_padding_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>If True then features are drawn only from the box around the landmarks, otherwise they come from the bounding box and landmarks together.  See feature_pool_region_padding doc for more details.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -5211,6 +5805,12 @@ train_shape_predictor() routine.</p>
 <dt id="dlib.shape_predictor_training_options.oversampling_amount">
 <code class="descname">oversampling_amount</code><a class="headerlink" href="#dlib.shape_predictor_training_options.oversampling_amount" title="Permalink to this definition">¶</a></dt>
 <dd><p>The number of randomly selected initial starting points sampled for each training example</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.shape_predictor_training_options.oversampling_translation_jitter">
+<code class="descname">oversampling_translation_jitter</code><a class="headerlink" href="#dlib.shape_predictor_training_options.oversampling_translation_jitter" title="Permalink to this definition">¶</a></dt>
+<dd><p>The amount of translation jittering to apply to bounding boxes, a good value is in in the range [0 0.5].</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -5308,15 +5908,75 @@ a list of detections.</li>
 
 <dl class="method">
 <dt id="dlib.simple_object_detector.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>self: dlib.simple_object_detector</em>, <em>arg0: unicode</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.simple_object_detector.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loads a simple_object_detector from a file that contains the output of the 
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.simple_object_detector.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>__init__(self: dlib.simple_object_detector, detectors: list) -&gt; None</li>
+</ol>
+<p>This version of the constructor builds a simple_object_detector from a 
+bunch of other simple_object_detectors.  It essentially packs them together 
+so that when you run the detector it&#8217;s like calling run_multiple().  Except 
+in this case the non-max suppression is applied to them all as a group.  So 
+unlike run_multiple(), each detector competes in the non-max suppression.</p>
+<p>Also, the non-max suppression settings used for this whole thing are 
+the settings used by detectors[0].  So if you have a preference,  
+put the detector that uses the type of non-max suppression you like first 
+in the list.</p>
+<ol class="arabic simple" start="2">
+<li>__init__(self: dlib.simple_object_detector, arg0: unicode) -&gt; None</li>
+</ol>
+<p>Loads a simple_object_detector from a file that contains the output of the 
 train_simple_object_detector() routine.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.simple_object_detector.detection_window_height">
+<code class="descname">detection_window_height</code><a class="headerlink" href="#dlib.simple_object_detector.detection_window_height" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.simple_object_detector.detection_window_width">
+<code class="descname">detection_window_width</code><a class="headerlink" href="#dlib.simple_object_detector.detection_window_width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.simple_object_detector.num_detectors">
+<code class="descname">num_detectors</code><a class="headerlink" href="#dlib.simple_object_detector.num_detectors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dlib.simple_object_detector.run_multiple">
+<code class="descname">run_multiple</code><span class="sig-paren">(</span><em>detectors: list</em>, <em>image: array</em>, <em>upsample_num_times: int=0L</em>, <em>adjust_threshold: float=0.0</em><span class="sig-paren">)</span> &rarr; tuple<a class="headerlink" href="#dlib.simple_object_detector.run_multiple" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>detectors is a list of detectors.</li>
+<li>image is a numpy ndarray containing either an 8bit grayscale or RGB 
+image.</li>
+<li>upsample_num_times &gt;= 0</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>This function runs the list of object detectors at once on the input image and returns 
+a tuple of (list of detections, list of scores, list of weight_indices).</li>
+<li>Upsamples the image upsample_num_times before running the basic 
+detector.</li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="dlib.simple_object_detector.save">
 <code class="descname">save</code><span class="sig-paren">(</span><em>self: dlib.simple_object_detector</em>, <em>detector_output_filename: unicode</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.simple_object_detector.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save a simple_object_detector to the provided path.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.simple_object_detector.upsampling_amount">
+<code class="descname">upsampling_amount</code><a class="headerlink" href="#dlib.simple_object_detector.upsampling_amount" title="Permalink to this definition">¶</a></dt>
+<dd><p>The detector upsamples the image this many times before running.</p>
 </dd></dl>
 
 </dd></dl>
@@ -5368,6 +6028,25 @@ solver more accurate but might take longer to train.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="dlib.simple_object_detector_training_options.max_runtime_seconds">
+<code class="descname">max_runtime_seconds</code><a class="headerlink" href="#dlib.simple_object_detector_training_options.max_runtime_seconds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Don&#8217;t let the solver run for longer than this many seconds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlib.simple_object_detector_training_options.nuclear_norm_regularization_strength">
+<code class="descname">nuclear_norm_regularization_strength</code><a class="headerlink" href="#dlib.simple_object_detector_training_options.nuclear_norm_regularization_strength" title="Permalink to this definition">¶</a></dt>
+<dd><p>This detector works by convolving a filter over a HOG feature image.  If that 
+filter is separable then the convolution can be performed much faster.  The 
+nuclear_norm_regularization_strength parameter encourages the machine learning 
+algorithm to learn a separable filter.  A value of 0 disables this feature, but 
+any non-zero value places a nuclear norm regularizer on the objective function 
+and this encourages the learning of a separable filter.  Note that setting 
+nuclear_norm_regularization_strength to a non-zero value can make the training 
+process take significantly longer, so be patient when using it.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="dlib.simple_object_detector_training_options.num_threads">
 <code class="descname">num_threads</code><a class="headerlink" href="#dlib.simple_object_detector_training_options.num_threads" title="Permalink to this definition">¶</a></dt>
 <dd><p>train_simple_object_detector() will use this many threads of 
@@ -5382,7 +6061,7 @@ obtain the fastest training speed.</p>
 no more than upsample_limit times. Value 0 will forbid trainer to 
 upsample any images. If trainer is unable to fit all boxes with 
 required upsample_limit, exception will be thrown. Higher values 
-of upsample_limit exponentially increases memory requiremens. 
+of upsample_limit exponentially increases memory requirements. 
 Values higher than 2 (default) are not recommended.</p>
 </dd></dl>
 
@@ -5816,6 +6495,107 @@ dlib.make_sparse_vector() on it.</p>
 <code class="descname">resize</code><span class="sig-paren">(</span><em>self: dlib.sparse_vectorss</em>, <em>arg0: int</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.sparse_vectorss.resize" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="dlib.spatially_filter_image">
+<code class="descclassname">dlib.</code><code class="descname">spatially_filter_image</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.spatially_filter_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>spatially_filter_image(img: numpy.ndarray[(rows,cols),uint8], filter: numpy.ndarray[(rows,cols),uint8]) -&gt; tuple</li>
+<li>spatially_filter_image(img: numpy.ndarray[(rows,cols),float32], filter: numpy.ndarray[(rows,cols),float32]) -&gt; tuple</li>
+<li>spatially_filter_image(img: numpy.ndarray[(rows,cols),float64], filter: numpy.ndarray[(rows,cols),float64]) -&gt; tuple</li>
+</ol>
+<dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>filter.size != 0</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last">
+<li><p class="first">Applies the given spatial filter to img and returns the result (i.e. we  
+cross-correlate img with filter).  We also return a rectangle which 
+indicates what pixels in the returned image are considered non-border pixels 
+and therefore contain output from the filter.  E.g.</p>
+<blockquote>
+<div><ul class="simple">
+<li>filtered_img,rect = spatially_filter_image(img, filter)</li>
+</ul>
+</div></blockquote>
+<p>would give you the filtered image and the rectangle in question.  Since the 
+returned image has the same shape as img we fill the border pixels by setting 
+them to 0.</p>
+</li>
+<li><p class="first">The filter is applied such that it&#8217;s centered over the pixel it writes its 
+output into.  For centering purposes, we consider the center element of the 
+filter to be filter[filter.shape[0]/2,filter.shape[1]/2].  This means that 
+the filter that writes its output to a pixel at location point(c,r) and is W 
+by H (width by height) pixels in size operates on exactly the pixels in the 
+rectangle centered_rect(point(c,r),W,H) within img.</p>
+</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlib.spatially_filter_image_separable">
+<code class="descclassname">dlib.</code><code class="descname">spatially_filter_image_separable</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.spatially_filter_image_separable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>spatially_filter_image_separable(img: numpy.ndarray[(rows,cols),uint8], row_filter: numpy.ndarray[uint8], col_filter: numpy.ndarray[uint8]) -&gt; tuple</li>
+<li>spatially_filter_image_separable(img: numpy.ndarray[(rows,cols),float32], row_filter: numpy.ndarray[float32], col_filter: numpy.ndarray[float32]) -&gt; tuple</li>
+<li>spatially_filter_image_separable(img: numpy.ndarray[(rows,cols),float64], row_filter: numpy.ndarray[float64], col_filter: numpy.ndarray[float64]) -&gt; tuple</li>
+</ol>
+<dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>row_filter.size != 0</li>
+<li>col_filter.size != 0</li>
+<li>row_filter and col_filter are both either row or column vectors.</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last">
+<li><p class="first">Applies the given separable spatial filter to img and returns the result 
+(i.e. we cross-correlate img with the filters).  In particular, calling this 
+function has the same effect as calling the regular spatially_filter_image() 
+routine with a filter, FILT, defined as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li>FILT(r,c) == col_filter(r)*row_filter(c)</li>
+</ul>
+</div></blockquote>
+<p>Therefore, the return value of this routine is the same as if it were 
+implemented as:</p>
+<blockquote>
+<div><p>return spatially_filter_image(img, FILT)</p>
+</div></blockquote>
+<p>Except that this version should be faster for separable filters.</p>
+</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlib.sub_image">
+<code class="descclassname">dlib.</code><code class="descname">sub_image</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.sub_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>sub_image(img: array, rect: dlib.rectangle) -&gt; array</li>
+</ol>
+<p>Returns a new numpy array that references the sub window in img defined by rect. 
+If rect is larger than img then rect is cropped so that it does not go outside img. 
+Therefore, this routine is equivalent to performing:</p>
+<blockquote>
+<div>win = get_rect(img).intersect(rect) 
+subimg = img[win.top():win.bottom()-1,win.left():win.right()-1]</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>sub_image(image_and_rect_tuple: tuple) -&gt; array</li>
+</ol>
+<p>Performs: return sub_image(image_and_rect_tuple[0], image_and_rect_tuple[1])</p>
 </dd></dl>
 
 <dl class="function">
@@ -6319,6 +7099,8 @@ pixels along the line indicated by the image gradient vector (horz[r][c],vert[r]
 <code class="descclassname">dlib.</code><code class="descname">test_binary_decision_function</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.test_binary_decision_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
+<li>test_binary_decision_function(function: dlib._normalized_decision_function_radial_basis, samples: dlib.vectors, labels: dlib.array) -&gt; binary_test</li>
+<li>test_binary_decision_function(function: dlib._normalized_decision_function_radial_basis, samples: numpy.ndarray[(rows,cols),float64], labels: numpy.ndarray[float64]) -&gt; binary_test</li>
 <li>test_binary_decision_function(function: dlib._decision_function_linear, samples: dlib.vectors, labels: dlib.array) -&gt; binary_test</li>
 <li>test_binary_decision_function(function: dlib._decision_function_sparse_linear, samples: dlib.sparse_vectors, labels: dlib.array) -&gt; binary_test</li>
 <li>test_binary_decision_function(function: dlib._decision_function_radial_basis, samples: dlib.vectors, labels: dlib.array) -&gt; binary_test</li>
@@ -6462,13 +7244,6 @@ for shape_predictor_trainer() for a detailed definition of the mean average erro
 <li>test_simple_object_detector(dataset_filename: unicode, detector_filename: unicode, upsampling_amount: int=-1L) -&gt; dlib.simple_test_results</li>
 </ol>
 <dl class="docutils">
-<dt>requires </dt>
-<dd><blockquote class="first">
-<div><ul class="simple">
-<li>Optionally, take the number of times to upsample the testing images (upsampling_amount &gt;= 0).</li>
-</ul>
-</div></blockquote>
-<dl class="last docutils">
 <dt>ensures </dt>
 <dd><ul class="first last simple">
 <li>Loads an image dataset from dataset_filename.  We assume dataset_filename is 
@@ -6482,12 +7257,36 @@ return value of this function is identical to that of dlib&#8217;s
 test_object_detection_function() routine.  Therefore, see the documentation 
 for test_object_detection_function() for a detailed definition of these 
 metrics.</li>
+<li>if upsampling_amount&gt;=0 then we upsample the data by upsampling_amount rather than 
+use any upsampling amount that happens to be encoded in the given detector.  If upsampling_amount&lt;0 
+then we use the upsampling amount the detector wants to use.</li>
 </ul>
 </dd>
 </dl>
+<ol class="arabic simple" start="2">
+<li>test_simple_object_detector(dataset_filename: unicode, detector: dlib::simple_object_detector_py, upsampling_amount: int=-1L) -&gt; dlib.simple_test_results</li>
+</ol>
+<dl class="docutils">
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>Loads an image dataset from dataset_filename.  We assume dataset_filename is 
+a file using the XML format written by save_image_dataset_metadata().</li>
+<li>Loads a simple_object_detector from the file detector_filename.  This means 
+detector_filename should be a file produced by the train_simple_object_detector()  
+routine.</li>
+<li>This function tests the detector against the dataset and returns the 
+precision, recall, and average precision of the detector.  In fact, The 
+return value of this function is identical to that of dlib&#8217;s 
+test_object_detection_function() routine.  Therefore, see the documentation 
+for test_object_detection_function() for a detailed definition of these 
+metrics.</li>
+<li>if upsampling_amount&gt;=0 then we upsample the data by upsampling_amount rather than 
+use any upsampling amount that happens to be encoded in the given detector.  If upsampling_amount&lt;0 
+then we use the upsampling amount the detector wants to use.</li>
+</ul>
 </dd>
 </dl>
-<ol class="arabic simple" start="2">
+<ol class="arabic simple" start="3">
 <li>test_simple_object_detector(images: list, boxes: list, detector: dlib::object_detector&lt;dlib::scan_fhog_pyramid&lt;dlib::pyramid_down&lt;6u&gt;, dlib::default_fhog_feature_extractor&gt; &gt;, upsampling_amount: int=0L) -&gt; dlib.simple_test_results</li>
 </ol>
 <dl class="docutils">
@@ -6517,7 +7316,7 @@ metrics.</li>
 </dl>
 </dd>
 </dl>
-<ol class="arabic simple" start="3">
+<ol class="arabic simple" start="4">
 <li>test_simple_object_detector(images: list, boxes: list, detector: dlib::simple_object_detector_py, upsampling_amount: int=-1L) -&gt; dlib.simple_test_results</li>
 </ol>
 <dl class="docutils">
@@ -6549,6 +7348,31 @@ metrics.</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="dlib.threshold_filter_singular_values">
+<code class="descclassname">dlib.</code><code class="descname">threshold_filter_singular_values</code><span class="sig-paren">(</span><em>detector: dlib.simple_object_detector</em>, <em>thresh: float</em><span class="sig-paren">)</span> &rarr; dlib.simple_object_detector<a class="headerlink" href="#dlib.threshold_filter_singular_values" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>thresh &gt;= 0</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>Removes all components of the filters in the given detector that have 
+singular values that are smaller than the given threshold.  Therefore, this 
+function allows you to control how many separable filters are in a detector. 
+In particular, as thresh gets larger the quantity 
+num_separable_filters(threshold_filter_singular_values(detector,thresh)) 
+will generally get smaller and therefore give a faster running detector. 
+However, note that at some point a large enough thresh will drop too much 
+information from the filters and their accuracy will suffer.</li>
+<li>returns the updated detector</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="dlib.threshold_image">
 <code class="descclassname">dlib.</code><code class="descname">threshold_image</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.threshold_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
@@ -6572,6 +7396,26 @@ have an output value of 255 and all others have a value of 0.</p>
 </ol>
 <p>Thresholds img and returns the result.  Pixels in img with grayscale values &gt;= thresh 
 have an output value of 255 and all others have a value of 0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlib.tile_images">
+<code class="descclassname">dlib.</code><code class="descname">tile_images</code><span class="sig-paren">(</span><em>images: list</em><span class="sig-paren">)</span> &rarr; array<a class="headerlink" href="#dlib.tile_images" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>images is a list of numpy arrays that can be interpreted as images.  They 
+must all be the same type of image as well.</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>This function takes the given images and tiles them into a single large 
+square image and returns this new big tiled image.  Therefore, it is a 
+useful method to visualize many small images at once.</li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -6721,6 +7565,48 @@ interpolated copy of img.</li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlib.translate_rect">
+<code class="descclassname">dlib.</code><code class="descname">translate_rect</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.translate_rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>translate_rect(rect: dlib.rectangle, p: dlib.point) -&gt; dlib.rectangle</li>
+</ol>
+<blockquote>
+<div><dl class="docutils">
+<dt>returns rectangle(rect.left()+p.x, rect.top()+p.y, rect.right()+p.x, rect.bottom()+p.y) </dt>
+<dd>(i.e. moves the location of the rectangle but doesn&#8217;t change its shape)</dd>
+</dl>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>translate_rect(rect: dlib.drectangle, p: dlib.point) -&gt; dlib.drectangle</li>
+</ol>
+<blockquote>
+<div><dl class="docutils">
+<dt>returns rectangle(rect.left()+p.x, rect.top()+p.y, rect.right()+p.x, rect.bottom()+p.y) </dt>
+<dd>(i.e. moves the location of the rectangle but doesn&#8217;t change its shape)</dd>
+</dl>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>translate_rect(rect: dlib.rectangle, p: dlib.dpoint) -&gt; dlib.rectangle</li>
+</ol>
+<blockquote>
+<div><dl class="docutils">
+<dt>returns rectangle(rect.left()+p.x, rect.top()+p.y, rect.right()+p.x, rect.bottom()+p.y) </dt>
+<dd>(i.e. moves the location of the rectangle but doesn&#8217;t change its shape)</dd>
+</dl>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>translate_rect(rect: dlib.drectangle, p: dlib.dpoint) -&gt; dlib.drectangle</li>
+</ol>
+<blockquote>
+<div><dl class="docutils">
+<dt>returns rectangle(rect.left()+p.x, rect.top()+p.y, rect.right()+p.x, rect.bottom()+p.y) </dt>
+<dd>(i.e. moves the location of the rectangle but doesn&#8217;t change its shape)</dd>
+</dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="class">
@@ -6916,6 +7802,77 @@ interpolated copy of img.</li>
 
 </dd></dl>
 
+<dl class="function">
+<dt id="dlib.zero_border_pixels">
+<code class="descclassname">dlib.</code><code class="descname">zero_border_pixels</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.zero_border_pixels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),uint8], x_border_size: int, y_border_size: int) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),uint16], x_border_size: int, y_border_size: int) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),uint32], x_border_size: int, y_border_size: int) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),uint64], x_border_size: int, y_border_size: int) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),int8], x_border_size: int, y_border_size: int) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),int16], x_border_size: int, y_border_size: int) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),int32], x_border_size: int, y_border_size: int) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),int64], x_border_size: int, y_border_size: int) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),float32], x_border_size: int, y_border_size: int) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),float64], x_border_size: int, y_border_size: int) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols,3),uint8], x_border_size: int, y_border_size: int) -&gt; None</li>
+</ol>
+<dl class="docutils">
+<dt>requires </dt>
+<dd><ul class="first last simple">
+<li>x_border_size &gt;= 0</li>
+<li>y_border_size &gt;= 0</li>
+</ul>
+</dd>
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>The size and shape of img isn&#8217;t changed by this function.</li>
+<li><dl class="first docutils">
+<dt>for all valid r such that r+y_border_size or r-y_border_size gives an invalid row </dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>for all valid c such that c+x_border_size or c-x_border_size gives an invalid column  </dt>
+<dd><ul class="first last">
+<li>assigns the pixel img[r][c] to 0.  
+(i.e. assigns 0 to every pixel in the border of img)</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="12">
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),uint8], inside: dlib.rectangle) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),uint16], inside: dlib.rectangle) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),uint32], inside: dlib.rectangle) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),uint64], inside: dlib.rectangle) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),int8], inside: dlib.rectangle) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),int16], inside: dlib.rectangle) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),int32], inside: dlib.rectangle) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),int64], inside: dlib.rectangle) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),float32], inside: dlib.rectangle) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols),float64], inside: dlib.rectangle) -&gt; None</li>
+<li>zero_border_pixels(img: numpy.ndarray[(rows,cols,3),uint8], inside: dlib.rectangle) -&gt; None</li>
+</ol>
+<dl class="docutils">
+<dt>ensures </dt>
+<dd><ul class="first last simple">
+<li>The size and shape of img isn&#8217;t changed by this function.</li>
+<li>All the pixels in img that are not contained inside the inside rectangle 
+given to this function are set to 0.  That is, anything not &#8220;inside&#8221; is on 
+the border and set to 0.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <span class="target" id="module-dlib.cuda"></span><p>Routines for setting CUDA specific properties.</p>
 <dl class="function">
 <dt id="dlib.cuda.get_device">
@@ -6959,11 +7916,10 @@ the box.  All the other variables are optional.</p>
 <code class="descname">UNKNOWN</code><em class="property"> = gender_type.UNKNOWN</em><a class="headerlink" href="#dlib.image_dataset_metadata.box.UNKNOWN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="dlib.image_dataset_metadata.box.__init__">
-<code class="descname">__init__</code><a class="headerlink" href="#dlib.image_dataset_metadata.box.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>x.__init__(...) initializes x; see help(type(x)) for signature</p>
-</dd></dl>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self: dlib.image_dataset_metadata.box</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.image_dataset_metadata.box.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dlib.image_dataset_metadata.box.age">
@@ -7053,14 +8009,65 @@ the box.  All the other variables are optional.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="dlib.image_dataset_metadata.boxes">
+<em class="property">class </em><code class="descclassname">dlib.image_dataset_metadata.</code><code class="descname">boxes</code><a class="headerlink" href="#dlib.image_dataset_metadata.boxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of dlib::image_dataset_metadata::box objects.</p>
+<dl class="method">
+<dt id="dlib.image_dataset_metadata.boxes.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.image_dataset_metadata.boxes.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>__init__(self: dlib.image_dataset_metadata.boxes) -&gt; None</li>
+<li>__init__(self: dlib.image_dataset_metadata.boxes, arg0: dlib.image_dataset_metadata.boxes) -&gt; None</li>
+</ol>
+<p>Copy constructor</p>
+<ol class="arabic simple" start="3">
+<li>__init__(self: dlib.image_dataset_metadata.boxes, arg0: iterable) -&gt; None</li>
+</ol>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlib.image_dataset_metadata.boxes.append">
+<code class="descname">append</code><span class="sig-paren">(</span><em>self: dlib.image_dataset_metadata.boxes</em>, <em>x: dlib.image_dataset_metadata.box</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.image_dataset_metadata.boxes.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an item to the end of the list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlib.image_dataset_metadata.boxes.extend">
+<code class="descname">extend</code><span class="sig-paren">(</span><em>self: dlib.image_dataset_metadata.boxes</em>, <em>L: dlib.image_dataset_metadata.boxes</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.image_dataset_metadata.boxes.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend the list by appending all the items in the given list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlib.image_dataset_metadata.boxes.insert">
+<code class="descname">insert</code><span class="sig-paren">(</span><em>self: dlib.image_dataset_metadata.boxes</em>, <em>i: int</em>, <em>x: dlib.image_dataset_metadata.box</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.image_dataset_metadata.boxes.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert an item at a given position.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlib.image_dataset_metadata.boxes.pop">
+<code class="descname">pop</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.image_dataset_metadata.boxes.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>pop(self: dlib.image_dataset_metadata.boxes) -&gt; dlib.image_dataset_metadata.box</li>
+</ol>
+<p>Remove and return the last item</p>
+<ol class="arabic simple" start="2">
+<li>pop(self: dlib.image_dataset_metadata.boxes, i: int) -&gt; dlib.image_dataset_metadata.box</li>
+</ol>
+<p>Remove and return the item at index <code class="docutils literal"><span class="pre">i</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="dlib.image_dataset_metadata.dataset">
 <em class="property">class </em><code class="descclassname">dlib.image_dataset_metadata.</code><code class="descname">dataset</code><a class="headerlink" href="#dlib.image_dataset_metadata.dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>This object represents a labeled set of images.  In particular, it contains the filename for each image as well as annotated boxes.</p>
-<dl class="attribute">
+<dl class="method">
 <dt id="dlib.image_dataset_metadata.dataset.__init__">
-<code class="descname">__init__</code><a class="headerlink" href="#dlib.image_dataset_metadata.dataset.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>x.__init__(...) initializes x; see help(type(x)) for signature</p>
-</dd></dl>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self: dlib.image_dataset_metadata.dataset</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.image_dataset_metadata.dataset.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dlib.image_dataset_metadata.dataset.comment">
@@ -7083,11 +8090,10 @@ the box.  All the other variables are optional.</p>
 <dt id="dlib.image_dataset_metadata.image">
 <em class="property">class </em><code class="descclassname">dlib.image_dataset_metadata.</code><code class="descname">image</code><a class="headerlink" href="#dlib.image_dataset_metadata.image" title="Permalink to this definition">¶</a></dt>
 <dd><p>This object represents an annotated image.</p>
-<dl class="attribute">
+<dl class="method">
 <dt id="dlib.image_dataset_metadata.image.__init__">
-<code class="descname">__init__</code><a class="headerlink" href="#dlib.image_dataset_metadata.image.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>x.__init__(...) initializes x; see help(type(x)) for signature</p>
-</dd></dl>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self: dlib.image_dataset_metadata.image</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.image_dataset_metadata.image.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dlib.image_dataset_metadata.image.boxes">
@@ -7098,6 +8104,58 @@ the box.  All the other variables are optional.</p>
 <dt id="dlib.image_dataset_metadata.image.filename">
 <code class="descname">filename</code><a class="headerlink" href="#dlib.image_dataset_metadata.image.filename" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlib.image_dataset_metadata.images">
+<em class="property">class </em><code class="descclassname">dlib.image_dataset_metadata.</code><code class="descname">images</code><a class="headerlink" href="#dlib.image_dataset_metadata.images" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of dlib::image_dataset_metadata::image objects.</p>
+<dl class="method">
+<dt id="dlib.image_dataset_metadata.images.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.image_dataset_metadata.images.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>__init__(self: dlib.image_dataset_metadata.images) -&gt; None</li>
+<li>__init__(self: dlib.image_dataset_metadata.images, arg0: dlib.image_dataset_metadata.images) -&gt; None</li>
+</ol>
+<p>Copy constructor</p>
+<ol class="arabic simple" start="3">
+<li>__init__(self: dlib.image_dataset_metadata.images, arg0: iterable) -&gt; None</li>
+</ol>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlib.image_dataset_metadata.images.append">
+<code class="descname">append</code><span class="sig-paren">(</span><em>self: dlib.image_dataset_metadata.images</em>, <em>x: dlib.image_dataset_metadata.image</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.image_dataset_metadata.images.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an item to the end of the list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlib.image_dataset_metadata.images.extend">
+<code class="descname">extend</code><span class="sig-paren">(</span><em>self: dlib.image_dataset_metadata.images</em>, <em>L: dlib.image_dataset_metadata.images</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.image_dataset_metadata.images.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend the list by appending all the items in the given list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlib.image_dataset_metadata.images.insert">
+<code class="descname">insert</code><span class="sig-paren">(</span><em>self: dlib.image_dataset_metadata.images</em>, <em>i: int</em>, <em>x: dlib.image_dataset_metadata.image</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#dlib.image_dataset_metadata.images.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert an item at a given position.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlib.image_dataset_metadata.images.pop">
+<code class="descname">pop</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dlib.image_dataset_metadata.images.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>pop(self: dlib.image_dataset_metadata.images) -&gt; dlib.image_dataset_metadata.image</li>
+</ol>
+<p>Remove and return the last item</p>
+<ol class="arabic simple" start="2">
+<li>pop(self: dlib.image_dataset_metadata.images, i: int) -&gt; dlib.image_dataset_metadata.image</li>
+</ol>
+<p>Remove and return the item at index <code class="docutils literal"><span class="pre">i</span></code></p>
+</dd></dl>
 
 </dd></dl>
 

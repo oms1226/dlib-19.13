@@ -376,6 +376,26 @@ ensures \n\
 
 // ----------------------------------------------------------------------------------------
 
+double py_polygon_area(
+    const std::vector<dpoint>& pts
+)
+{
+    return polygon_area(pts);
+}
+
+double py_polygon_area2(
+    const py::list& pts
+)
+{
+    std::vector<dpoint> temp(len(pts));
+    for (size_t i = 0; i < temp.size(); ++i)
+        temp[i] = pts[i].cast<dpoint>();
+
+    return polygon_area(temp);
+}
+
+// ----------------------------------------------------------------------------------------
+
 void bind_vector(py::module& m)
 {
     {
@@ -405,8 +425,11 @@ void bind_vector(py::module& m)
             .def(py::init<>(&numpy_to_dlib_vect<double>), py::arg("v"))
             .def("__repr__", &point__repr__)
             .def("__str__", &point__str__)
-            .def("__sub__", [](const point& a, const point& b){return a-b;})
-            .def("__add__", [](const point& a, const point& b){return a-b;})
+            .def(py::self + py::self)
+            .def(py::self - py::self)
+            .def(py::self / double())
+            .def(py::self * double())
+            .def(double() * py::self)
             .def("normalize", &type::normalize, "Returns a unit normalized copy of this vector.")
             .def_property("x", &point_x, [](point& p, long x){p.x()=x;}, "The x-coordinate of the point.")
             .def_property("y", &point_y, [](point& p, long y){p.x()=y;}, "The y-coordinate of the point.")
@@ -415,6 +438,7 @@ void bind_vector(py::module& m)
     {
     typedef std::vector<point> type;
     py::bind_vector<type>(m, "points", "An array of point objects.")
+        .def(py::init<size_t>(), py::arg("initial_size"))
         .def("clear", &type::clear)
         .def("resize", resize<type>)
         .def("extend", extend_vector_with_python_list<point>)
@@ -434,13 +458,17 @@ void bind_vector(py::module& m)
             .def("normalize", &type::normalize, "Returns a unit normalized copy of this vector.")
             .def_property("x", &dpoint_x, [](dpoint& p, double x){p.x()=x;}, "The x-coordinate of the dpoint.")
             .def_property("y", &dpoint_y, [](dpoint& p, double y){p.x()=y;}, "The y-coordinate of the dpoint.")
-            .def("__sub__", [](const dpoint& a, const dpoint& b){return a-b;})
-            .def("__add__", [](const dpoint& a, const dpoint& b){return a-b;})
+            .def(py::self + py::self)
+            .def(py::self - py::self)
+            .def(py::self / double())
+            .def(py::self * double())
+            .def(double() * py::self)
             .def(py::pickle(&getstate<type>, &setstate<type>));
     }
     {
     typedef std::vector<dpoint> type;
     py::bind_vector<type>(m, "dpoints", "An array of dpoint objects.")
+        .def(py::init<size_t>(), py::arg("initial_size"))
         .def("clear", &type::clear)
         .def("resize", resize<type>)
         .def("extend", extend_vector_with_python_list<dpoint>)
@@ -456,6 +484,20 @@ void bind_vector(py::module& m)
     m.def("dot", [](const dpoint& a, const dpoint& b){return dot(a,b); },  "Returns the dot product of the points a and b.", py::arg("a"), py::arg("b"));
 
     register_point_transform_projective(m);
+
+    m.def("polygon_area", &py_polygon_area, py::arg("pts"));
+    m.def("polygon_area", &py_polygon_area2, py::arg("pts"),
+"ensures \n\
+    - If you walk the points pts in order to make a closed polygon, what is its \n\
+      area?  This function returns that area.  It uses the shoelace formula to \n\
+      compute the result and so works for general non-self-intersecting polygons." 
+    /*!
+        ensures
+            - If you walk the points pts in order to make a closed polygon, what is its
+              area?  This function returns that area.  It uses the shoelace formula to
+              compute the result and so works for general non-self-intersecting polygons.
+    !*/
+        );
 
 }
 

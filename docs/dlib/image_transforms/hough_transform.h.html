@@ -69,12 +69,12 @@
         <font color='#0000FF'><u>long</u></font> <b><a name='nc'></a>nc</b><font face='Lucida Console'>(</font>
         <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font> <b>{</b> <font color='#0000FF'>return</font> _size; <b>}</b>
 
-        std::pair<font color='#5555FF'>&lt;</font>point, point<font color='#5555FF'>&gt;</font> <b><a name='get_line'></a>get_line</b> <font face='Lucida Console'>(</font>
-            <font color='#0000FF'>const</font> point<font color='#5555FF'>&amp;</font> p
+        std::pair<font color='#5555FF'>&lt;</font>dpoint, dpoint<font color='#5555FF'>&gt;</font> <b><a name='get_line'></a>get_line</b> <font face='Lucida Console'>(</font>
+            <font color='#0000FF'>const</font> dpoint<font color='#5555FF'>&amp;</font> p
         <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>
         <b>{</b>
             <font color='#BB00BB'>DLIB_ASSERT</font><font face='Lucida Console'>(</font><font color='#BB00BB'>rectangle</font><font face='Lucida Console'>(</font><font color='#979000'>0</font>,<font color='#979000'>0</font>,<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font color='#5555FF'>-</font><font color='#979000'>1</font>,<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font color='#5555FF'>-</font><font color='#979000'>1</font><font face='Lucida Console'>)</font>.<font color='#BB00BB'>contains</font><font face='Lucida Console'>(</font>p<font face='Lucida Console'>)</font> <font color='#5555FF'>=</font><font color='#5555FF'>=</font> <font color='#979000'>true</font>,
-                "<font color='#CC0000'>\t pair&lt;point,point&gt; hough_transform::get_line(point)</font>"
+                "<font color='#CC0000'>\t pair&lt;dpoint,dpoint&gt; hough_transform::get_line(dpoint)</font>"
                 <font color='#5555FF'>&lt;</font><font color='#5555FF'>&lt;</font> "<font color='#CC0000'>\n\t Invalid arguments given to this function.</font>"
                 <font color='#5555FF'>&lt;</font><font color='#5555FF'>&lt;</font> "<font color='#CC0000'>\n\t p:      </font>" <font color='#5555FF'>&lt;</font><font color='#5555FF'>&lt;</font> p 
                 <font color='#5555FF'>&lt;</font><font color='#5555FF'>&lt;</font> "<font color='#CC0000'>\n\t size(): </font>" <font color='#5555FF'>&lt;</font><font color='#5555FF'>&lt;</font> <font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>
@@ -91,8 +91,8 @@
             <font color='#0000FF'>const</font> dpoint cent <font color='#5555FF'>=</font> <font color='#BB00BB'>center</font><font face='Lucida Console'>(</font>box<font face='Lucida Console'>)</font>;
             dpoint v1 <font color='#5555FF'>=</font> cent <font color='#5555FF'>+</font> <font color='#BB00BB'>dpoint</font><font face='Lucida Console'>(</font><font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font color='#5555FF'>+</font><font color='#979000'>1000</font>,<font color='#979000'>0</font><font face='Lucida Console'>)</font> <font color='#5555FF'>+</font> <font color='#BB00BB'>dpoint</font><font face='Lucida Console'>(</font><font color='#979000'>0</font>,radius<font face='Lucida Console'>)</font>;
             dpoint v2 <font color='#5555FF'>=</font> cent <font color='#5555FF'>-</font> <font color='#BB00BB'>dpoint</font><font face='Lucida Console'>(</font><font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font color='#5555FF'>+</font><font color='#979000'>1000</font>,<font color='#979000'>0</font><font face='Lucida Console'>)</font> <font color='#5555FF'>+</font> <font color='#BB00BB'>dpoint</font><font face='Lucida Console'>(</font><font color='#979000'>0</font>,radius<font face='Lucida Console'>)</font>;
-            point p1 <font color='#5555FF'>=</font> <font color='#BB00BB'>rotate_point</font><font face='Lucida Console'>(</font>cent, v1, theta<font face='Lucida Console'>)</font>;
-            point p2 <font color='#5555FF'>=</font> <font color='#BB00BB'>rotate_point</font><font face='Lucida Console'>(</font>cent, v2, theta<font face='Lucida Console'>)</font>;
+            dpoint p1 <font color='#5555FF'>=</font> <font color='#BB00BB'>rotate_point</font><font face='Lucida Console'>(</font>cent, v1, theta<font face='Lucida Console'>)</font>;
+            dpoint p2 <font color='#5555FF'>=</font> <font color='#BB00BB'>rotate_point</font><font face='Lucida Console'>(</font>cent, v2, theta<font face='Lucida Console'>)</font>;
 
             <font color='#BB00BB'>clip_line_to_rectangle</font><font face='Lucida Console'>(</font>box, p1, p2<font face='Lucida Console'>)</font>;
 
@@ -100,7 +100,7 @@
         <b>}</b>
 
         <font color='#0000FF'><u>double</u></font> <b><a name='get_line_angle_in_degrees'></a>get_line_angle_in_degrees</b> <font face='Lucida Console'>(</font>
-            <font color='#0000FF'>const</font> point<font color='#5555FF'>&amp;</font> p 
+            <font color='#0000FF'>const</font> dpoint<font color='#5555FF'>&amp;</font> p 
         <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>
         <b>{</b>
             <font color='#0000FF'><u>double</u></font> angle, radius;
@@ -109,7 +109,7 @@
         <b>}</b>
 
         <font color='#0000FF'><u>void</u></font> <b><a name='get_line_properties'></a>get_line_properties</b> <font face='Lucida Console'>(</font>
-            <font color='#0000FF'>const</font> point<font color='#5555FF'>&amp;</font> p,
+            <font color='#0000FF'>const</font> dpoint<font color='#5555FF'>&amp;</font> p,
             <font color='#0000FF'><u>double</u></font><font color='#5555FF'>&amp;</font> angle_in_degrees,
             <font color='#0000FF'><u>double</u></font><font color='#5555FF'>&amp;</font> radius
         <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>
@@ -366,7 +366,11 @@
             <b>{</b>
                 <font color='#0000FF'>auto</font> idx <font color='#5555FF'>=</font> <font color='#BB00BB'>hmap</font><font face='Lucida Console'>(</font>hough_point.<font color='#BB00BB'>y</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>, hough_point.<font color='#BB00BB'>x</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>;
                 <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>idx <font color='#5555FF'>&lt;</font> constituent_points.<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
-                    constituent_points[idx].<font color='#BB00BB'>push_back</font><font face='Lucida Console'>(</font>img_point<font face='Lucida Console'>)</font>;
+                <b>{</b>
+                    <font color='#009900'>// don't add img_point if it's already in the list.
+</font>                    <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>constituent_points[idx].<font color='#BB00BB'>size</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>=</font><font color='#5555FF'>=</font> <font color='#979000'>0</font> <font color='#5555FF'>|</font><font color='#5555FF'>|</font> constituent_points[idx].<font color='#BB00BB'>back</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>!</font><font color='#5555FF'>=</font> img_point<font face='Lucida Console'>)</font>
+                        constituent_points[idx].<font color='#BB00BB'>push_back</font><font face='Lucida Console'>(</font>img_point<font face='Lucida Console'>)</font>;
+                <b>}</b>
             <b>}</b>;
 
             <font color='#BB00BB'>perform_generic_hough_transform</font><font face='Lucida Console'>(</font>img, box, record_hit<font face='Lucida Console'>)</font>;

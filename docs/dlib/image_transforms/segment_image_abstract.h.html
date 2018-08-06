@@ -106,16 +106,20 @@
 <font color='#009900'>// ----------------------------------------------------------------------------------------
 </font>
     <font color='#0000FF'>template</font> <font color='#5555FF'>&lt;</font>
+        <font color='#0000FF'>template</font> T,
         <font color='#0000FF'>typename</font> alloc
         <font color='#5555FF'>&gt;</font>
     <font color='#0000FF'><u>void</u></font> <b><a name='remove_duplicates'></a>remove_duplicates</b> <font face='Lucida Console'>(</font>
-        std::vector<font color='#5555FF'>&lt;</font>rectangle,alloc<font color='#5555FF'>&gt;</font><font color='#5555FF'>&amp;</font> rects
+        std::vector<font color='#5555FF'>&lt;</font>T,alloc<font color='#5555FF'>&gt;</font><font color='#5555FF'>&amp;</font> items 
     <font face='Lucida Console'>)</font>;
     <font color='#009900'>/*!
+        requires
+            - T is comparable via operator != and std::less.
         ensures
-            - This function finds any duplicate rectangles in rects and removes the extra
-              instances.  This way, the result is that rects contains only unique rectangle
-              instances.
+            - This function finds any duplicate objects in items and removes the extra
+              instances.  This way, the result is that items contains only unique
+              instances.  It does this by sorting items and removing neighboring elements
+              unless they compare != according to operator !=.
     !*/</font>
 
 <font color='#009900'>// ----------------------------------------------------------------------------------------

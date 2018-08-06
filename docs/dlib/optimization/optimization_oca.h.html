@@ -10,6 +10,7 @@
 <font color='#0000FF'>#include</font> "<a style='text-decoration:none' href='optimization_solve_qp_using_smo.h.html'>optimization_solve_qp_using_smo.h</a>"
 <font color='#0000FF'>#include</font> <font color='#5555FF'>&lt;</font>vector<font color='#5555FF'>&gt;</font>
 <font color='#0000FF'>#include</font> "<a style='text-decoration:none' href='../sequence.h.html'>../sequence.h</a>"
+<font color='#0000FF'>#include</font> <font color='#5555FF'>&lt;</font>chrono<font color='#5555FF'>&gt;</font>
 
 <font color='#009900'>// ----------------------------------------------------------------------------------------
 </font>
@@ -62,7 +63,8 @@
             sub_max_iter <font color='#5555FF'>=</font> <font color='#979000'>50000</font>;
 
             inactive_thresh <font color='#5555FF'>=</font> <font color='#979000'>20</font>;
-        <b>}</b>
+            max_runtime <font color='#5555FF'>=</font> std::chrono::<font color='#BB00BB'>hours</font><font face='Lucida Console'>(</font><font color='#979000'>24</font><font color='#5555FF'>*</font><font color='#979000'>356</font><font color='#5555FF'>*</font><font color='#979000'>290</font><font face='Lucida Console'>)</font>; <font color='#009900'>// 290 years
+</font>        <b>}</b>
 
         <font color='#0000FF'><u>void</u></font> <b><a name='set_subproblem_epsilon'></a>set_subproblem_epsilon</b> <font face='Lucida Console'>(</font>
             <font color='#0000FF'><u>double</u></font> eps_
@@ -88,6 +90,19 @@
 
         <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> <b><a name='get_subproblem_max_iterations'></a>get_subproblem_max_iterations</b> <font face='Lucida Console'>(</font>
         <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font> <b>{</b> <font color='#0000FF'>return</font> sub_max_iter; <b>}</b>
+
+        <font color='#0000FF'><u>void</u></font> <b><a name='set_max_runtime'></a>set_max_runtime</b> <font face='Lucida Console'>(</font>
+            <font color='#0000FF'>const</font> std::chrono::nanoseconds<font color='#5555FF'>&amp;</font> max_runtime_
+        <font face='Lucida Console'>)</font> 
+        <b>{</b>
+            max_runtime <font color='#5555FF'>=</font> max_runtime_;
+        <b>}</b>
+
+        std::chrono::nanoseconds <b><a name='get_max_runtime'></a>get_max_runtime</b> <font face='Lucida Console'>(</font>
+        <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>
+        <b>{</b>
+            <font color='#0000FF'>return</font> max_runtime;
+        <b>}</b>
 
         <font color='#0000FF'><u>void</u></font> <b><a name='set_inactive_plane_threshold'></a>set_inactive_plane_threshold</b> <font face='Lucida Console'>(</font>
             <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> inactive_thresh_
@@ -250,6 +265,8 @@
 
             <font color='#0000FF'>const</font> <font color='#0000FF'><u>double</u></font> prior_norm <font color='#5555FF'>=</font> have_prior ?  <font color='#979000'>0.5</font><font color='#5555FF'>*</font><font color='#BB00BB'>dot</font><font face='Lucida Console'>(</font>prior,prior<font face='Lucida Console'>)</font> : <font color='#979000'>0</font>;
 
+            <font color='#0000FF'>const</font> <font color='#0000FF'>auto</font> time_to_stop <font color='#5555FF'>=</font> std::chrono::steady_clock::<font color='#BB00BB'>now</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>+</font> max_runtime;
+
             <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> counter <font color='#5555FF'>=</font> <font color='#979000'>0</font>;
             <font color='#0000FF'>while</font> <font face='Lucida Console'>(</font><font color='#979000'>true</font><font face='Lucida Console'>)</font>
             <b>{</b>
@@ -298,6 +315,8 @@
                 <b>{</b>
                     <font color='#0000FF'>break</font>;
                 <b>}</b>
+                <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>std::chrono::steady_clock::<font color='#BB00BB'>now</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font> <font color='#5555FF'>&gt;</font><font color='#5555FF'>=</font> time_to_stop<font face='Lucida Console'>)</font>
+                    <font color='#0000FF'>break</font>;
 
                 <font color='#009900'>// compute kernel matrix for all the planes
 </font>                K.<font color='#BB00BB'>swap</font><font face='Lucida Console'>(</font>Ktmp<font face='Lucida Console'>)</font>;
@@ -399,6 +418,8 @@
         <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> sub_max_iter;
 
         <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> inactive_thresh;
+
+        std::chrono::nanoseconds max_runtime;
     <b>}</b>;
 <b>}</b>
 

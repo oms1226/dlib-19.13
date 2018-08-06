@@ -135,7 +135,8 @@
         line l,
         <font color='#0000FF'>const</font> dpoint<font color='#5555FF'>&amp;</font> reference_point,
         <font color='#0000FF'>const</font> std::vector<font color='#5555FF'>&lt;</font>vector<font color='#5555FF'>&lt;</font>T,<font color='#979000'>2</font><font color='#5555FF'>&gt;</font><font color='#5555FF'>&gt;</font><font color='#5555FF'>&amp;</font> pts,
-        <font color='#0000FF'>const</font> <font color='#0000FF'><u>double</u></font><font color='#5555FF'>&amp;</font> dist_thresh
+        <font color='#0000FF'>const</font> <font color='#0000FF'><u>double</u></font><font color='#5555FF'>&amp;</font> dist_thresh_min <font color='#5555FF'>=</font> <font color='#979000'>0</font>,
+        <font color='#0000FF'>const</font> <font color='#0000FF'><u>double</u></font><font color='#5555FF'>&amp;</font> dist_thresh_max <font color='#5555FF'>=</font> std::numeric_limits<font color='#5555FF'>&lt;</font><font color='#0000FF'><u>double</u></font><font color='#5555FF'>&gt;</font>::<font color='#BB00BB'>infinity</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>
     <font face='Lucida Console'>)</font>
     <b>{</b>
         <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>signed_distance_to_line</font><font face='Lucida Console'>(</font>l,reference_point<font face='Lucida Console'>)</font> <font color='#5555FF'>&lt;</font> <font color='#979000'>0</font><font face='Lucida Console'>)</font>
@@ -145,7 +146,7 @@
         <font color='#0000FF'>for</font> <font face='Lucida Console'>(</font><font color='#0000FF'>auto</font><font color='#5555FF'>&amp;</font> p : pts<font face='Lucida Console'>)</font>
         <b>{</b>
             <font color='#0000FF'><u>double</u></font> dist <font color='#5555FF'>=</font> <font color='#BB00BB'>signed_distance_to_line</font><font face='Lucida Console'>(</font>l,p<font face='Lucida Console'>)</font>;
-            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#979000'>0</font> <font color='#5555FF'>&lt;</font><font color='#5555FF'>=</font> dist <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> dist <font color='#5555FF'>&lt;</font><font color='#5555FF'>=</font> dist_thresh<font face='Lucida Console'>)</font>
+            <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font>dist_thresh_min <font color='#5555FF'>&lt;</font><font color='#5555FF'>=</font> dist <font color='#5555FF'>&amp;</font><font color='#5555FF'>&amp;</font> dist <font color='#5555FF'>&lt;</font><font color='#5555FF'>=</font> dist_thresh_max<font face='Lucida Console'>)</font>
                 <font color='#5555FF'>+</font><font color='#5555FF'>+</font>cnt;
         <b>}</b>
         <font color='#0000FF'>return</font> cnt;
@@ -210,20 +211,20 @@
         <font color='#0000FF'>const</font> <font color='#0000FF'>auto</font><font color='#5555FF'>&amp;</font> v31 <font color='#5555FF'>=</font> v13;
         <font color='#0000FF'>const</font> <font color='#0000FF'>auto</font><font color='#5555FF'>&amp;</font> v32 <font color='#5555FF'>=</font> v23;
 
-        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b>v01, v12, v23, v30<b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
-                             <font color='#0000FF'>return</font> <b>{</b>v01, v12, v23, v30<b>}</b>;
-        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b>v01, v13, v32, v20<b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
-                             <font color='#0000FF'>return</font> <b>{</b>v01, v13, v32, v20<b>}</b>;
+        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b><b>{</b>v01, v12, v23, v30<b>}</b><b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
+                             <font color='#0000FF'>return</font> <b>{</b><b>{</b>v01, v12, v23, v30<b>}</b><b>}</b>;
+        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b><b>{</b>v01, v13, v32, v20<b>}</b><b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
+                             <font color='#0000FF'>return</font> <b>{</b><b>{</b>v01, v13, v32, v20<b>}</b><b>}</b>;
 
-        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b>v02, v23, v31, v10<b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
-                             <font color='#0000FF'>return</font> <b>{</b>v02, v23, v31, v10<b>}</b>;
-        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b>v02, v21, v13, v30<b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
-                             <font color='#0000FF'>return</font> <b>{</b>v02, v21, v13, v30<b>}</b>;
+        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b><b>{</b>v02, v23, v31, v10<b>}</b><b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
+                             <font color='#0000FF'>return</font> <b>{</b><b>{</b>v02, v23, v31, v10<b>}</b><b>}</b>;
+        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b><b>{</b>v02, v21, v13, v30<b>}</b><b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
+                             <font color='#0000FF'>return</font> <b>{</b><b>{</b>v02, v21, v13, v30<b>}</b><b>}</b>;
 
-        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b>v03, v32, v21, v10<b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
-                             <font color='#0000FF'>return</font> <b>{</b>v03, v32, v21, v10<b>}</b>;
-        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b>v03, v31, v12, v20<b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
-                             <font color='#0000FF'>return</font> <b>{</b>v03, v31, v12, v20<b>}</b>;
+        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b><b>{</b>v03, v32, v21, v10<b>}</b><b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
+                             <font color='#0000FF'>return</font> <b>{</b><b>{</b>v03, v32, v21, v10<b>}</b><b>}</b>;
+        <font color='#0000FF'>if</font> <font face='Lucida Console'>(</font><font color='#BB00BB'>is_convex_quadrilateral</font><font face='Lucida Console'>(</font><b>{</b><b>{</b>v03, v31, v12, v20<b>}</b><b>}</b><font face='Lucida Console'>)</font><font face='Lucida Console'>)</font>
+                             <font color='#0000FF'>return</font> <b>{</b><b>{</b>v03, v31, v12, v20<b>}</b><b>}</b>;
 
         <font color='#0000FF'>throw</font> <font color='#BB00BB'>no_convex_quadrilateral</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
     <b>}</b>

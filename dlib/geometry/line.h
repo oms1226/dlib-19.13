@@ -134,7 +134,8 @@ namespace dlib
         line l,
         const dpoint& reference_point,
         const std::vector<vector<T,2>>& pts,
-        const double& dist_thresh
+        const double& dist_thresh_min = 0,
+        const double& dist_thresh_max = std::numeric_limits<double>::infinity()
     )
     {
         if (signed_distance_to_line(l,reference_point) < 0)
@@ -144,7 +145,7 @@ namespace dlib
         for (auto& p : pts)
         {
             double dist = signed_distance_to_line(l,p);
-            if (0 <= dist && dist <= dist_thresh)
+            if (dist_thresh_min <= dist && dist <= dist_thresh_max)
                 ++cnt;
         }
         return cnt;
@@ -209,20 +210,20 @@ namespace dlib
         const auto& v31 = v13;
         const auto& v32 = v23;
 
-        if (is_convex_quadrilateral({v01, v12, v23, v30}))
-                             return {v01, v12, v23, v30};
-        if (is_convex_quadrilateral({v01, v13, v32, v20}))
-                             return {v01, v13, v32, v20};
+        if (is_convex_quadrilateral({{v01, v12, v23, v30}}))
+                             return {{v01, v12, v23, v30}};
+        if (is_convex_quadrilateral({{v01, v13, v32, v20}}))
+                             return {{v01, v13, v32, v20}};
 
-        if (is_convex_quadrilateral({v02, v23, v31, v10}))
-                             return {v02, v23, v31, v10};
-        if (is_convex_quadrilateral({v02, v21, v13, v30}))
-                             return {v02, v21, v13, v30};
+        if (is_convex_quadrilateral({{v02, v23, v31, v10}}))
+                             return {{v02, v23, v31, v10}};
+        if (is_convex_quadrilateral({{v02, v21, v13, v30}}))
+                             return {{v02, v21, v13, v30}};
 
-        if (is_convex_quadrilateral({v03, v32, v21, v10}))
-                             return {v03, v32, v21, v10};
-        if (is_convex_quadrilateral({v03, v31, v12, v20}))
-                             return {v03, v31, v12, v20};
+        if (is_convex_quadrilateral({{v03, v32, v21, v10}}))
+                             return {{v03, v32, v21, v10}};
+        if (is_convex_quadrilateral({{v03, v31, v12, v20}}))
+                             return {{v03, v31, v12, v20}};
 
         throw no_convex_quadrilateral();
     }

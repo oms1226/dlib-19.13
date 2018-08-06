@@ -134,6 +134,19 @@
         scalar_type <b><a name='get_epsilon'></a>get_epsilon</b> <font face='Lucida Console'>(</font>
         <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font> <b>{</b> <font color='#0000FF'>return</font> eps; <b>}</b>
 
+        <font color='#0000FF'><u>void</u></font> <b><a name='set_max_runtime'></a>set_max_runtime</b> <font face='Lucida Console'>(</font>
+            <font color='#0000FF'>const</font> std::chrono::nanoseconds<font color='#5555FF'>&amp;</font> max_runtime
+        <font face='Lucida Console'>)</font> 
+        <b>{</b>
+            solver.<font color='#BB00BB'>set_max_runtime</font><font face='Lucida Console'>(</font>max_runtime<font face='Lucida Console'>)</font>;
+        <b>}</b>
+
+        std::chrono::nanoseconds <b><a name='get_max_runtime'></a>get_max_runtime</b> <font face='Lucida Console'>(</font>
+        <font face='Lucida Console'>)</font> <font color='#0000FF'>const</font>
+        <b>{</b>
+            <font color='#0000FF'>return</font> solver.<font color='#BB00BB'>get_max_runtime</font><font face='Lucida Console'>(</font><font face='Lucida Console'>)</font>;
+        <b>}</b>
+
         <font color='#0000FF'><u>void</u></font> <b><a name='set_max_cache_size'></a>set_max_cache_size</b> <font face='Lucida Console'>(</font>
             <font color='#0000FF'><u>unsigned</u></font> <font color='#0000FF'><u>long</u></font> max_size
         <font face='Lucida Console'>)</font>

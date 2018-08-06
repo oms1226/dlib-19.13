@@ -10,6 +10,24 @@
 #include "../array2d.h"
 #include "object_detector.h"
 
+// hyundeuk.cho add
+#ifdef DLIB_USE_TBB
+#include <tbb/tbb.h>
+#endif
+
+#if DLIB_USE_PROFILING
+#include <chrono>
+
+#if defined(WEBRTC_IOS)
+#define USE_STDOUT
+#endif
+
+using namespace std::chrono;
+#ifdef USE_STDOUT
+using namespace std;
+#endif
+#endif
+
 namespace dlib
 {
 
@@ -290,6 +308,19 @@ namespace dlib
             const double thresh
         ) const;
 
+#if DLIB_ENABLE_EARLY_TERMINATION_FOR_FD
+        void detect (
+            const fhog_filterbank& w,
+            const int max_dets,
+            const int prefer_level,
+            int *det_level,
+            std::vector<rect_detection>& final_dets,
+            test_box_overlap& boxes_overlap,
+            int detector_idx,
+            const double thresh,
+            const double adjust_threshold
+        ) const;
+#endif
 
         void get_feature_vector (
             const full_object_detection& obj,
@@ -460,6 +491,88 @@ namespace dlib
             }
             return area;
         }
+
+// hyundeuk.cho add
+#ifdef DLIB_USE_TBB
+		template <typename fhog_filterbank>
+        rectangle apply_filters_to_fhog_parallel (
+            const fhog_filterbank& w,
+            const array<array2d<float> >& feats,
+            array2d<float>& saliency_image
+        )
+        {
+            const unsigned long num_separable_filters = w.num_separable_filters();
+            rectangle area;
+            // use the separable filters if they would be faster than running the regular filters.
+            if (num_separable_filters > w.filters.size()*std::min(w.filters[0].nr(),w.filters[0].nc())/3.0)
+            {
+                area = spatially_filter_image(feats[0], saliency_image, w.filters[0]);
+                for (unsigned long i = 1; i < w.filters.size(); ++i)
+                {
+                    // now we filter but the output adds to saliency_image rather than
+                    // overwriting it.
+                    spatially_filter_image(feats[i], saliency_image, w.filters[i], 1, false, true);
+                }
+            }
+            else
+            {
+                // find the first filter to apply
+                unsigned long i = 0;
+                while (i < w.row_filters.size() && w.row_filters[i].size() == 0) 
+                    ++i;
+				
+				int start_filter = i;
+
+				int num_filters = 0;
+				std::vector<int> filters_before;
+				filters_before.push_back(0);
+
+				// count the number of filters that will be used
+				for (; i < w.row_filters.size(); ++i)
+                {
+					num_filters += w.row_filters[i].size();
+					filters_before.push_back(num_filters);
+				}
+
+				array<array2d<float> > saliency_images;
+				saliency_images.set_max_size(num_filters);
+				saliency_images.set_size(num_filters);
+
+				i = start_filter;
+
+				tbb::parallel_for((int)i, (int)w.row_filters.size(), [&](int k)
+				{
+					array2d<float> saliency_tmp;
+					array2d<float> scratch;
+                    for (unsigned long j = 0; j < w.row_filters[k].size(); ++j)
+                    {
+						area = float_spatially_filter_image_separable(feats[k], saliency_tmp, w.row_filters[k][j], w.col_filters[k][j], scratch, false);
+						swap(saliency_tmp, saliency_images[filters_before[k]-start_filter+j]);
+                    }
+                });
+				
+                saliency_image.clear();
+
+				saliency_image.set_size(feats[0].nr(), feats[0].nc());
+				assign_all_pixels(saliency_image, 0);
+
+				// TODO this could be optimised?
+				// Sum across the saliency images
+				for(unsigned int i = 0; i < saliency_images.size(); ++i)
+				{
+					for(int y = 0; y < saliency_image.nr(); ++y)
+					{
+						for(int x = 0; x < saliency_image.nc(); ++x)
+						{
+							saliency_image[y][x] += saliency_images[i][y][x];
+						}
+					}					
+				}
+				
+            }
+            return area;
+        }
+#endif	
     }
 
 // ----------------------------------------------------------------------------------------
@@ -612,6 +725,100 @@ namespace dlib
                 }
             }
         }
+
+// hyundeuk.cho add
+#ifdef DLIB_USE_TBB
+        template <
+            typename pyramid_type,
+            typename image_type,
+            typename feature_extractor_type
+            >
+        void create_fhog_pyramid_parallel (
+            const image_type& img,
+            const feature_extractor_type& fe,
+            array<array<array2d<float> > >& feats,
+            int cell_size,
+            int filter_rows_padding,
+            int filter_cols_padding,
+            unsigned long min_pyramid_layer_width,
+            unsigned long min_pyramid_layer_height,
+            unsigned long max_pyramid_levels
+        )
+        {
+#if DLIB_USE_PROFILING
+            system_clock::time_point tp;
+#endif
+            
+            unsigned long levels = 0;
+            rectangle rect = get_rect(img);
+
+            // figure out how many pyramid levels we should be using based on the image size
+            pyramid_type pyr;
+            do
+            {
+                rect = pyr.rect_down(rect);
+                ++levels;
+            } while (rect.width() >= min_pyramid_layer_width && rect.height() >= min_pyramid_layer_height &&
+                levels < max_pyramid_levels);
+
+            if (feats.max_size() < levels)
+                feats.set_max_size(levels);
+            feats.set_size(levels);
+			
+			typedef typename image_traits<image_type>::pixel_type pixel_type;
+			
+			// First create the pyramids
+			array<array2d<pixel_type> > image_pyramid;
+			image_pyramid.set_max_size(levels-1);
+            image_pyramid.set_size(levels-1);
+
+#if DLIB_USE_PROFILING
+            tp = system_clock::now();
+#endif
+                        
+			for(unsigned int pyr_level = 0; pyr_level < levels - 1; ++pyr_level)
+			{
+				array2d<pixel_type> temp;
+				if(pyr_level == 0)
+				{
+					pyr(img, temp);
+				}
+				else
+				{
+					pyr(image_pyramid[pyr_level-1], temp);
+				}
+				swap(temp, image_pyramid[pyr_level]);
+			}
+
+#if DLIB_USE_PROFILING
+#ifdef USE_STDOUT
+            cout << "  pyr: " << duration_cast<milliseconds>(system_clock::now() - tp).count() << endl;
+#else
+            LOG(INFO) << "  pyr: " << duration_cast<milliseconds>(system_clock::now() - tp).count();
+#endif
+            tp = system_clock::now();
+#endif
+        
+			tbb::parallel_for(0, (int)levels, [&](int pyr_level){
+				if(pyr_level == 0)
+				{
+					fe(img, feats[pyr_level], cell_size,filter_rows_padding,filter_cols_padding);
+				}
+				else
+				{
+					fe(image_pyramid[pyr_level-1], feats[pyr_level], cell_size,filter_rows_padding,filter_cols_padding);
+				}
+			});
+
+#if DLIB_USE_PROFILING
+#ifdef USE_STDOUT
+            cout << "  fe(levels=" << levels << "): " << duration_cast<milliseconds>(system_clock::now() - tp).count() << endl;
+#else
+            LOG(INFO) << "  fe(levels=" << levels << "): " << duration_cast<milliseconds>(system_clock::now() - tp).count();
+#endif
+#endif
+        }
+#endif	
     }
 
 // ----------------------------------------------------------------------------------------
@@ -630,9 +837,16 @@ namespace dlib
     {
         unsigned long width, height;
         compute_fhog_window_size(width,height);
+// hyundeuk.cho modify		
+#ifdef DLIB_USE_TBB
+		impl::create_fhog_pyramid_parallel<Pyramid_type>(img, fe, feats, cell_size, height,
+            width, min_pyramid_layer_width, min_pyramid_layer_height,
+            max_pyramid_levels);
+#else
         impl::create_fhog_pyramid<Pyramid_type>(img, fe, feats, cell_size, height,
             width, min_pyramid_layer_width, min_pyramid_layer_height,
             max_pyramid_levels);
+#endif			
     }
 
 // ----------------------------------------------------------------------------------------
@@ -758,6 +972,22 @@ namespace dlib
             return a.first < b.first;
         }
 
+#if DLIB_ENABLE_EARLY_TERMINATION_FOR_FD
+        inline bool overlaps_any_box (
+            const test_box_overlap& boxes_overlap,
+            const std::vector<rect_detection>& rects,
+            const dlib::rectangle& rect
+        )
+        {
+            for (unsigned long i = 0; i < rects.size(); ++i)
+            {
+                if (boxes_overlap(rects[i].rect, rect))
+                    return true;
+            }
+            return false;
+        }
+#endif
+
         template <
             typename pyramid_type,
             typename feature_extractor_type,
@@ -806,6 +1036,155 @@ namespace dlib
             std::sort(dets.rbegin(), dets.rend(), compare_pair_rect);
         }
 
+#if DLIB_ENABLE_EARLY_TERMINATION_FOR_FD
+        template <
+            typename pyramid_type,
+            typename feature_extractor_type,
+            typename fhog_filterbank
+            >
+        void detect_from_fhog_pyramid (
+            const array<array<array2d<float> > >& feats,
+            const feature_extractor_type& fe,
+            const fhog_filterbank& w,
+            const double thresh,
+            const double adjust_threshold,
+            const unsigned long det_box_height,
+            const unsigned long det_box_width,
+            const int cell_size,
+            const int filter_rows_padding,
+            const int filter_cols_padding,
+            const int max_dets,
+            const int prefer_level,
+            int *det_level,
+            std::vector<rect_detection>& final_dets,
+            test_box_overlap& boxes_overlap,
+            int detector_idx
+        ) 
+        {
+            array2d<float> saliency_image;
+            pyramid_type pyr;
+
+            // reordering levels by using prefer_level
+            std::vector<int> levels;
+            const int level_size = feats.size();
+            const int pref_level = prefer_level < 0 ? level_size / 2 : prefer_level;
+            levels.push_back(pref_level);
+            int delta = 1;
+            for (int i = 1, j = 0; i < level_size; j++) {
+                int level;
+                if (j % 2 == 0) {
+                    level = pref_level - delta;
+                } else {
+                    level = pref_level + delta;
+                    delta++;
+                }
+                if (level >= 0 && level < level_size) {
+                    levels.push_back(level);
+                    i++;
+                }
+            }
+#if 0
+            std::stringstream tmp;
+            for (auto &l : levels) { tmp << l << " "; }
+            LOG(INFO) << "++ levels(" << levels.size() << "): " << tmp.str();
+#endif
+
+            const double final_thresh = thresh + adjust_threshold;
+
+            // for all pyramid levels
+            for (auto &l : levels) {
+#ifdef DLIB_USE_TBB
+                const rectangle area = apply_filters_to_fhog_parallel(w, feats[l], saliency_image);
+#else
+                const rectangle area = apply_filters_to_fhog(w, feats[l], saliency_image);
+#endif
+                // now search the saliency image for any detections
+                for (long r = area.top(); r <= area.bottom(); ++r) {
+                    for (long c = area.left(); c <= area.right(); ++c) {
+                        // if we found a detection
+                        if (saliency_image[r][c] >= final_thresh) {
+                            rectangle rect = fe.feats_to_image(centered_rect(point(c,r),det_box_width,det_box_height), 
+                                cell_size, filter_rows_padding, filter_cols_padding);
+                            rect = pyr.rect_up(rect, l);
+
+                            if (!overlaps_any_box(boxes_overlap, final_dets, rect)) {
+                                std::pair<double, rectangle> det = std::make_pair(saliency_image[r][c], rect);
+                                rect_detection temp;
+                                temp.detection_confidence = det.first-thresh;
+                                temp.weight_index = detector_idx;
+                                temp.rect = det.second;
+                                final_dets.push_back(temp);
+
+                                if (final_dets.size() >= max_dets) {
+                                    *det_level = (int)l;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+#endif
+
+// hyundeuk.cho add
+#ifdef DLIB_USE_TBB
+ template <
+            typename pyramid_type,
+            typename feature_extractor_type,
+            typename fhog_filterbank
+            >
+        void detect_from_fhog_pyramid_parallel (
+            const array<array<array2d<float> > >& feats,
+            const feature_extractor_type& fe,
+            const fhog_filterbank& w,
+            const double thresh,
+            const unsigned long det_box_height,
+            const unsigned long det_box_width,
+            const int cell_size,
+            const int filter_rows_padding,
+            const int filter_cols_padding,
+            std::vector<std::pair<double, rectangle> >& dets
+        ) 
+        {
+            dets.clear();
+            pyramid_type pyr;
+
+			tbb::concurrent_vector<std::pair<double, rectangle>> dets_conc;
+
+			int num_features = feats.size();
+
+			tbb::parallel_for(0, num_features, [&](int l){
+                array2d<float> saliency_image;
+				// TODO does not seem to help much?
+				const rectangle area = apply_filters_to_fhog_parallel(w, feats[l], saliency_image);
+				
+                // now search the saliency image for any detections
+                for (long r = area.top(); r <= area.bottom(); ++r)
+                {
+                    for (long c = area.left(); c <= area.right(); ++c)
+                    {
+                        // if we found a detection
+                        if (saliency_image[r][c] >= thresh)
+                        {
+                            rectangle rect = fe.feats_to_image(centered_rect(point(c,r),det_box_width,det_box_height), 
+                                cell_size, filter_rows_padding, filter_cols_padding);
+                            rect = pyr.rect_up(rect, l);
+                            dets_conc.push_back(std::make_pair(saliency_image[r][c], rect));
+                        }
+                    }
+                }
+			});	
+
+			for(size_t i = 0; i < dets_conc.size(); ++i)
+			{
+				dets.push_back(dets_conc[i]);
+			}
+
+            std::sort(dets.rbegin(), dets.rend(), compare_pair_rect);
+        }
+#endif
+
         inline bool overlaps_any_box (
             const test_box_overlap& tester,
             const std::vector<rect_detection>& rects,
@@ -851,9 +1230,55 @@ namespace dlib
         unsigned long width, height;
         compute_fhog_window_size(width,height);
 
+// hyundeuk.cho modify
+#ifdef DLIB_USE_TBB
+        impl::detect_from_fhog_pyramid_parallel<pyramid_type>(feats, fe, w, thresh,
+            height-2*padding, width-2*padding, cell_size, height, width, dets);
+#else
         impl::detect_from_fhog_pyramid<pyramid_type>(feats, fe, w, thresh,
             height-2*padding, width-2*padding, cell_size, height, width, dets);
+#endif			
     }
+
+#if DLIB_ENABLE_EARLY_TERMINATION_FOR_FD
+// ----------------------------------------------------------------------------------------
+
+    template <
+        typename Pyramid_type,
+        typename feature_extractor_type
+        >
+    void scan_fhog_pyramid<Pyramid_type,feature_extractor_type>::
+    detect (
+        const fhog_filterbank& w,
+        const int max_dets,
+        const int prefer_level,
+        int *det_level,
+        std::vector<rect_detection>& final_dets,
+        test_box_overlap& boxes_overlap,
+        int detector_idx,
+        const double thresh,
+        const double adjust_threshold
+    ) const
+    {
+        // make sure requires clause is not broken
+        DLIB_ASSERT(is_loaded_with_image() &&
+                    w.get_num_dimensions() == get_num_dimensions(), 
+            "\t void scan_fhog_pyramid::detect()"
+            << "\n\t Invalid inputs were given to this function "
+            << "\n\t is_loaded_with_image(): " << is_loaded_with_image()
+            << "\n\t w.get_num_dimensions(): " << w.get_num_dimensions()
+            << "\n\t get_num_dimensions():   " << get_num_dimensions()
+            << "\n\t this: " << this
+            );
+
+        unsigned long width, height;
+        compute_fhog_window_size(width,height);
+
+        impl::detect_from_fhog_pyramid<pyramid_type>(feats, fe, w, thresh, adjust_threshold,
+            height-2*padding, width-2*padding, cell_size, height, width, max_dets, prefer_level, det_level,
+            final_dets, boxes_overlap, detector_idx);
+    }
+#endif
 
 // ----------------------------------------------------------------------------------------
 

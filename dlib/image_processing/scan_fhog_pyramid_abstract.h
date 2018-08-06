@@ -554,6 +554,19 @@ namespace dlib
             std::vector<std::pair<double, rectangle> >& dets,
             const double thresh
         ) const;
+#if DLIB_ENABLE_EARLY_TERMINATION_FOR_FD
+        void detect (
+            const fhog_filterbank& w,
+            const int max_dets,
+            const int prefer_level,
+            int *det_level,
+            std::vector<rect_detection>& final_dets,
+            test_box_overlap& boxes_overlap,
+            int detector_idx,
+            const double thresh,
+            const double adjust_threshold
+        ) const;
+#endif
         /*!
             requires
                 - w.get_num_dimensions() == get_num_dimensions()

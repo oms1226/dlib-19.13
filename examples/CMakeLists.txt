@@ -54,7 +54,26 @@ add_executable(assignment_learning_ex assignment_learning_ex.cpp)
 # depends on dlib.  You do that with this statement: 
 target_link_libraries(assignment_learning_ex dlib::dlib)
 
+#added by oms1226  2018.07.27 - start
+add_definitions(-DDLIB_JPEG_SUPPORT=on)
+add_definitions(-DDLIB_JPEG_STATIC=on)
+#add_definitions(-DDLIB_HAVE_NEON=on)
+#add_definitions(-DDLIB_USE_TBB=on)
 
+add_definitions(-DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR=6)
+add_definitions(-DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR_FOR_FAST_MODE=4)
+
+add_definitions(-DDLIB_USE_RESIZE_IMAGE_WITH_INTERP_NN=1)
+add_definitions(-DDLIB_ENABLE_RGBA_FOR_FD=1)
+add_definitions(-DDLIB_ENABLE_EARLY_TERMINATION_FOR_FD=1)
+add_definitions(-DDLIB_USE_PROFILING=0)
+add_definitions(-Ofast)
+#add_definitions(-mfpu=neon)
+add_definitions(-fpic -fstack-protector)
+add_definitions(-ffunction-sections)
+add_definitions(-funwind-tables)
+add_definitions(-fno-short-enums)
+#added by oms1226  2018.07.27 - end
 
 # To compile this program all you need to do is ask cmake.  You would type
 # these commands from within the directory containing this CMakeLists.txt
@@ -152,6 +171,12 @@ else()
 
       add_executable(webcam_face_pose_ex webcam_face_pose_ex.cpp)
       target_link_libraries(webcam_face_pose_ex dlib::dlib ${OpenCV_LIBS} )
+
+      add_executable(webcam_face_pose_ex_modify webcam_face_pose_ex_modify.cpp)
+      target_link_libraries(webcam_face_pose_ex_modify dlib::dlib ${OpenCV_LIBS} )
+
+      add_executable(webcam_face_pose_ex_modify2 webcam_face_pose_ex_modify2.cpp)
+      target_link_libraries(webcam_face_pose_ex_modify2 dlib::dlib ${OpenCV_LIBS} )
    else()
       message("OpenCV not found, so we won't build the webcam_face_pose_ex example.")
    endif()
@@ -173,6 +198,8 @@ add_example(dir_nav_ex)
 add_example(empirical_kernel_map_ex)
 add_gui_example(face_detection_ex)
 add_gui_example(face_landmark_detection_ex)
+add_gui_example(face_landmark_detection_ex_modify)
+#add_example(modifyLandmarkTrainingXml)
 add_gui_example(fhog_ex)
 add_gui_example(fhog_object_detector_ex)
 add_example(file_to_code_ex)
@@ -237,6 +264,7 @@ add_example(threaded_object_ex)
 add_example(threads_ex)
 add_example(timer_ex)
 add_gui_example(train_object_detector)
+add_gui_example(train_object_detector_modify)
 add_example(train_shape_predictor_ex)
 add_example(using_custom_kernels_ex)
 add_gui_example(video_tracking_ex)

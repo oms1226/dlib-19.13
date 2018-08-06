@@ -1631,9 +1631,13 @@ namespace dlib
                 }
                 else 
                 {
+#if 0 //no member of std::to_string by oms1226 2018.07.30
                     throw serialization_error("An error occurred while trying to read the " +
                         std::to_string(objects_read+1) + "th object from the file " + filename +
                         ".\nERROR: " + e.info + "\n" + suffix);
+#else
+                    throw serialization_error("An error occurred while trying to read the std::to_string(objects_read+1) th object from the file " + filename + ".\nERROR: " + e.info + "\n" + suffix);
+#endif
                 }
             }
             ++objects_read;

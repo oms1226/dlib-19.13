@@ -44,3 +44,19 @@ dist/
 trainingDatas/
 
 python_examples/26\.mp4
+
+\.vs/
+
+python_examples/\.idea/
+
+python_examples/result\.log
+
+testDatas/videos/
+
+testResults/
+
+testDatas/dlib_face_detector_training_data/
+
+python_examples/\.idea/
+
+*.pyc

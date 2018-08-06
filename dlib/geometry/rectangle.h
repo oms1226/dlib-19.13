@@ -741,13 +741,29 @@ namespace dlib
         {
             // In this case we will make the output rectangle a square with the requested
             // area.
+#if defined(__ANDROID__)
+#if defined(__aarch64__)
             unsigned long scale = std::round(std::sqrt(area));
+#else
+            unsigned long scale = ::round(std::sqrt(area));
+#endif
+#else
+            unsigned long scale = std::round(std::sqrt(area));
+#endif
             return centered_rect(rect, scale, scale);
         }
         else
         {
             double scale = std::sqrt(area/(double)rect.area());
+#if defined(__ANDROID__)
+#if defined(__aarch64__)
             return centered_rect(rect, (long)std::round(rect.width()*scale), (long)std::round(rect.height()*scale));
+#else
+            return centered_rect(rect, (long)::round(rect.width()*scale), (long)::round(rect.height()*scale));
+#endif
+#else
+            return centered_rect(rect, (long)std::round(rect.width()*scale), (long)std::round(rect.height()*scale));
+#endif
         }
     }
 

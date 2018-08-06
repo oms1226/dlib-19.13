@@ -209,7 +209,9 @@ namespace dlib
             pixel_type& result
         ) const
         {
+#if !DLIB_ENABLE_RGBA_FOR_FD // removed by jhhur for rgba input of frontal face detection
             COMPILE_TIME_ASSERT(pixel_traits<typename image_view_type::pixel_type>::has_alpha == false);
+#endif
 
             if (get_rect(img).contains(p))
             {
@@ -1066,10 +1068,39 @@ namespace dlib
             );
 
         image_type temp;
+#if defined(__ANDROID__)
+#if defined(__aarch64__)
         set_image_size(temp, std::round(size_scale*num_rows(img)), std::round(size_scale*num_columns(img)));
+#else
+        set_image_size(temp, ::round(size_scale*num_rows(img)), ::round(size_scale*num_columns(img)));
+#endif
+#else
+        set_image_size(temp, std::round(size_scale*num_rows(img)), std::round(size_scale*num_columns(img)));
+#endif
         resize_image(img, temp);
         swap(img, temp);
     }
+
+#if DLIB_USE_RESIZE_IMAGE_WITH_INTERP_NN // added by jhhur
+    template <
+        typename image_type1,
+        typename image_type2
+        >
+    void resize_image_nn (
+        const image_type1& in_img,
+        image_type2& out_img
+    )
+    {
+        // make sure requires clause is not broken
+        DLIB_ASSERT( is_same_object(in_img, out_img) == false ,
+            "\t void resize_image()"
+            << "\n\t Invalid inputs were given to this function."
+            << "\n\t is_same_object(in_img, out_img):  " << is_same_object(in_img, out_img)
+            );
+        
+        resize_image(in_img, out_img, interpolate_nearest_neighbor());
+    }
+#endif
 
 // ----------------------------------------------------------------------------------------
 

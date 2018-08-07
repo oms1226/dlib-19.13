@@ -85,6 +85,13 @@ def get_extra_cmake_options():
             sys.argv.remove(arg)
             continue
 
+    # add by oms1226 2018.08.01 #'-DDLIB_HAVE_NEON=on', '-DDLIB_USE_TBB=on', '-mfpu=neon'
+    # but not working!
+    #_cmake_extra_options += ['-DDLIB_JPEG_SUPPORT=on', '-DDLIB_JPEG_STATIC=on', '-DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR=6', '-DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR_FOR_FAST_MODE=4', '-DDLIB_USE_RESIZE_IMAGE_WITH_INTERP_NN=1', '-DDLIB_ENABLE_RGBA_FOR_FD=1', '-DDLIB_ENABLE_EARLY_TERMINATION_FOR_FD=1', '-DDLIB_USE_PROFILING=0', '-Ofast', '-fpic', '-fstack-protector', '-ffunction-sections', '-funwind-tables', '-fno-short-enums']
+    #_cmake_extra_options += ['-DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR=6', '-DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR_FOR_FAST_MODE=4'] --> not working!
+    #_cmake_extra_options += ['-DCMAKE_CXX_FLAGS="-DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR=6"']#work fine!
+    #_cmake_extra_options += ['-DCMAKE_CXX_FLAGS="-DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR=6 -DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR_FOR_FAST_MODE=4"'] --> not working!
+    _cmake_extra_options += ['-DCMAKE_CXX_FLAGS=-DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR=6 -DDLIB_FD_PYRAMID_DOWN_SCALE_FACTOR_FOR_FAST_MODE=4']#work fine!
     return _cmake_extra_options, _clean_build_folder
 
 cmake_extra_options,clean_build_folder = get_extra_cmake_options()

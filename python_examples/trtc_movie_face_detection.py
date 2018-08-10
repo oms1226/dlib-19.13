@@ -175,7 +175,7 @@ class evaluate_face_detection4SVM ():
             else:
                 if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
                     filenames = [dirname.split('/')[-1]]
-                    dirname = '/'.join(dirname.split('/')[0:-2])
+                    dirname = '/'.join(dirname.split('/')[0:-1])
                 elif _platform == "win32" or _platform == "win64":
                     filenames = [dirname.split('\\')[-1]]
                     dirname = '\\'.join(dirname.split('\\')[0:-1])

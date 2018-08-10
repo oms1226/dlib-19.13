@@ -98,11 +98,16 @@ def getExceptionString(info):
     return ''.join(traceback.format_exception(*info)[-2:]).strip().replace('\n', ': ')
 
 class evaluate_face_detection4SVM ():
-    version = 1.4
+    """
+    1.4 : cnn 최초 추가
+    1.5 : scale down factor 추가
+    """
+    version = 1.5
     resultS = dict()
     IS_DEFAULT = False
     IS_CNN = False
     CNN_VERSION = 0
+    DOWN_SCALE_FACTOR = float(0)
 
     NUMOFFACEDETECTORS = 9
     DEFAULT_RESOLUTION_WIDTH = float(1280)
@@ -126,10 +131,11 @@ class evaluate_face_detection4SVM ():
 
     RESULT_CNN_CONFIDENCE = float(0)
 
-    def __init__(self, videos_dirname = None, detector_dirname = None, traing_options = None, isDefault = False, isCnn = False, cnn_version = 0):
+    def __init__(self, videos_dirname = None, detector_dirname = None, traing_options = None, isDefault = False, isCnn = False, cnn_version = 0, downscale_factor = 0):
         self.IS_DEFAULT = isDefault
         self.IS_CNN = isCnn
         self.CNN_VERSION = cnn_version
+        self.DOWN_SCALE_FACTOR = downscale_factor
 
         if videos_dirname == None:
             if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
@@ -161,9 +167,10 @@ class evaluate_face_detection4SVM ():
         self.resultS['_traing_options'] = json.dumps(traing_options, ensure_ascii=False)
         self.resultS['targetresolution'] = str(self.DEFAULT_RESOLUTION_WIDTH) + "X" + str(self.DEFAULT_RESOLUTION_HEIGHT)
 
-        self.resultS['IS_DEFAULT'] = IS_DEFAULT
-        self.resultS['IS_CNN'] = IS_CNN
-        self.resultS['cnn__version__'] = CNN_VERSION
+        self.resultS['IS_DEFAULT'] = self.IS_DEFAULT
+        self.resultS['IS_CNN'] = self.IS_CNN
+        self.resultS['cnn__version__'] = self.CNN_VERSION
+        self.resultS['DOWN_SCALE_FACTOR'] = self.DOWN_SCALE_FACTOR
         pass
 
     def load_detectors(self, dirname):
@@ -186,9 +193,7 @@ class evaluate_face_detection4SVM ():
         for filename in filenames:
             if self.IS_CNN == True:
                 full_filename = os.path.join(dirname, filename)
-
-                if self.CNN_VERSION == 0:
-                    detector = dlib.cnn_face_detection_model_v1(full_filename)
+                detector = dlib.cnn_face_detection_model_v1(full_filename)
                 reVal.append(detector)
             elif filename.startswith(str(order)):
                 full_filename = None
@@ -323,6 +328,21 @@ class evaluate_face_detection4SVM ():
         # perform the actual rotation and return the image
         return cv2.warpAffine(image, M, (nW, nH))
 
+    def get_scaleup_faces(self, face_rects, down_scale=1.5):
+        faces = []
+        for face in face_rects:
+            scaled_face = dlib.rectangle(int(face.left() * down_scale),
+                                         int(face.top() * down_scale),
+                                         int(face.right() * down_scale),
+                                         int(face.bottom() * down_scale))
+            faces.append(scaled_face)
+        return faces
+
+    def image_scaledown(self, image, down_scale=1.5):
+        return cv2.resize(image, None, fx=1.0 / down_scale, fy=1.0 / down_scale,
+                                  interpolation=cv2.INTER_LINEAR)
+
+
     def detection_eachprocess(self, detectors, targetVideo):
         count = 0
         previousIndex = -1
@@ -387,11 +407,15 @@ class evaluate_face_detection4SVM ():
             duration = float(0)
             index = 0
             for detector in detectors:
+                if self.DOWN_SCALE_FACTOR > 0:
+                    gray = self.image_scaledown(gray, self.DOWN_SCALE_FACTOR)
+
                 start = timeit.default_timer()
 #                img = dlib.load_rgb_image('..\\trainingDatas\\faceDown\\11.png')
 #                dets = detector(img, 1)
                 dets = detector(gray)
                 stop = timeit.default_timer()
+
                 duration += stop - start
                 self.RESULT_SVM_DURATION += stop - start
                 self.RESULT_SVM_EACH_DURATION[self.RESULT_SVM_EACH_DURATION.keys()[index]] = self.RESULT_SVM_EACH_DURATION[self.RESULT_SVM_EACH_DURATION.keys()[index]] + stop - start
@@ -407,6 +431,9 @@ class evaluate_face_detection4SVM ():
                     detectResult = dets
 
                 printExLR(detectResult),
+
+                if self.DOWN_SCALE_FACTOR > 0:
+                    detectResult = self.get_scaleup_faces(detectResult, self.DOWN_SCALE_FACTOR)
 
                 for rect in detectResult:
                     cv2.rectangle(frame, (rect.left(), rect.top()), (rect.right(), rect.bottom()), color_green, line_width)
@@ -545,25 +572,36 @@ if __name__ == "__main__":
     IS_DEFAULT = False
     IS_CNN = False
     CNN_VERSION = -1
+    SCALE_DOWN = float(0)
+
     while len(sys.argv) > 1:
         if len(sys.argv) > 1 and '--default' in sys.argv[1]:
             IS_DEFAULT = True
             sys.argv.pop(1)
+
         if len(sys.argv) > 1 and '--cnn' in sys.argv[1]:
-            cnnfullname = sys.argv[1].split('=')
-            if len(cnnfullname) == 2:
-                if cnnfullname[0] == '--cnn':
+            argfullname = sys.argv[1].split('=')
+            if len(argfullname) == 2:
+                if argfullname[0] == '--cnn':
                     IS_CNN = True
-                    CNN_VERSION = int(cnnfullname[1])
+                    CNN_VERSION = int(argfullname[1])
 
             if IS_CNN == False or IS_DEFAULT == True:
-                ArithmeticError("The name of cnnfullname is " + cnnfullname)
+                ArithmeticError("The name of argfullname is " + argfullname)
 
+            sys.argv.pop(1)
+
+        if len(sys.argv) > 1 and '--sd' in sys.argv[1]:
+            argfullname = sys.argv[1].split('=')
+            if len(argfullname) == 2:
+                if argfullname[0] == '--sd':
+                    SCALE_DOWN = float(argfullname[1])
             sys.argv.pop(1)
 
     printEx("%s:%s" % ("IS_DEFAULT", IS_DEFAULT))
     printEx("%s:%s" % ("IS_CNN", IS_CNN))
     printEx("%s:%s" % ("CNN_VERSION", CNN_VERSION))
+    printEx("%s:%s" % ("SCALE_DOWN", SCALE_DOWN))
 
     videos_dirname = None
     detector_dirname = None
@@ -571,13 +609,15 @@ if __name__ == "__main__":
     if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
         videos_dirname = "../testDatas/videos"
         detector_dirname = "../traningOutput/20180423"
-        if IS_CNN:
-            if CNN_VERSION == 0:
-                detector_dirname = "../traningOutput/cnn_default/mmod_human_face_detector.dat"
     elif _platform == "win32" or _platform == "win64":
         videos_dirname = "..\\testDatas\\videos"
         detector_dirname = "..\\traningOutput\\20180423"
-        if IS_CNN:
+
+    if IS_CNN:
+        if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
+            if CNN_VERSION == 0:
+                detector_dirname = "../traningOutput/cnn_default/mmod_human_face_detector.dat"
+        elif _platform == "win32" or _platform == "win64":
             if CNN_VERSION == 0:
                 detector_dirname = "..\\traningOutput\\cnn_default\\mmod_human_face_detector.dat"
 
@@ -585,7 +625,7 @@ if __name__ == "__main__":
     traing_options = {'-t': "fd1_keun.xml", '--u': 3, '--l': 1, '--eps': 0.05, '--p': 0, '--target-size': 6400, '--c': 700, '--n': 9, '--cell-size': 8, '--threshold': 0.15, '--threads': 8}
     #EFD = evaluate_face_detection4SVM(videos_dirname, detector_dirname, traing_options)
     #EFD = evaluate_face_detection4SVM(isDefault = IS_DEFAULT)
-    EFD = evaluate_face_detection4SVM(detector_dirname = detector_dirname, isDefault = IS_DEFAULT, isCnn = IS_CNN, cnn_version = CNN_VERSION)
+    EFD = evaluate_face_detection4SVM(detector_dirname = detector_dirname, isDefault = IS_DEFAULT, isCnn = IS_CNN, cnn_version = CNN_VERSION, downscale_factor = SCALE_DOWN)
     EFD.process()
     EFD.writeResult()
 

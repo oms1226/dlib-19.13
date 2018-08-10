@@ -35,6 +35,7 @@
 
 import sys
 import dlib
+import timeit
 
 if len(sys.argv) < 3:
     print(
@@ -53,7 +54,10 @@ for f in sys.argv[2:]:
     # The 1 in the second argument indicates that we should upsample the image
     # 1 time.  This will make everything bigger and allow us to detect more
     # faces.
+    start = timeit.default_timer()
     dets = cnn_face_detector(img, 1)
+    stop = timeit.default_timer()
+    print stop - start
     '''
     This detector returns a mmod_rectangles object. This object contains a list of mmod_rectangle objects.
     These objects can be accessed by simply iterating over the mmod_rectangles object

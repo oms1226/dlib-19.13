@@ -98,10 +98,12 @@ def getExceptionString(info):
     return ''.join(traceback.format_exception(*info)[-2:]).strip().replace('\n', ': ')
 
 class evaluate_face_detection4SVM ():
-    version = 1.3
-    dlib_version = 19.13
+    version = 1.4
     resultS = dict()
     IS_DEFAULT = False
+    IS_CNN = False
+    CNN_VERSION = 0
+
     NUMOFFACEDETECTORS = 9
     DEFAULT_RESOLUTION_WIDTH = float(1280)
     DEFAULT_RESOLUTION_HEIGHT = float(720)
@@ -122,8 +124,13 @@ class evaluate_face_detection4SVM ():
 
     RESULT_SVM_RELATION_1DEPTH_MATRIX = [[0] * (NUMOFFACEDETECTORS+1) for i in range(NUMOFFACEDETECTORS+1)]
 
-    def __init__(self, videos_dirname = None, detector_dirname = None, traing_options = None, isDefault = False):
+    RESULT_CNN_CONFIDENCE = float(0)
+
+    def __init__(self, videos_dirname = None, detector_dirname = None, traing_options = None, isDefault = False, isCnn = False, cnn_version = 0):
         self.IS_DEFAULT = isDefault
+        self.IS_CNN = isCnn
+        self.CNN_VERSION = cnn_version
+
         if videos_dirname == None:
             if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
                 videos_dirname = "../testDatas/videos"
@@ -153,35 +160,54 @@ class evaluate_face_detection4SVM ():
         self.resultS['_detector_dirname'] = self.detector_dirname = detector_dirname
         self.resultS['_traing_options'] = json.dumps(traing_options, ensure_ascii=False)
         self.resultS['targetresolution'] = str(self.DEFAULT_RESOLUTION_WIDTH) + "X" + str(self.DEFAULT_RESOLUTION_HEIGHT)
+
+        self.resultS['IS_DEFAULT'] = IS_DEFAULT
+        self.resultS['IS_CNN'] = IS_CNN
+        self.resultS['cnn__version__'] = CNN_VERSION
         pass
 
     def load_detectors(self, dirname):
         reVal = []
 
         if dirname != None:
-            filenames = os.listdir(dirname)
+            if os.path.isdir(dirname):
+                filenames = os.listdir(dirname)
+            else:
+                if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
+                    filenames = [dirname.split('/')[-1]]
+                    dirname = '/'.join(dirname.split('/')[0:-2])
+                elif _platform == "win32" or _platform == "win64":
+                    filenames = [dirname.split('\\')[-1]]
+                    dirname = '\\'.join(dirname.split('\\')[0:-1])
         else:
             filenames = ['1_default']
 
         order = 1
         for filename in filenames:
-            if filename.startswith(str(order)):
+            if self.IS_CNN == True:
+                full_filename = os.path.join(dirname, filename)
+
+                if self.CNN_VERSION == 0:
+                    detector = dlib.cnn_face_detection_model_v1(full_filename)
+                reVal.append(detector)
+            elif filename.startswith(str(order)):
                 full_filename = None
-                if 'default' in filename:
+                if self.IS_DEFAULT == True and 'default' in filename:
                     full_filename = 'default' + '_' + 'dlib.get_frontal_face_detector'
                     detector = dlib.get_frontal_face_detector()
                 else:
                     full_filename = os.path.join(dirname, filename)
                     detector = dlib.fhog_object_detector(full_filename)
                 reVal.append(detector)
-                printEx (full_filename)
-                self.RESULT_SVM_EACH_HITCOUNT[filename] = 0
-                self.RESULT_SVM_EACH_TRYCOUNT[filename] = 0
-                self.RESULT_SVM_EACH_DURATION[filename] = float(0)
-                self.RESULT_SVM_EACH_RECTSIZE[filename] = float(0)
-                order += 1
             else:
                 break
+
+            printEx (full_filename)
+            self.RESULT_SVM_EACH_HITCOUNT[filename] = 0
+            self.RESULT_SVM_EACH_TRYCOUNT[filename] = 0
+            self.RESULT_SVM_EACH_DURATION[filename] = float(0)
+            self.RESULT_SVM_EACH_RECTSIZE[filename] = float(0)
+            order += 1
 
         self.RESULT_SVM_EACH_HITCOUNT = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_HITCOUNT.items()))
         self.RESULT_SVM_EACH_TRYCOUNT = collections.OrderedDict(sorted(self.RESULT_SVM_EACH_TRYCOUNT.items()))
@@ -249,26 +275,29 @@ class evaluate_face_detection4SVM ():
         return (rotation)
 
     def get_rotation(self, file_path_with_file_name):
-        reVal = float(-1)
-        cmd = "ffprobe -loglevel error -select_streams v:0 -show_entries stream_tags=rotate -of default=nw=1:nk=1"
-        args = shlex.split(cmd)
-        args.append(file_path_with_file_name)
-        fd_popen = subprocess.Popen(args, stdout=subprocess.PIPE).stdout
-        #data = fd_popen.read().strip()
-        while 1:
-            line = fd_popen.readline()
-            if not line:
-                break
-            elif "0" in str(line) or "90" in str(line) or "180" in str(line) or "270" in str(line):
-                reVal = float(str(line).strip("\r").strip("\n").strip())
-                if reVal == 90:
-                    reVal = float(270)
-                elif reVal == 270:
-                    reVal = float(90)
-                break
-        fd_popen.close()
+        if _platform == "win32" or _platform == "win64":
+            return float(90)
+        else:
+            reVal = float(-1)
+            cmd = "ffprobe -loglevel error -select_streams v:0 -show_entries stream_tags=rotate -of default=nw=1:nk=1"
+            args = shlex.split(cmd)
+            args.append(file_path_with_file_name)
+            fd_popen = subprocess.Popen(args, stdout=subprocess.PIPE).stdout
+            #data = fd_popen.read().strip()
+            while 1:
+                line = fd_popen.readline()
+                if not line:
+                    break
+                elif "0" in str(line) or "90" in str(line) or "180" in str(line) or "270" in str(line):
+                    reVal = float(str(line).strip("\r").strip("\n").strip())
+                    if reVal == 90:
+                        reVal = float(270)
+                    elif reVal == 270:
+                        reVal = float(90)
+                    break
+            fd_popen.close()
 
-        return reVal
+            return reVal
 
     def rotate_bound(self, image, angle):
         # grab the dimensions of the image and then determine the
@@ -359,14 +388,26 @@ class evaluate_face_detection4SVM ():
             index = 0
             for detector in detectors:
                 start = timeit.default_timer()
-                detectResult = detector(gray)
+#                img = dlib.load_rgb_image('..\\trainingDatas\\faceDown\\11.png')
+#                dets = detector(img, 1)
+                dets = detector(gray)
                 stop = timeit.default_timer()
                 duration += stop - start
                 self.RESULT_SVM_DURATION += stop - start
                 self.RESULT_SVM_EACH_DURATION[self.RESULT_SVM_EACH_DURATION.keys()[index]] = self.RESULT_SVM_EACH_DURATION[self.RESULT_SVM_EACH_DURATION.keys()[index]] + stop - start
                 self.RESULT_SVM_TRYCOUNT += 1
                 self.RESULT_SVM_EACH_TRYCOUNT[self.RESULT_SVM_EACH_TRYCOUNT.keys()[index]] = self.RESULT_SVM_EACH_TRYCOUNT[self.RESULT_SVM_EACH_TRYCOUNT.keys()[index]] + 1
+
+                if self.IS_CNN:
+                    detectResult = []
+                    for i, d in enumerate(dets):
+                        detectResult.append(d.rect)
+                        self.RESULT_CNN_CONFIDENCE += d.confidence
+                else:
+                    detectResult = dets
+
                 printExLR(detectResult),
+
                 for rect in detectResult:
                     cv2.rectangle(frame, (rect.left(), rect.top()), (rect.right(), rect.bottom()), color_green, line_width)
                     cv2.putText(frame, str(duration), (rect.right(), rect.bottom()), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2)
@@ -412,7 +453,10 @@ class evaluate_face_detection4SVM ():
         if len(detectors) == self.NUMOFFACEDETECTORS:
             printEx(detectors)
             printEx(targetVideos)
-        elif self.IS_DEFAULT == False:
+        elif (self.IS_DEFAULT == True or self.IS_CNN == True) and len(detectors) == 1:
+            printEx(detectors)
+            printEx(targetVideos)
+        elif 'cnn' not in self.detector_dirname:
             ArithmeticError("The number of detectors is " + self.NUMOFFACEDETECTORS + ", but " + len(detectors))
 
         self.detection_fullprocess(detectors, targetVideos)
@@ -461,6 +505,12 @@ class evaluate_face_detection4SVM ():
         RESULT_SVM_AVG_EACH_RECTSIZE = collections.OrderedDict(sorted(RESULT_SVM_AVG_EACH_RECTSIZE.items()))
         self.resultS['RESULT_SVM_AVG_EACH_RECTSIZE'] = json.dumps(RESULT_SVM_AVG_EACH_RECTSIZE, ensure_ascii=False)
 
+        self.resultS['RESULT_CNN_CONFIDENCE'] = self.RESULT_CNN_CONFIDENCE
+        if self.RESULT_SVM_HITCOUNT != 0:
+            self.resultS['RESULT_CNN_AVG_CONFIDENCE'] = self.RESULT_CNN_CONFIDENCE / self.RESULT_SVM_HITCOUNT
+        else:
+            self.resultS['RESULT_CNN_AVG_CONFIDENCE'] = self.RESULT_CNN_CONFIDENCE
+
 ##########################################################################################################################################################################
         self.resultS = collections.OrderedDict(sorted(self.resultS.items()))
     def writeResult(self, testresult_fullname = None):
@@ -493,26 +543,49 @@ class evaluate_face_detection4SVM ():
 
 if __name__ == "__main__":
     IS_DEFAULT = False
+    IS_CNN = False
+    CNN_VERSION = -1
     while len(sys.argv) > 1:
         if len(sys.argv) > 1 and '--default' in sys.argv[1]:
             IS_DEFAULT = True
             sys.argv.pop(1)
+        if len(sys.argv) > 1 and '--cnn' in sys.argv[1]:
+            cnnfullname = sys.argv[1].split('=')
+            if len(cnnfullname) == 2:
+                if cnnfullname[0] == '--cnn':
+                    IS_CNN = True
+                    CNN_VERSION = int(cnnfullname[1])
+
+            if IS_CNN == False or IS_DEFAULT == True:
+                ArithmeticError("The name of cnnfullname is " + cnnfullname)
+
+            sys.argv.pop(1)
 
     printEx("%s:%s" % ("IS_DEFAULT", IS_DEFAULT))
+    printEx("%s:%s" % ("IS_CNN", IS_CNN))
+    printEx("%s:%s" % ("CNN_VERSION", CNN_VERSION))
+
     videos_dirname = None
     detector_dirname = None
 
     if _platform == "linux" or _platform == "linux2" or _platform == "darwin":
         videos_dirname = "../testDatas/videos"
         detector_dirname = "../traningOutput/20180423"
+        if IS_CNN:
+            if CNN_VERSION == 0:
+                detector_dirname = "../traningOutput/cnn_default/mmod_human_face_detector.dat"
     elif _platform == "win32" or _platform == "win64":
         videos_dirname = "..\\testDatas\\videos"
         detector_dirname = "..\\traningOutput\\20180423"
+        if IS_CNN:
+            if CNN_VERSION == 0:
+                detector_dirname = "..\\traningOutput\\cnn_default\\mmod_human_face_detector.dat"
 
     # train_object_detector_modify.exe -t fd1_keun.xml --u 3 --l 1 --eps 0.05 --p 0 --target-size 6400 --c 700 --n 9 --cell-size 8 --threshold 0.15 --threads 8
     traing_options = {'-t': "fd1_keun.xml", '--u': 3, '--l': 1, '--eps': 0.05, '--p': 0, '--target-size': 6400, '--c': 700, '--n': 9, '--cell-size': 8, '--threshold': 0.15, '--threads': 8}
     #EFD = evaluate_face_detection4SVM(videos_dirname, detector_dirname, traing_options)
-    EFD = evaluate_face_detection4SVM(isDefault = IS_DEFAULT)
+    #EFD = evaluate_face_detection4SVM(isDefault = IS_DEFAULT)
+    EFD = evaluate_face_detection4SVM(detector_dirname = detector_dirname, isDefault = IS_DEFAULT, isCnn = IS_CNN, cnn_version = CNN_VERSION)
     EFD.process()
     EFD.writeResult()
 

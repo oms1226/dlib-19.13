@@ -107,7 +107,7 @@ class evaluate_face_detection4SVM ():
     IS_DEFAULT = False
     IS_CNN = False
     CNN_VERSION = 0
-    DOWN_SCALE_FACTOR = float(0)
+    DOWN_SCALE_FACTOR = float(1)
 
     NUMOFFACEDETECTORS = 9
     DEFAULT_RESOLUTION_WIDTH = float(1280)
@@ -131,7 +131,7 @@ class evaluate_face_detection4SVM ():
 
     RESULT_CNN_CONFIDENCE = float(0)
 
-    def __init__(self, videos_dirname = None, detector_dirname = None, traing_options = None, isDefault = False, isCnn = False, cnn_version = 0, downscale_factor = 0):
+    def __init__(self, videos_dirname = None, detector_dirname = None, traing_options = None, isDefault = False, isCnn = False, cnn_version = 0, downscale_factor = 1):
         self.IS_DEFAULT = isDefault
         self.IS_CNN = isCnn
         self.CNN_VERSION = cnn_version
@@ -407,7 +407,7 @@ class evaluate_face_detection4SVM ():
             duration = float(0)
             index = 0
             for detector in detectors:
-                if self.DOWN_SCALE_FACTOR > 0:
+                if self.DOWN_SCALE_FACTOR > 1:
                     gray = self.image_scaledown(gray, self.DOWN_SCALE_FACTOR)
 
                 start = timeit.default_timer()
@@ -432,7 +432,7 @@ class evaluate_face_detection4SVM ():
 
                 printExLR(detectResult),
 
-                if self.DOWN_SCALE_FACTOR > 0:
+                if self.DOWN_SCALE_FACTOR > 1:
                     detectResult = self.get_scaleup_faces(detectResult, self.DOWN_SCALE_FACTOR)
 
                 for rect in detectResult:
@@ -572,7 +572,7 @@ if __name__ == "__main__":
     IS_DEFAULT = False
     IS_CNN = False
     CNN_VERSION = -1
-    SCALE_DOWN = float(0)
+    SCALE_DOWN = float(1)
 
     while len(sys.argv) > 1:
         if len(sys.argv) > 1 and '--default' in sys.argv[1]:
@@ -585,11 +585,11 @@ if __name__ == "__main__":
                 if argfullname[0] == '--cnn':
                     IS_CNN = True
                     CNN_VERSION = int(argfullname[1])
+            sys.argv.pop(1)
 
             if IS_CNN == False or IS_DEFAULT == True:
                 ArithmeticError("The name of argfullname is " + argfullname)
 
-            sys.argv.pop(1)
 
         if len(sys.argv) > 1 and '--sd' in sys.argv[1]:
             argfullname = sys.argv[1].split('=')
@@ -597,6 +597,9 @@ if __name__ == "__main__":
                 if argfullname[0] == '--sd':
                     SCALE_DOWN = float(argfullname[1])
             sys.argv.pop(1)
+
+            if SCALE_DOWN < 1:
+                ArithmeticError("The value of SCALE_DOWN is " + SCALE_DOWN)
 
     printEx("%s:%s" % ("IS_DEFAULT", IS_DEFAULT))
     printEx("%s:%s" % ("IS_CNN", IS_CNN))

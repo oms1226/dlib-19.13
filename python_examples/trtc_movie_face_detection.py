@@ -101,8 +101,9 @@ class evaluate_face_detection4SVM ():
     """
     1.4 : cnn 최초 추가
     1.5 : scale down factor 추가
+    1.6 : 여러 face 중 하나의 rect만 선택하도록 변경    
     """
-    version = 1.5
+    version = 1.6
     resultS = dict()
     IS_DEFAULT = False
     IS_CNN = False

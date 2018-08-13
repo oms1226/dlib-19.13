@@ -448,6 +448,7 @@ class evaluate_face_detection4SVM ():
                     #frame = cv2.resize(frame, (720, 1280))
 
                     # cv2.imwrite(os.path.join(folder, "frame{:d}.jpg".format(count)), frame)  # save frame as JPEG file
+                    break
 
 
                 cv2.imshow('target video', frame)

@@ -400,6 +400,8 @@ class evaluate_face_detection4SVM ():
 
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             #rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            if self.DOWN_SCALE_FACTOR > 1:
+                gray = self.image_scaledown(gray, self.DOWN_SCALE_FACTOR)
 
             self.RESULT_TOTAL_FRAMES += 1
 
@@ -407,9 +409,6 @@ class evaluate_face_detection4SVM ():
             duration = float(0)
             index = 0
             for detector in detectors:
-                if self.DOWN_SCALE_FACTOR > 1:
-                    gray = self.image_scaledown(gray, self.DOWN_SCALE_FACTOR)
-
                 start = timeit.default_timer()
 #                img = dlib.load_rgb_image('..\\trainingDatas\\faceDown\\11.png')
 #                dets = detector(img, 1)

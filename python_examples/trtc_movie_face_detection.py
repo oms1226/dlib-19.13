@@ -575,38 +575,6 @@ if __name__ == "__main__":
     CNN_VERSION = -1
     SCALE_DOWN = float(1)
 
-    while len(sys.argv) > 1:
-        if len(sys.argv) > 1 and '--default' in sys.argv[1]:
-            IS_DEFAULT = True
-            sys.argv.pop(1)
-
-        if len(sys.argv) > 1 and '--cnn' in sys.argv[1]:
-            argfullname = sys.argv[1].split('=')
-            if len(argfullname) == 2:
-                if argfullname[0] == '--cnn':
-                    IS_CNN = True
-                    CNN_VERSION = int(argfullname[1])
-            sys.argv.pop(1)
-
-            if IS_CNN == False or IS_DEFAULT == True:
-                ArithmeticError("The name of argfullname is " + argfullname)
-
-
-        if len(sys.argv) > 1 and '--sd' in sys.argv[1]:
-            argfullname = sys.argv[1].split('=')
-            if len(argfullname) == 2:
-                if argfullname[0] == '--sd':
-                    SCALE_DOWN = float(argfullname[1])
-            sys.argv.pop(1)
-
-            if SCALE_DOWN < 1:
-                ArithmeticError("The value of SCALE_DOWN is " + SCALE_DOWN)
-
-    printEx("%s:%s" % ("IS_DEFAULT", IS_DEFAULT))
-    printEx("%s:%s" % ("IS_CNN", IS_CNN))
-    printEx("%s:%s" % ("CNN_VERSION", CNN_VERSION))
-    printEx("%s:%s" % ("SCALE_DOWN", SCALE_DOWN))
-
     videos_dirname = None
     detector_dirname = None
 
@@ -616,6 +584,48 @@ if __name__ == "__main__":
     elif _platform == "win32" or _platform == "win64":
         videos_dirname = "..\\testDatas\\videos"
         detector_dirname = "..\\traningOutput\\20180423"
+
+
+    while len(sys.argv) > 1:
+        if len(sys.argv) > 1 and '--default' in sys.argv[1]:
+            IS_DEFAULT = True
+            sys.argv.pop(1)
+        elif len(sys.argv) > 1 and '--cnn' in sys.argv[1]:
+            argfullname = sys.argv[1].split('=')
+            if len(argfullname) == 2:
+                if argfullname[0] == '--cnn':
+                    IS_CNN = True
+                    CNN_VERSION = int(argfullname[1])
+            sys.argv.pop(1)
+        elif len(sys.argv) > 1 and '--detector' in sys.argv[1]:
+            argfullname = sys.argv[1].split('=')
+            if len(argfullname) == 2:
+                if argfullname[0] == '--detector':
+                    detector_dirname = argfullname[1]
+            sys.argv.pop(1)
+
+            if IS_CNN == False or IS_DEFAULT == True:
+                ArithmeticError("The name of argfullname is " + argfullname)
+        elif len(sys.argv) > 1 and '--sd' in sys.argv[1]:
+            argfullname = sys.argv[1].split('=')
+            if len(argfullname) == 2:
+                if argfullname[0] == '--sd':
+                    SCALE_DOWN = float(argfullname[1])
+            sys.argv.pop(1)
+
+            if SCALE_DOWN < 1:
+                ArithmeticError("The value of SCALE_DOWN is " + SCALE_DOWN)
+        else:
+            sys.argv.pop(1)
+
+    printEx("%s:%s" % ("IS_DEFAULT", IS_DEFAULT))
+    printEx("%s:%s" % ("IS_CNN", IS_CNN))
+    printEx("%s:%s" % ("CNN_VERSION", CNN_VERSION))
+    printEx("%s:%s" % ("SCALE_DOWN", SCALE_DOWN))
+
+    printEx("%s:%s" % ("videos_dirname", videos_dirname))
+    printEx("%s:%s" % ("detector_dirname", detector_dirname))
+    datetime.time.sleep(5)
 
     if IS_CNN:
         if _platform == "linux" or _platform == "linux2" or _platform == "darwin":

@@ -42,7 +42,7 @@ import sys
 import subprocess
 import shlex
 import traceback
-
+import time
 import datetime
 import dlib
 import cv2
@@ -625,7 +625,7 @@ if __name__ == "__main__":
 
     printEx("%s:%s" % ("videos_dirname", videos_dirname))
     printEx("%s:%s" % ("detector_dirname", detector_dirname))
-    datetime.time.sleep(5)
+    time.sleep(5)
 
     if IS_CNN:
         if _platform == "linux" or _platform == "linux2" or _platform == "darwin":

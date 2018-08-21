@@ -597,15 +597,15 @@ if __name__ == "__main__":
                     IS_CNN = True
                     CNN_VERSION = int(argfullname[1])
             sys.argv.pop(1)
+
+            if IS_CNN == False or IS_DEFAULT == True:
+                ArithmeticError("The name of argfullname is " + str(argfullname))
         elif len(sys.argv) > 1 and '--detector' in sys.argv[1]:
             argfullname = sys.argv[1].split('=')
             if len(argfullname) == 2:
                 if argfullname[0] == '--detector':
                     detector_dirname = argfullname[1]
             sys.argv.pop(1)
-
-            if IS_CNN == False or IS_DEFAULT == True:
-                ArithmeticError("The name of argfullname is " + argfullname)
         elif len(sys.argv) > 1 and '--sd' in sys.argv[1]:
             argfullname = sys.argv[1].split('=')
             if len(argfullname) == 2:

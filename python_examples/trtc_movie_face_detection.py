@@ -101,9 +101,10 @@ class evaluate_face_detection4SVM ():
     """
     1.4 : cnn 최초 추가
     1.5 : scale down factor 추가
-    1.6 : 여러 face 중 하나의 rect만 선택하도록 변경    
+    1.6 : 여러 face 중 하나의 rect만 선택하도록 변경
+    1.7 : 하나의 얼굴을 hitting하는데 소요되는 시간을 정확히 확인하기 위해 RESULT_SVM_HITDURATION 추가
     """
-    version = 1.6
+    version = 1.7
     resultS = dict()
     IS_DEFAULT = False
     IS_CNN = False
@@ -117,6 +118,7 @@ class evaluate_face_detection4SVM ():
     RESULT_TOTAL_FRAMES = 0
 
     RESULT_SVM_HITCOUNT = 0
+    RESULT_SVM_HITDURATION = float(0)
     RESULT_SVM_EACH_HITCOUNT = {}
 
     RESULT_SVM_TRYCOUNT = 0
@@ -441,6 +443,7 @@ class evaluate_face_detection4SVM ():
                     cv2.putText(frame, self.RESULT_SVM_EACH_HITCOUNT.keys()[index], (rect.left(), rect.top()), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
                     self.RESULT_SVM_EACH_HITCOUNT[self.RESULT_SVM_EACH_HITCOUNT.keys()[index]] = self.RESULT_SVM_EACH_HITCOUNT[self.RESULT_SVM_EACH_HITCOUNT.keys()[index]] + 1
                     self.RESULT_SVM_HITCOUNT += 1
+                    self.RESULT_SVM_HITDURATION += duration
                     area = abs(rect.left() - rect.right()) * abs(rect.top() - rect.bottom())
                     self.RESULT_SVM_EACH_RECTSIZE  [self.RESULT_SVM_EACH_RECTSIZE  .keys()[index]] = self.RESULT_SVM_EACH_RECTSIZE  [self.RESULT_SVM_EACH_RECTSIZE  .keys()[index]] + area
                     self.RESULT_SVM_RECTSIZE  += area
@@ -496,6 +499,7 @@ class evaluate_face_detection4SVM ():
         self.resultS['RESULT_SVM_EACH_TRYCOUNT'] = json.dumps(self.RESULT_SVM_EACH_TRYCOUNT, ensure_ascii=False)
 
         self.resultS['RESULT_SVM_HITCOUNT'] = self.RESULT_SVM_HITCOUNT
+        self.resultS['RESULT_SVM_HITDURATION'] = self.RESULT_SVM_HITDURATION
         self.resultS['RESULT_SVM_EACH_HITCOUNT'] = json.dumps(self.RESULT_SVM_EACH_HITCOUNT, ensure_ascii=False)
 
         self.resultS['RESULT_SVM_DURATION'] = self.RESULT_SVM_DURATION
@@ -522,8 +526,10 @@ class evaluate_face_detection4SVM ():
 
         if self.RESULT_SVM_HITCOUNT != 0:
             self.resultS['RESULT_SVM_AVG_RECTSIZE'] = self.RESULT_SVM_RECTSIZE / self.RESULT_SVM_HITCOUNT
+            self.resultS['RESULT_SVM_AVG_HITDURATION'] = self.RESULT_SVM_HITDURATION / self.RESULT_SVM_HITCOUNT
         else:
             self.resultS['RESULT_SVM_AVG_RECTSIZE'] = self.RESULT_SVM_RECTSIZE
+            self.resultS['RESULT_SVM_AVG_HITDURATION'] = self.RESULT_SVM_HITDURATION
         RESULT_SVM_AVG_EACH_RECTSIZE = dict()
         for key in self.RESULT_SVM_EACH_HITCOUNT.keys():
             if self.RESULT_SVM_EACH_HITCOUNT[key] != 0:
